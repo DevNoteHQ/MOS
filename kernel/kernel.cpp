@@ -1,4 +1,15 @@
-int main()
+#include "sheduler.h"
+
+namespace kernel
 {
-	return 0;
+	class kernel_main
+	{
+		int main()
+		{
+			sheduler s1;
+			s1.shedule();
+			
+			return 0;
+		}
+	};
 }
