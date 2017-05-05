@@ -2,7 +2,7 @@
 
 namespace kernel
 {
-	void shedule()
+	void sheduler::shedule()
 	{
 
 	}
