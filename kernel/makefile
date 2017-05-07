@@ -1,4 +1,4 @@
-TARGET = kernel
+TARGET = kernel.elf
 
 CC = gcc
 LD = ld
@@ -15,8 +15,8 @@ OBJS = $(SRCS_c:$(SRCDIR)/%.c=$(OBJDIR)/%_c.o) $(SRCS_cpp:$(SRCDIR)/%.cpp=$(OBJD
 rm = rm -f
 
 ASFLAGS = -m64
-CFLAGS = -m64 -Wall -g -fno-stack-protector -nostdinc
-LDFLAGS = -m elf_x86_64 -Ttext=0x100000
+CFLAGS = -m64 -g -ffreestanding -O2 -Wall -Wextra -fno-stack-protector -fno-exceptions -fno-rtti -nostdinc
+LDFLAGS = -T linker.ld -melf_x86_64 -O2 -nostdlib
 
 $(BINDIR)/$(TARGET): $(OBJS)
 	$(LD) $(OBJS) $(LDFLAGS) -o $@

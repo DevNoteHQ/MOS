@@ -22,6 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{B12AB15E-2F5D-4186-9AC7-687ED82CE487}</ProjectGuid>
     <Keyword>MakeFileProj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -81,11 +82,20 @@
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="kernel.cpp" />
-    <ClCompile Include="sheduler.cpp" />
+    <ClCompile Include="src\kernel.cpp" />
+    <ClCompile Include="src\sheduler.cpp" />
+    <ClCompile Include="src\video.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sheduler.h" />
+    <None Include="linker.ld" />
+    <None Include="makefile" />
+    <None Include="src\boot.S" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\multiboot.h" />
+    <ClInclude Include="src\sheduler.h" />
+    <ClInclude Include="src\types.h" />
+    <ClInclude Include="src\video.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

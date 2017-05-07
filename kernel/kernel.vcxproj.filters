@@ -13,18 +13,50 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Quelldateien\src">
+      <UniqueIdentifier>{73244707-7dc2-4436-96a5-5e582f2d2b08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\src">
+      <UniqueIdentifier>{68514cc8-ec03-40b0-a129-b0eb13c7ffbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Translation">
+      <UniqueIdentifier>{c057b346-f3c5-4966-a532-cd9a9ea164a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="kernel.cpp">
-      <Filter>Quelldateien</Filter>
+    <ClCompile Include="src\kernel.cpp">
+      <Filter>Quelldateien\src</Filter>
     </ClCompile>
-    <ClCompile Include="sheduler.cpp">
-      <Filter>Quelldateien</Filter>
+    <ClCompile Include="src\sheduler.cpp">
+      <Filter>Quelldateien\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\video.cpp">
+      <Filter>Quelldateien\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sheduler.h">
-      <Filter>Headerdateien</Filter>
+    <None Include="src\boot.S">
+      <Filter>Quelldateien\src</Filter>
+    </None>
+    <None Include="makefile">
+      <Filter>Translation</Filter>
+    </None>
+    <None Include="linker.ld">
+      <Filter>Translation</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\sheduler.h">
+      <Filter>Headerdateien\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\types.h">
+      <Filter>Headerdateien\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\multiboot.h">
+      <Filter>Headerdateien\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\video.h">
+      <Filter>Headerdateien\src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

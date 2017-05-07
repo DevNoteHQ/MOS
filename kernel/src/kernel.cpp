@@ -1,15 +1,10 @@
 #include "sheduler.h"
 
-namespace kernel
+using namespace kernel;
+
+extern "C" void kernel_main();
+
+void kernel_main(void)
 {
-	class kernel_main
-	{
-		int main()
-		{
-			sheduler s1;
-			s1.shedule();
-			
-			return 0;
-		}
-	};
+
 }
