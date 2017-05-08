@@ -1,7 +1,8 @@
 TARGET = kernel.elf
+ARCH = x86_64-elf
 
-CC = gcc
-LD = ld
+CC = $(ARCH)-gcc
+LD = $(ARCH)-ld
 
 SRCDIR = src
 OBJDIR = obj
@@ -10,7 +11,6 @@ BINDIR = bin
 SRCS_c = $(wildcard $(SRCDIR)/*.c)
 SRCS_cpp = $(wildcard $(SRCDIR)/*.cpp)
 SRCS_S = $(wildcard $(SRCDIR)/*.S)
-HDR = $(wildcard $(SRCDIR)/*.h)
 OBJS = $(SRCS_c:$(SRCDIR)/%.c=$(OBJDIR)/%_c.o) $(SRCS_cpp:$(SRCDIR)/%.cpp=$(OBJDIR)/%_cpp.o) $(SRCS_S:$(SRCDIR)/%.S=$(OBJDIR)/%_S.o)
 rm = rm -f
 
