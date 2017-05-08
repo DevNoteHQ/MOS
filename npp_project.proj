@@ -1,5 +1,8 @@
 <NotepadPlus>
     <Project name="MOS">
+        <Folder name="grub">
+            <File name="grub\grub.cfg" />
+        </Folder>
         <Folder name="isodir">
             <Folder name="boot">
                 <Folder name="grub">
@@ -13,17 +16,17 @@
                 <File name="kernel\bin\kernel.elf" />
             </Folder>
             <Folder name="include">
-                <File name="kernel\include\multiboot.h" />
                 <File name="kernel\include\sheduler.h" />
-                <File name="kernel\include\types.h" />
-                <File name="kernel\include\video.h" />
             </Folder>
-            <Folder name="obj" />
+            <Folder name="obj">
+                <File name="kernel\obj\boot_S.o" />
+                <File name="kernel\obj\kernel_cpp.o" />
+                <File name="kernel\obj\sheduler_cpp.o" />
+            </Folder>
             <Folder name="src">
                 <File name="kernel\src\boot.S" />
                 <File name="kernel\src\kernel.cpp" />
                 <File name="kernel\src\sheduler.cpp" />
-                <File name="kernel\src\video.cpp" />
             </Folder>
             <File name="kernel\linker.ld" />
             <File name="kernel\makefile" />
@@ -35,12 +38,19 @@
             <File name="Testing\MOS.vmsd" />
             <File name="Testing\MOS.vmx" />
             <File name="Testing\MOS.vmxf" />
+            <File name="Testing\vmware-0.log" />
+            <File name="Testing\vmware-1.log" />
+            <File name="Testing\vmware-2.log" />
             <File name="Testing\vmware.log" />
         </Folder>
         <File name=".gitignore" />
+        <File name="Build.bat" />
         <File name="Git MOS.lnk" />
         <File name="LICENSE" />
         <File name="mos.iso" />
+        <File name="Mount.bat" />
+        <File name="Multiboot.bat" />
+        <File name="Multiboot.sh" />
         <File name="npp_project.proj" />
         <File name="README.md" />
     </Project>
