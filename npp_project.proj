@@ -1,0 +1,47 @@
+<NotepadPlus>
+    <Project name="MOS">
+        <Folder name="isodir">
+            <Folder name="boot">
+                <Folder name="grub">
+                    <File name="isodir\boot\grub\grub.cfg" />
+                </Folder>
+                <File name="isodir\boot\kernel.elf" />
+            </Folder>
+        </Folder>
+        <Folder name="kernel">
+            <Folder name="bin">
+                <File name="kernel\bin\kernel.elf" />
+            </Folder>
+            <Folder name="include">
+                <File name="kernel\include\multiboot.h" />
+                <File name="kernel\include\sheduler.h" />
+                <File name="kernel\include\types.h" />
+                <File name="kernel\include\video.h" />
+            </Folder>
+            <Folder name="obj" />
+            <Folder name="src">
+                <File name="kernel\src\boot.S" />
+                <File name="kernel\src\kernel.cpp" />
+                <File name="kernel\src\sheduler.cpp" />
+                <File name="kernel\src\video.cpp" />
+            </Folder>
+            <File name="kernel\linker.ld" />
+            <File name="kernel\makefile" />
+        </Folder>
+        <Folder name="libs" />
+        <Folder name="Testing">
+            <File name="Testing\MOS.nvram" />
+            <File name="Testing\MOS.vmdk" />
+            <File name="Testing\MOS.vmsd" />
+            <File name="Testing\MOS.vmx" />
+            <File name="Testing\MOS.vmxf" />
+            <File name="Testing\vmware.log" />
+        </Folder>
+        <File name=".gitignore" />
+        <File name="Git MOS.lnk" />
+        <File name="LICENSE" />
+        <File name="mos.iso" />
+        <File name="npp_project.proj" />
+        <File name="README.md" />
+    </Project>
+</NotepadPlus>

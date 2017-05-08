@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<Foundry>
+<VM>
+<VMId type="string">52 f7 f9 c4 5f 31 44 2d-26 05 48 6c 34 b2 dd a2</VMId>
+<ClientMetaData>
+<clientMetaDataAttributes/>
+<HistoryEventList/></ClientMetaData>
+<vmxPathName type="string">MOS.vmx</vmxPathName></VM></Foundry>

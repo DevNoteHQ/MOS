@@ -8,6 +8,9 @@ SRCDIR = src
 OBJDIR = obj
 BINDIR = bin
 
+INCFLAGS = -I include/
+FFLAGS = -fno-use-cxa-atexit -fno-builtin -fno-leading-underscore -ffreestanding -fno-stack-protector -fno-exceptions -fno-rtti 
+
 SRCS_c = $(wildcard $(SRCDIR)/*.c)
 SRCS_cpp = $(wildcard $(SRCDIR)/*.cpp)
 SRCS_S = $(wildcard $(SRCDIR)/*.S)
@@ -15,8 +18,8 @@ OBJS = $(SRCS_c:$(SRCDIR)/%.c=$(OBJDIR)/%_c.o) $(SRCS_cpp:$(SRCDIR)/%.cpp=$(OBJD
 rm = rm -f
 
 ASFLAGS = -m64
-CFLAGS = -m64 -I include/ -fno-use-cxa-atexit -fno-builtin -fno-leading-underscore -pedantic-errors -g -ffreestanding -O2 -Wall -Wextra -fno-stack-protector -fno-exceptions -fno-rtti -nostdinc -nostdlib -lgcc
-LDFLAGS = -T linker.ld -O2 -nostdlib
+CFLAGS = -m64 $(INCFLAGS) $(FFLAGS) -pedantic-errors -g -O2 -Wall -Wextra -nostdinc -nostdlib -lgcc
+LDFLAGS = -T linker.ld -O2 -z max-page-size=0x1000 -nostdlib
 
 $(BINDIR)/$(TARGET): $(OBJS)
 	$(LD) $(OBJS) $(LDFLAGS) -o $@
