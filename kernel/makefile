@@ -15,7 +15,7 @@ OBJS = $(SRCS_c:$(SRCDIR)/%.c=$(OBJDIR)/%_c.o) $(SRCS_cpp:$(SRCDIR)/%.cpp=$(OBJD
 rm = rm -f
 
 ASFLAGS = -m64
-CFLAGS = -m64 -fno-use-cxa-atexit -fno-builtin -fno-leading-underscore -pedantic-errors -g -ffreestanding -O2 -Wall -Wextra -fno-stack-protector -fno-exceptions -fno-rtti -nostdinc -nostdlib -lgcc
+CFLAGS = -m64 -I include/ -fno-use-cxa-atexit -fno-builtin -fno-leading-underscore -pedantic-errors -g -ffreestanding -O2 -Wall -Wextra -fno-stack-protector -fno-exceptions -fno-rtti -nostdinc -nostdlib -lgcc
 LDFLAGS = -T linker.ld -O2 -nostdlib
 
 $(BINDIR)/$(TARGET): $(OBJS)
