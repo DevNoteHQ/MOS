@@ -10,6 +10,7 @@ BINDIR = bin
 
 INCFLAGS = -I include/
 FFLAGS = -fno-use-cxa-atexit -fno-builtin -fno-leading-underscore -ffreestanding -fno-stack-protector -fno-exceptions -fno-rtti 
+64FLAGS = -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2
 
 SRCS_c = $(wildcard $(SRCDIR)/*.c)
 SRCS_cpp = $(wildcard $(SRCDIR)/*.cpp)
@@ -18,7 +19,7 @@ OBJS = $(SRCS_c:$(SRCDIR)/%.c=$(OBJDIR)/%_c.o) $(SRCS_cpp:$(SRCDIR)/%.cpp=$(OBJD
 rm = rm -f
 
 ASFLAGS = -m64
-CFLAGS = -m64 $(INCFLAGS) $(FFLAGS) -pedantic-errors -g -O2 -Wall -Wextra -nostdinc -nostdlib -lgcc
+CFLAGS = -m64 $(64FLAGS) $(INCFLAGS) $(FFLAGS) -pedantic-errors -g -O2 -Wall -Wextra -nostdinc -nostdlib -lgcc
 LDFLAGS = -T linker.ld -O2 -z max-page-size=0x1000 -nostdlib
 
 $(BINDIR)/$(TARGET): $(OBJS)
