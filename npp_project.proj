@@ -12,21 +12,16 @@
             </Folder>
         </Folder>
         <Folder name="kernel">
-            <Folder name="bin">
-                <File name="kernel\bin\kernel.elf" />
-            </Folder>
+            <Folder name="bin" />
             <Folder name="include">
                 <File name="kernel\include\sheduler.h" />
             </Folder>
             <Folder name="obj">
-                <File name="kernel\obj\bootstrap_S.o" />
-                <File name="kernel\obj\boot_S.o" />
                 <File name="kernel\obj\kernel_cpp.o" />
                 <File name="kernel\obj\sheduler_cpp.o" />
             </Folder>
             <Folder name="src">
-                <File name="kernel\src\boot.S" />
-                <File name="kernel\src\bootstrap.S" />
+                <File name="kernel\src\boot.asm" />
                 <File name="kernel\src\kernel.cpp" />
                 <File name="kernel\src\sheduler.cpp" />
             </Folder>

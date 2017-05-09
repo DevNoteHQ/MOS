@@ -1,43 +1,51 @@
-
-
-ENTRY(bootstrap)
+/*
+ * Copyright (c) 2011-2014 Graham Edgecombe <graham@grahamedgecombe.com>
+ */
 
 OUTPUT_FORMAT(elf64-x86-64)
+ENTRY(start)
+
+PAGE_SIZE  = 0x1000;
+KERNEL_VMA = 0xFFFFFFFF80000000;
+UPPER_MEM  = 0x100000;
 
 SECTIONS
 {
-	/* Begin putting sections at 1 MiB, a conventional place for kernels to be
-	   loaded at by the bootloader. */
-	. = 1M;
-	
-	/* First put the multiboot header, as it is required to be put very early
-	   early in the image or the bootloader won't recognize the file format.
-	   Next we'll put the .text section. */
-	.text BLOCK(4K) : ALIGN(4K)
-	{
-		*(.multiboot)
-		*(.text)
-	}
+  . = UPPER_MEM;
+  _start = . + KERNEL_VMA;
 
-	/* Read-only data. */
-	.rodata BLOCK(4K) : ALIGN(4K)
-	{
-		*(.rodata)
-	}
+  .init :
+  {
+    *(.initl)
+  }
 
-	/* Read-write data (initialized) */
-	.data BLOCK(4K) : ALIGN(4K)
-	{
-		*(.data)
-	}
+  . += KERNEL_VMA;
 
-	/* Read-write data (uninitialized) and stack */
-	.bss BLOCK(4K) : ALIGN(4K)
-	{
-		*(COMMON)
-		*(.bss)
-	}
+  .text ALIGN(PAGE_SIZE) : AT(ADDR(.text) - KERNEL_VMA)
+  {
+    *(.inith)
+    *(.text)
+  }
 
-	/* The compiler may produce other sections, by default it will put them in
-	   a segment with the same name. Simply add stuff here as needed. */
+  .data ALIGN(PAGE_SIZE) : AT(ADDR(.data) - KERNEL_VMA)
+  {
+    *(.data)
+  }
+
+  .rodata ALIGN(PAGE_SIZE) : AT(ADDR(.rodata) - KERNEL_VMA)
+  {
+    *(.rodata)
+  }
+
+  .bss ALIGN(PAGE_SIZE) : AT(ADDR(.bss) - KERNEL_VMA)
+  {
+    *(.bss)
+  }
+
+  _end = .;
+
+  /DISCARD/ :
+  {
+    *(.comment)
+  }
 }
