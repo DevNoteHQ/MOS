@@ -1,5 +1,5 @@
 TARGET = kernel.elf
-ARCH = x86_64-elf
+ARCH = $(ADD_ARCH_Path)x86_64-elf
 
 CC = $(ARCH)-gcc
 ASM = nasm
@@ -9,40 +9,50 @@ SRCDIR = src
 OBJDIR = obj
 BINDIR = bin
 
-INCFLAGS = -I include/
-FFLAGS = -fno-use-cxa-atexit -fno-builtin -fno-leading-underscore -ffreestanding -fno-stack-protector -fno-exceptions -fno-rtti 
-64FLAGS = -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2
+INCFLAGS = -I $(SRCDIR)
+FFLAGS = -ffreestanding -fno-exceptions -fno-rtti 
+64FLAGS = -mcmodel=kernel -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -mno-sse3 -mno-3dnow
 
-SRCS_c = $(wildcard $(SRCDIR)/*.c)
-SRCS_cpp = $(wildcard $(SRCDIR)/*.cpp)
-SRCS_S = $(wildcard $(SRCDIR)/*.S)
-SRCS_ASM = $(wildcard $(SRCDIR)/*.asm)
-OBJS = $(SRCS_c:$(SRCDIR)/%.c=$(OBJDIR)/%_c.o) $(SRCS_cpp:$(SRCDIR)/%.cpp=$(OBJDIR)/%_cpp.o) $(SRCS_S:$(SRCDIR)/%.S=$(OBJDIR)/%_S.o) $(SRCS_ASM:$(SRCDIR)/%.asm=$(OBJDIR)/%_asm.o)
-rm = rm -f
+NASFLAGS = -f elf64
+GASFLAGS = 
+CFLAGS = $(64FLAGS) $(INCFLAGS) $(FFLAGS) -std=gnu++14 -pedantic -pedantic-errors -O2 -Wall -Wextra -Wno-unused-parameter -nostdlib -nostartfiles -lgcc
+LDFLAGS = -T linker.ld -O2 -z max-page-size=0x1000
 
-ASFLAGS = -f elf64
-GASFLAGS = -m64
-CFLAGS = -m64 $(64FLAGS) $(INCFLAGS) $(FFLAGS) -pedantic-errors -g -O2 -Wall -Wextra -nostdinc -nostdlib -lgcc
-LDFLAGS = -T linker.ld -O2 -z max-page-size=0x1000 -nostdlib
+SRCS_c = $(shell find $(SRCDIR)/* -name '*.c')
+SRCS_cpp = $(shell find $(SRCDIR)/* -name '*.cpp')
+SRCS_S = $(shell find $(SRCDIR)/* -name '*.S')
+SRCS_asm = $(shell find $(SRCDIR)/* -name '*.asm')
+
+OBJS_c = $(addprefix $(OBJDIR)/,$(SRCS_c:$(SRCDIR)/%.c=%_c.o))
+OBJS_cpp = $(addprefix $(OBJDIR)/,$(SRCS_cpp:$(SRCDIR)/%.cpp=%_cpp.o))
+OBJS_S = $(addprefix $(OBJDIR)/,$(SRCS_S:$(SRCDIR)/%.S=%_S.o))
+OBJS_asm = $(addprefix $(OBJDIR)/,$(SRCS_asm:$(SRCDIR)/%.asm=%_asm.o))
+
+OBJS = $(OBJS_c) $(OBJS_cpp) $(OBJS_S) $(OBJS_asm)
+rm = rm -f -r
 
 $(BINDIR)/$(TARGET): $(OBJS)
 	$(LD) $(OBJS) $(LDFLAGS) -o $@
 
 $(OBJDIR)/%_c.o : $(SRCDIR)/%.c
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 	
 $(OBJDIR)/%_cpp.o : $(SRCDIR)/%.cpp
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/%_S.o : $(SRCDIR)/%.S
-	$(CC) $(ASFLAGS) -c $< -o $@
+	@mkdir -p $(@D)
+	$(CC) $(GASFLAGS) -c $< -o $@
 	
 $(OBJDIR)/%_asm.o : $(SRCDIR)/%.asm
-	$(ASM) $(ASFLAGS) $< -o $@
+	@mkdir -p $(@D)
+	$(ASM) $(NASFLAGS) $< -o $@
 
 .PHONY: clean
 clean:
-	$(rm) $(OBJS)
+	$(rm) $(OBJS)/*
 	
 .PHONY: remove
 remove:

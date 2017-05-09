@@ -29,6 +29,12 @@ SECTIONS
 
   .data ALIGN(PAGE_SIZE) : AT(ADDR(.data) - KERNEL_VMA)
   {
+	start_ctors = .;
+	*(.ctor*)
+	end_ctors = .;
+	start_dtors = .;
+	*(.dtor*)
+	end_dtors = .;
     *(.data)
   }
 
@@ -39,13 +45,11 @@ SECTIONS
 
   .bss ALIGN(PAGE_SIZE) : AT(ADDR(.bss) - KERNEL_VMA)
   {
+	sbss = .;
+    *(COMMON)
     *(.bss)
+    ebss = .;
   }
 
   _end = .;
-
-  /DISCARD/ :
-  {
-    *(.comment)
-  }
 }
