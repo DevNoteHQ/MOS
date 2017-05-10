@@ -2,6 +2,7 @@ TARGET = kernel.elf
 ARCH = $(ADD_ARCH_Path)x86_64-elf
 
 CC = $(ARCH)-gcc
+CPP = $(ARCH)-g++
 ASM = nasm
 LD = $(ARCH)-ld
 
@@ -9,13 +10,20 @@ SRCDIR = src
 OBJDIR = obj
 BINDIR = bin
 
-INCFLAGS = -I $(SRCDIR)
-FFLAGS = -ffreestanding -fno-exceptions -fno-rtti 
+INCPATHSNP = $(SRCDIR) ../include
+INCPATHS = $(addprefix -I ,$(INCPATHSNP))
+INCLUDESNP = types.h stddef.h stdint.h string.h
+INCLUDES = $(addprefix -include ,$(INCLUDESNP))
+
+INCFLAGS = $(INCPATHS) $(INCLUDES)
+FFLAGS = -ffreestanding -fno-stack-protector -fno-builtin -fpermissive
 64FLAGS = -mcmodel=kernel -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -mno-sse3 -mno-3dnow
+WFLAGS = -Wall -Wextra -Wno-unused-parameter
 
 NASFLAGS = -f elf64
 GASFLAGS = 
-CFLAGS = $(64FLAGS) $(INCFLAGS) $(FFLAGS) -std=gnu++14 -pedantic -pedantic-errors -O2 -Wall -Wextra -Wno-unused-parameter -nostdlib -nostartfiles -lgcc
+CPPFLAGS = $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu++14 -O2 -nostdlib -nostartfiles -lgcc
+CFLAGS = $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu11 -O2 -nostdlib -nostartfiles -lgcc
 LDFLAGS = -T linker.ld -O2 -z max-page-size=0x1000
 
 SRCS_c = $(shell find $(SRCDIR)/* -name '*.c')
@@ -40,7 +48,7 @@ $(OBJDIR)/%_c.o : $(SRCDIR)/%.c
 	
 $(OBJDIR)/%_cpp.o : $(SRCDIR)/%.cpp
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CPP) $(CPPFLAGS) -c $< -o $@
 
 $(OBJDIR)/%_S.o : $(SRCDIR)/%.S
 	@mkdir -p $(@D)
@@ -52,7 +60,7 @@ $(OBJDIR)/%_asm.o : $(SRCDIR)/%.asm
 
 .PHONY: clean
 clean:
-	$(rm) $(OBJS)/*
+	$(rm) $(OBJS)
 	
 .PHONY: remove
 remove:
