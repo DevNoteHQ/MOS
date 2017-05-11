@@ -1,22 +1,41 @@
 
-MODULES := system system/kernel userland libs
+SYSDIR := system
+USRDIR := userland
 
-.PHONY: all clean libs mount $(MODULES)
+SYSBINDIR := $(SYSDIR)/bin
+USRBINDIR := $(USRDIR)/bin
+
+SYSMODULE := kernel
+USRMODULE := 
+
+SYSBINS := $(patsubst %,%.elf,$(SYSMODULE))
+USRBINS := $(patsubst %,%.elf,$(USRMODULE))
+
+SYSMODULES := $(SYSDIR)/$(SYSMODULES)
+USRMODULES := $(USRDIR)/$(USRMODULES)
+
+MODULES := libs $(SYSDIR) $(USRDIR)
+
+.PHONY: all clean libs mount $(MODULES) $(SYSMODULES) $(USRMODULES)
 
 all: $(MODULES)
 
 $(MODULES):
+	$(MAKE) -C $@
+	
+$(SYSMODULES):
+	$(MAKE) -C $@
+	
+$(USRMODULES):
 	$(MAKE) -C $@
 
 clean:
 	$(foreach module,$(MODULES),$(MAKE) -C $(module) clean;)
 	
 mount:
-	@echo "cp system/kernel/bin/kernel.elf isodir/boot/kernel.elf"
-	@cp system/kernel/bin/kernel.elf isodir/boot/kernel.elf
-	@echo "cp grub/grub.cfg isodir/boot/grub/grub.cfg"
-	@cp grub/grub.cfg isodir/boot/grub/grub.cfg
-	@echo "grub-mkrescue -o isodir/mos.iso isodir"
-	@grub-mkrescue -o isodir/mos.iso isodir
-	@echo "./Multiboot.sh"
-	@./Multiboot.sh
+	rm isodir/mos.iso
+	cp -a $(SYSBINDIR)/. isodir/boot/
+	cp -a $(USRBINDIR)/. isodir/userland/
+	cp grub/grub.cfg isodir/boot/grub/grub.cfg
+	grub-mkrescue -o isodir/mos.iso isodir
+	./Multiboot.sh

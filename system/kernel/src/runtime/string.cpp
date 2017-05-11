@@ -56,12 +56,16 @@ extern "C"
 
 	char *strcpy(char *dst,const char *src)
 	{
-		char i = 0;
+		int i = 0;
 		while ((dst[i] = src[i++]));
-
-		return i;
+		
+		return (char*) i;
 	}
 
+	char *strcat(char *dest, const char *src)
+	{
+		memcpy((char*)((int)dest+(int)strlen((char*)dest)),(char*)src,strlen((char*)src));
+	}
 
 	int strncmp( const char* s1, const char* s2, size_t c ) {
 		int result = 0;

@@ -1,5 +1,8 @@
-TARGET = kernel.elf
-ARCH = $(ADD_ARCH_Path)x86_64-elf
+CurDir = $(shell pwd)
+DirBelow = $(shell cd ../ && pwd)
+CutPath = $(patsubst $(DirBelow)/%,%,$(CurDir))
+TARGET = $(patsubst %,%.elf,$(CutPath))
+ARCH = x86_64-elf
 
 CC = $(ARCH)-gcc
 CPP = $(ARCH)-g++
@@ -22,8 +25,8 @@ WFLAGS = -Wall -Wextra -Wno-unused-parameter
 
 NASFLAGS = -f elf64
 GASFLAGS = 
-CPPFLAGS = $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu++14 -O2 -nostdlib -nostartfiles -lgcc
-CFLAGS = $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu11 -O2 -nostdlib -nostartfiles -lgcc
+CPPFLAGS = -m64 $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu++14 -O2 -nostdlib -nostartfiles -lgcc
+CFLAGS = -m64 $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu11 -O2 -nostdlib -nostartfiles -lgcc
 LDFLAGS = -T linker.ld -O2 -z max-page-size=0x1000
 
 SRCS_c = $(shell find $(SRCDIR)/* -name '*.c')

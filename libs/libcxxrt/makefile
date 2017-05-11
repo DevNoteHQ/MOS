@@ -2,8 +2,7 @@ CurDir = $(shell pwd)
 DirBelow = $(shell cd ../ && pwd)
 CutPath = $(patsubst $(DirBelow)/%,%,$(CurDir))
 TARGET = $(patsubst %,%.a,$(CutPath))
-
-ARCH = $(ADD_ARCH_Path)x86_64-elf
+ARCH = x86_64-elf
 
 CC = $(ARCH)-gcc
 CPP = $(ARCH)-g++
