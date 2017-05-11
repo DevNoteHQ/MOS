@@ -10,7 +10,7 @@ SRCDIR = src
 OBJDIR = obj
 BINDIR = bin
 
-INCPATHSNP = $(SRCDIR) ../include
+INCPATHSNP = $(SRCDIR) ../../include
 INCPATHS = $(addprefix -I ,$(INCPATHSNP))
 INCLUDESNP = types.h stddef.h stdint.h string.h
 INCLUDES = $(addprefix -include ,$(INCLUDESNP))

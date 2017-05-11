@@ -5,7 +5,7 @@ extern "C"
 {
 	#include <string.h>
 	
-	int strlen(char *s)
+	size_t strlen(const char *s)
 	{
 		int i = 0;
 		while (*s++)
@@ -13,7 +13,7 @@ extern "C"
 		return i;
 	}
 
-	char *strncpy(char *destString, const char *sourceString,int maxLength)
+	char *strncpy(char *destString, const char *sourceString,size_t maxLength)
 	{
 		unsigned count;
 
@@ -41,7 +41,7 @@ extern "C"
 		return (destString);
 	}
 
-	int strcmp(const char *dst, char *src)
+	int strcmp(const char *dst, const char *src)
 	{
 		int i = 0;
 
@@ -54,16 +54,16 @@ extern "C"
 	}
 
 
-	int strcpy(char *dst,const char *src)
+	char *strcpy(char *dst,const char *src)
 	{
-		int i = 0;
+		char i = 0;
 		while ((dst[i] = src[i++]));
 
 		return i;
 	}
 
 
-	int strncmp( const char* s1, const char* s2, int c ) {
+	int strncmp( const char* s1, const char* s2, size_t c ) {
 		int result = 0;
 
 		while ( c ) {
