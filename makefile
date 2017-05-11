@@ -17,6 +17,6 @@ mount:
 	@echo "cp grub/grub.cfg isodir/boot/grub/grub.cfg"
 	@cp grub/grub.cfg isodir/boot/grub/grub.cfg
 	@echo "grub-mkrescue -o mos.iso isodir"
-	@grub-mkrescue -o mos.iso isodir
+	@grub-mkrescue -o isodir/mos.iso isodir
 	@echo "./Multiboot.sh"
 	@./Multiboot.sh
