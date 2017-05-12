@@ -3,8 +3,8 @@
  *
  */
 
-#ifndef ARC_MM_PHY32_H
-#define ARC_MM_PHY32_H
+#ifndef MEMORYMANAGEMENT_PHY32_H
+#define MEMORYMANAGEMENT_PHY32_H
 
 #include <stdint.h>
 

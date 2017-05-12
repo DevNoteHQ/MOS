@@ -1,5 +1,5 @@
-#ifndef VIDEO_H
-#define VIDEO_H
+#ifndef TERMINAL_TEXT_H
+#define TERMINAL_TEXT_H
 
 namespace kernel
 {
@@ -12,7 +12,7 @@ namespace kernel
 		void clear();
 
 		// Textausgabe
-		void printf(const char* s);
+		void Write (const char* s);
 
 		// Vordergrundfarbe setzen
 		void ForegroundColor (Color color);

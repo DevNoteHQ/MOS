@@ -21,12 +21,15 @@ MODULES := libs $(SYSDIR) $(USRDIR)
 all: $(MODULES)
 
 $(MODULES):
+	rm -r -f Debug
 	$(MAKE) -C $@
 	
 $(SYSMODULES):
+	rm -r -f Debug
 	$(MAKE) -C $@
 	
 $(USRMODULES):
+	rm -r -f Debug
 	$(MAKE) -C $@
 
 clean:

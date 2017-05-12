@@ -15,18 +15,26 @@ BINDIR = bin
 
 INCPATHSNP = $(SRCDIR) ../../include
 INCPATHS = $(addprefix -I ,$(INCPATHSNP))
-INCLUDESNP = types.h stddef.h stdint.h string.h
-INCLUDES = $(addprefix -include ,$(INCLUDESNP))
+INCLUDES = stddef.h stdint.h string.h
+INCLUDESC = $(INCLUDES) typesc.h
+INCLUDESCPP = $(INCLUDES) typescpp.h
+CINCLUDES = $(addprefix -include ,$(INCLUDESC))
+CPPINCLUDES = $(addprefix -include ,$(INCLUDESCPP))
 
-INCFLAGS = $(INCPATHS) $(INCLUDES)
-FFLAGS = -ffreestanding -fno-stack-protector -fno-builtin -fpermissive
-64FLAGS = -mcmodel=kernel -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -mno-sse3 -mno-3dnow
-WFLAGS = -Wall -Wextra -Wno-unused-parameter
+CINCFLAGS = $(INCPATHS) $(CINCLUDES)
+CFFLAGS = -ffreestanding -fno-stack-protector -fno-builtin -fpermissive
+C64FLAGS = -mcmodel=kernel -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -mno-sse3 -mno-3dnow
+CWFLAGS = -Wall -Wextra -Wno-unused-parameter
+
+CPPINCFLAGS = $(INCPATHS) $(CPPINCLUDES)
+CPPFFLAGS = -ffreestanding -fno-stack-protector -fno-builtin -fpermissive
+CPP64FLAGS = -mcmodel=kernel -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -mno-sse3 -mno-3dnow
+CPPWFLAGS = -Wall -Wextra -Wno-unused-parameter
 
 NASFLAGS = -f elf64
 GASFLAGS = 
-CPPFLAGS = -m64 $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu++14 -O2 -nostdlib -nostartfiles -lgcc
-CFLAGS = -m64 $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu11 -O2 -nostdlib -nostartfiles -lgcc
+CPPFLAGS = -m64 $(CPP64FLAGS) $(CPPINCFLAGS) $(CPPFFLAGS) $(CPPWFLAGS) -std=gnu++14 -O2 -nostdlib -nostartfiles -lgcc
+CFLAGS = -m64 $(C64FLAGS) $(CINCFLAGS) $(CFFLAGS) $(CWFLAGS) -std=gnu11 -O2 -nostdlib -nostartfiles -lgcc
 LDFLAGS = -T linker.ld -O2 -z max-page-size=0x1000
 
 SRCS_c = $(shell find $(SRCDIR)/* -name '*.c')

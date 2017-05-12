@@ -1,4 +1,5 @@
 ;
+;  Original:
 ;  Copyright (c) 2011-2014 Graham Edgecombe <graham@grahamedgecombe.com>
 ;
 

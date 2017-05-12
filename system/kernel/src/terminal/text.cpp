@@ -45,7 +45,7 @@ namespace kernel
 			iY = 0;							
 		}
 
-		void printf (const char* s)
+		void Write (const char* s)
 		{
 			// Für jedes einzelne Zeichen wird put() aufgerufen
 			while (*s != '\0')

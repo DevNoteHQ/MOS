@@ -1,14 +1,16 @@
 
 FDIRS := $(shell find -maxdepth 1 -type d)
 DIRS := $(patsubst ./%,%,$(FDIRS))
-RDIRS := $(patsubst .%,%,$(DIRS))
-MODULES := $(filter-out bin,$(RDIRS))
+DIRSNBIN := $(patsubst .%,%,$(DIRS))
+DIRSNDEB := $(filter-out Debug,$(DIRSNBIN))
+MODULES := $(filter-out bin,$(DIRSNDEB))
 
 .PHONY: all clean $(MODULES)
 
 all: $(MODULES)
 
 $(MODULES):
+	rm -r -f Debug
 	$(MAKE) -C $@
 	@cp -R $(MODULES)/bin ./
 
