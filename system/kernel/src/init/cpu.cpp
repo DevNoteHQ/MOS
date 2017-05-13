@@ -18,53 +18,52 @@
 #include <init/msr.h>
 #include <util/list.h>
 
-namespace kernel
+
+namespace CPU
 {
-	namespace cpu
+	list_t cpu_list = LIST_EMPTY;
+
+	static cpu_t cpu_bsp;
+
+	void init(void)
 	{
-		list_t cpu_list = LIST_EMPTY;
+		memset(&cpu_bsp, 0, sizeof(cpu_bsp));
+		cpu_bsp.self = &cpu_bsp;
+		cpu_bsp.bsp = true;
+		cpu_bsp.intr_mask_count = 1; // as when this is called, interrupts are masked
+		//cpu_bsp.proc = 0;
+		//cpu_bsp.thread = 0;
+		msr_write(MSR_GS_BASE, (uint64_t)&cpu_bsp);
+		msr_write(MSR_GS_KERNEL_BASE, (uint64_t)&cpu_bsp);
 
-		static cpu_t cpu_bsp;
+		List::add_tail(&cpu_list, &cpu_bsp.node);
+	}
 
-		void bsp_init(void)
-		{
-			memset(&cpu_bsp, 0, sizeof(cpu_bsp));
-			cpu_bsp.self = &cpu_bsp;
-			cpu_bsp.bsp = true;
-			cpu_bsp.intr_mask_count = 1; // as when this is called, interrupts are masked
-			//cpu_bsp.proc = 0;
-			//cpu_bsp.thread = 0;
-			msr_write(MSR_GS_BASE, (uint64_t)&cpu_bsp);
-			msr_write(MSR_GS_KERNEL_BASE, (uint64_t)&cpu_bsp);
+	/*
+	bool cpu_ap_init(cpu_lapic_id_t lapic_id, cpu_acpi_id_t acpi_id)
+	{
+	  cpu_t *cpu = malloc(sizeof(*cpu));
+	  if (!cpu)
+		return false;
 
-			list::add_tail(&cpu_list, &cpu_bsp.node);
-		}
+	  memclr(cpu, sizeof(*cpu));
 
-		/*
-		bool cpu_ap_init(cpu_lapic_id_t lapic_id, cpu_acpi_id_t acpi_id)
-		{
-		  cpu_t *cpu = malloc(sizeof(*cpu));
-		  if (!cpu)
-			return false;
+	  cpu->self = cpu;
+	  cpu->lapic_id = lapic_id;
+	  cpu->acpi_id = acpi_id;
+	  cpu->intr_mask_count = 1; // as when this is called, interrupts are masked
+	  cpu->proc = 0;
+	  cpu->thread = 0;
 
-		  memclr(cpu, sizeof(*cpu));
+	  list_add_tail(&cpu_list, &cpu->node);
+	  return true;
+	}
+	*/
 
-		  cpu->self = cpu;
-		  cpu->lapic_id = lapic_id;
-		  cpu->acpi_id = acpi_id;
-		  cpu->intr_mask_count = 1; // as when this is called, interrupts are masked
-		  cpu->proc = 0;
-		  cpu->thread = 0;
-
-		  list_add_tail(&cpu_list, &cpu->node);
-		  return true;
-		}
-		*/
-
-		void ap_install(cpu_t *cpu)
-		{
-			msr_write(MSR_GS_BASE, (uint64_t)cpu);
-			msr_write(MSR_GS_KERNEL_BASE, (uint64_t)cpu);
-		}
+	void ap_install(cpu_t *cpu)
+	{
+		msr_write(MSR_GS_BASE, (uint64_t)cpu);
+		msr_write(MSR_GS_KERNEL_BASE, (uint64_t)cpu);
 	}
 }
+

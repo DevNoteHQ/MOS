@@ -5,29 +5,31 @@
 
 //Kernel Includes:
 
-#include <sheduler/sheduler.h>
+#include <scheduler/scheduler.h>
 #include <memorymanagement/phy32.h>
 #include <terminal/text.h>
 #include <multiboot.h>
 #include <init/gdt.h>
 #include <init/cpu.h>
+#include <init/idt.h>
 
 #define CPU_COUNT 8
 
-using namespace kernel;
-
 void kernel_main(void)
 {
-	cpu::bsp_init();
+	CPU::init();
 
-	gdt::init();
+	GDT::init();
+	TSS::init();
+	IDT::init();
+
 	Text::init();
-	for (int iC; iC < 15; iC++)
+	for (int iC; iC < 250; iC++)
 	{
-		Text::Write(" | Hello | ");
+		Text::Simple::Write(" | Hello | ");
 	}
 	
-	sheduler CPU[CPU_COUNT];
+	scheduler CPU[CPU_COUNT];
 	for(int i = 0; i < CPU_COUNT; i++)
 	{
 		CPU[i].init();

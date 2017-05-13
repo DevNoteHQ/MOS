@@ -31,15 +31,15 @@
 #define RPL2 0x2
 #define RPL3 0x3
 
-namespace kernel
+namespace GDT
 {
-	typedef struct
+	typedef struct GDTR_t
 	{
 		uint16_t len;
 		uint64_t addr;
-	} __attribute__((__packed__)) gdtr_t;
+	} __attribute__((__packed__));
 
-	typedef struct
+	typedef struct descriptor_t
 	{
 		uint16_t limit_low;
 		uint16_t base_low;
@@ -47,23 +47,20 @@ namespace kernel
 		uint8_t  flags;
 		uint8_t  granularity; /* and high limit */
 		uint8_t  base_high;
-	} __attribute__((__packed__)) gdt_descriptor_t;
+	} __attribute__((__packed__));
 
-	typedef struct
+	typedef struct xdescriptor_t
 	{
-		gdt_descriptor_t low;
+		descriptor_t low;
 		struct
 		{
 			uint32_t base_xhigh;
 			uint32_t reserved;
 		} high;
-	} __attribute__((__packed__)) gdt_xdescriptor_t;
+	} __attribute__((__packed__));
 
-	namespace gdt
-	{
-		void init(void);
-		extern "C" void gdtr_install(gdtr_t *gdtr, uint16_t cs, uint16_t ds);
-	}
+	void init(void);
+	extern "C" void gdtr_install(GDTR_t *gdtr, uint16_t cs, uint16_t ds);
 }
 
 #endif

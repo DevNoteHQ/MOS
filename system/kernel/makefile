@@ -15,18 +15,15 @@ BINDIR = bin
 
 INCPATHSNP = $(SRCDIR) ../../include
 INCPATHS = $(addprefix -I ,$(INCPATHSNP))
-INCLUDES = stddef.h stdint.h string.h
-INCLUDESC = $(INCLUDES) typesc.h
-INCLUDESCPP = $(INCLUDES) typescpp.h
-CINCLUDES = $(addprefix -include ,$(INCLUDESC))
-CPPINCLUDES = $(addprefix -include ,$(INCLUDESCPP))
+INCLUDES = stddef.h stdint.h string.h types.h
+INCLUDE = $(addprefix -include ,$(INCLUDES))
 
-CINCFLAGS = $(INCPATHS) $(CINCLUDES)
+CINCFLAGS = $(INCPATHS) $(INCLUDE)
 CFFLAGS = -ffreestanding -fno-stack-protector -fno-builtin -fpermissive
 C64FLAGS = -mcmodel=kernel -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -mno-sse3 -mno-3dnow
 CWFLAGS = -Wall -Wextra -Wno-unused-parameter
 
-CPPINCFLAGS = $(INCPATHS) $(CPPINCLUDES)
+CPPINCFLAGS = $(INCPATHS) $(INCLUDE)
 CPPFFLAGS = -ffreestanding -fno-stack-protector -fno-builtin -fpermissive
 CPP64FLAGS = -mcmodel=kernel -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -mno-sse3 -mno-3dnow
 CPPWFLAGS = -Wall -Wextra -Wno-unused-parameter

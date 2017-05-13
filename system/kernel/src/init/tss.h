@@ -17,33 +17,31 @@
 #ifndef INIT_TSS_H
 #define INIT_TSS_H
 
-namespace kernel
-{
-	typedef struct
-	{
-		uint32_t reserved0;
-		uint64_t rsp0;
-		uint64_t rsp1;
-		uint64_t rsp2;
-		uint64_t reserved1;
-		uint64_t ist1;
-		uint64_t ist2;
-		uint64_t ist3;
-		uint64_t ist4;
-		uint64_t ist5;
-		uint64_t ist6;
-		uint64_t ist7;
-		uint64_t reserved2;
-		uint16_t reserved3;
-		uint16_t iomap_base;
-	} __attribute__((__packed__)) tss_t;
 
-	namespace tss
-	{
-		void init(void);
-		void set_rsp0(uint64_t rsp0);
-		extern "C" void tss_install(uint16_t selector);
-	}
+typedef struct
+{
+	uint32_t reserved0;
+	uint64_t rsp0;
+	uint64_t rsp1;
+	uint64_t rsp2;
+	uint64_t reserved1;
+	uint64_t ist1;
+	uint64_t ist2;
+	uint64_t ist3;
+	uint64_t ist4;
+	uint64_t ist5;
+	uint64_t ist6;
+	uint64_t ist7;
+	uint64_t reserved2;
+	uint16_t reserved3;
+	uint16_t iomap_base;
+} __attribute__((__packed__)) tss_t;
+
+namespace TSS
+{
+	void init(void);
+	void set_rsp0(uint64_t rsp0);
+	extern "C" void tss_install(uint16_t selector);
 }
 
 #endif

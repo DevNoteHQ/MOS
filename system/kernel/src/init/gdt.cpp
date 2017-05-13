@@ -29,69 +29,68 @@
 /* granularity */
 #define GDT_LM       0x2
 
-namespace kernel
+
+namespace GDT
 {
-	namespace gdt
+	static void set(descriptor_t *descriptors, uint16_t sel, uint8_t flags, uint8_t gran)
 	{
-		static void set_descriptor(gdt_descriptor_t *gdt_descriptors, uint16_t sel, uint8_t flags, uint8_t gran)
-		{
-			gdt_descriptor_t *descriptor = &gdt_descriptors[sel / sizeof(*gdt_descriptors)];
-			descriptor->flags = flags;
-			descriptor->granularity = (gran << 4) | 0x0F;
-			descriptor->limit_low = 0xFFFF;
-		}
+		descriptor_t *descriptor = &descriptors[sel / sizeof(*descriptors)];
+		descriptor->flags = flags;
+		descriptor->granularity = (gran << 4) | 0x0F;
+		descriptor->limit_low = 0xFFFF;
+	}
 
-		static void set_xdescriptor(gdt_descriptor_t *gdt_descriptors, uint16_t sel, uint8_t flags, uint8_t gran, uint64_t base, uint64_t limit)
-		{
-			gdt_xdescriptor_t *descriptor = (gdt_xdescriptor_t *)(&gdt_descriptors[sel / sizeof(*gdt_descriptors)]);
-			descriptor->low.flags = flags;
-			descriptor->low.granularity = (gran << 4) | ((limit >> 16) & 0x0F);
-			descriptor->low.limit_low = limit & 0xFFFF;
-			descriptor->low.base_low = base & 0xFFFF;
-			descriptor->low.base_mid = ((base >> 16) & 0xFF);
-			descriptor->low.base_high = ((base >> 24) & 0xFF);
-			descriptor->high.base_xhigh = ((base >> 32) & 0xFFFFFFFF);
-			descriptor->high.reserved = 0;
-		}
+	static void setx(descriptor_t *descriptors, uint16_t sel, uint8_t flags, uint8_t gran, uint64_t base, uint64_t limit)
+	{
+		xdescriptor_t *descriptor = (xdescriptor_t *)(&descriptors[sel / sizeof(*descriptors)]);
+		descriptor->low.flags = flags;
+		descriptor->low.granularity = (gran << 4) | ((limit >> 16) & 0x0F);
+		descriptor->low.limit_low = limit & 0xFFFF;
+		descriptor->low.base_low = base & 0xFFFF;
+		descriptor->low.base_mid = ((base >> 16) & 0xFF);
+		descriptor->low.base_high = ((base >> 24) & 0xFF);
+		descriptor->high.base_xhigh = ((base >> 32) & 0xFFFFFFFF);
+		descriptor->high.reserved = 0;
+	}
 
-		void init(void)
-		{
-			/* get this CPU's local data */
-			cpu_t *cpu = cpu::cpu_get();
+	void init(void)
+	{
+		/* get this CPU's local data */
+		cpu_t *cpu = CPU::cpu_get();
 
-			/* get pointers to the GDT and GDTR */
-			gdtr_t *gdtr = &cpu->gdtr;
-			gdt_descriptor_t *gdt_descriptors = cpu->gdt_descriptors;
+		/* get pointers to the GDT and GDTR */
+		GDTR_t *gdtr = &cpu->gdtr;
+		descriptor_t *descriptors = cpu->descriptors;
 
-			/* get pointer to the TSS and calculate the limit */
-			tss_t *tss = &cpu->tss;
-			uint64_t tss_base = (uint64_t)tss;
-			uint64_t tss_limit = sizeof(*tss);
+		/* get pointer to the TSS and calculate the limit */
+		tss_t *tss = &cpu->tss;
+		uint64_t tss_base = (uint64_t)tss;
+		uint64_t tss_limit = sizeof(*tss);
 
-			/* reset the GDT */
-			memset(gdt_descriptors, 0, sizeof(*gdt_descriptors) * GDT_DESCRIPTORS);
+		/* reset the GDT */
+		memset(descriptors, 0, sizeof(*descriptors) * GDT_DESCRIPTORS);
 
-			/* fill in the entries we need */
-			set_descriptor(gdt_descriptors, SLTR_KERNEL_CODE, GDT_PRESENT | GDT_CS, GDT_LM);
-			set_descriptor(gdt_descriptors, SLTR_KERNEL_DATA, GDT_PRESENT | GDT_DS | GDT_WRITABLE, 0);
-			set_descriptor(gdt_descriptors, SLTR_USER_DATA, GDT_PRESENT | GDT_DS | GDT_USER | GDT_WRITABLE, 0);
-			set_descriptor(gdt_descriptors, SLTR_USER_CODE, GDT_PRESENT | GDT_CS | GDT_USER, GDT_LM);
-			set_xdescriptor(gdt_descriptors, SLTR_TSS, GDT_PRESENT | GDT_TSS, 0, tss_base, tss_limit);
+		/* fill in the entries we need */
+		set(descriptors, SLTR_KERNEL_CODE, GDT_PRESENT | GDT_CS, GDT_LM);
+		set(descriptors, SLTR_KERNEL_DATA, GDT_PRESENT | GDT_DS | GDT_WRITABLE, 0);
+		set(descriptors, SLTR_USER_DATA, GDT_PRESENT | GDT_DS | GDT_USER | GDT_WRITABLE, 0);
+		set(descriptors, SLTR_USER_CODE, GDT_PRESENT | GDT_CS | GDT_USER, GDT_LM);
+		setx(descriptors, SLTR_TSS, GDT_PRESENT | GDT_TSS, 0, tss_base, tss_limit);
 
-			/*
-			* read the GS_BASE MSRs so we can restore it after updating the segment
-			* registers
-			*/
-			uint64_t gs_base = msr_read(MSR_GS_BASE);
+		/*
+		* read the GS_BASE MSRs so we can restore it after updating the segment
+		* registers
+		*/
+		uint64_t gs_base = msr_read(MSR_GS_BASE);
 
-			/* update the GDTR structure and install it */
-			gdtr->addr = (uint64_t)gdt_descriptors;
-			gdtr->len = sizeof(*gdt_descriptors) * GDT_DESCRIPTORS - 1;
-			gdtr_install(gdtr, SLTR_KERNEL_CODE, SLTR_KERNEL_DATA);
+		/* update the GDTR structure and install it */
+		gdtr->addr = (uint64_t)descriptors;
+		gdtr->len = sizeof(*descriptors) * GDT_DESCRIPTORS - 1;
+		gdtr_install(gdtr, SLTR_KERNEL_CODE, SLTR_KERNEL_DATA);
 
-			/* restore the GS_BASE and GS_KERNEL_BASE MSR */
-			msr_write(MSR_GS_BASE, gs_base);
-			msr_write(MSR_GS_KERNEL_BASE, gs_base);
-		}
+		/* restore the GS_BASE and GS_KERNEL_BASE MSR */
+		msr_write(MSR_GS_BASE, gs_base);
+		msr_write(MSR_GS_KERNEL_BASE, gs_base);
 	}
 }
+

@@ -17,32 +17,31 @@
 #include <init/tss.h>
 #include <init/cpu.h>
 
-namespace kernel
+
+namespace TSS
 {
-	namespace tss
+	void init(void)
 	{
-		void init(void)
-		{
-			/* find this CPU's TSS */
-			cpu_t *cpu = cpu::cpu_get();
-			tss_t *tss = &cpu->tss;
+		/* find this CPU's TSS */
+		cpu_t *cpu = CPU::cpu_get();
+		tss_t *tss = &cpu->tss;
 
-			/* reset all the fields */
-			memset(tss, 0, sizeof(*tss));
-			tss->iomap_base = sizeof(*tss);
+		/* reset all the fields */
+		memset(tss, 0, sizeof(*tss));
+		tss->iomap_base = sizeof(*tss);
 
-			/* install it using the LTR instruction */
-			tss_install(SLTR_TSS);
-		}
+		/* install it using the LTR instruction */
+		tss_install(SLTR_TSS);
+	}
 
-		void set_rsp0(uint64_t rsp0)
-		{
-			/* find this CPU's TSS */
-			cpu_t *cpu = cpu::cpu_get();
-			tss_t *tss = &cpu->tss;
+	void set_rsp0(uint64_t rsp0)
+	{
+		/* find this CPU's TSS */
+		cpu_t *cpu = CPU::cpu_get();
+		tss_t *tss = &cpu->tss;
 
-			/* set the stack pointer for this CPU */
-			tss->rsp0 = rsp0;
-		}
+		/* set the stack pointer for this CPU */
+		tss->rsp0 = rsp0;
 	}
 }
+

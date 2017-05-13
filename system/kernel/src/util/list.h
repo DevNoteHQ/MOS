@@ -17,34 +17,33 @@
 #ifndef UTIL_LIST_H
 #define UTIL_LIST_H
 
-namespace kernel
+
+typedef struct list_node
 {
-	typedef struct list_node
-	{
-		struct list_node *next, *prev;
-	} list_node_t;
+	struct list_node *next, *prev;
+} list_node_t;
 
-	typedef struct
-	{
-		list_node_t *head, *tail;
-		int size;
-	} list_t;
+typedef struct
+{
+	list_node_t *head, *tail;
+	int size;
+} list_t;
 
-	typedef int(*list_compare_t)(const void *left, const void *right);
+typedef int(*list_compare_t)(const void *left, const void *right);
 
-	#define LIST_EMPTY { .head = 0, .tail = 0, .size = 0 }
+#define LIST_EMPTY { .head = 0, .tail = 0, .size = 0 }
 
-	#define list_for_each(list, node) for (list_node_t *node = (list)->head, *__next = node ? node->next : 0; node; node = __next, __next = node ? node->next : 0)
+#define list_for_each(list, node) for (list_node_t *node = (list)->head, *__next = node ? node->next : 0; node; node = __next, __next = node ? node->next : 0)
 
-	namespace list
-	{
-		void init(list_t *list);
-		void add_head(list_t *list, list_node_t *node);
-		void add_tail(list_t *list, list_node_t *node);
-		void insert_before(list_t *list, list_node_t *node, list_node_t *new_node);
-		void insert_after(list_t *list, list_node_t *node, list_node_t *new_node);
-		void remove(list_t *list, list_node_t *node);
-		void sort(list_t *list, list_compare_t compare);
-	}
+namespace List
+{
+	void init(list_t *list);
+	void add_head(list_t *list, list_node_t *node);
+	void add_tail(list_t *list, list_node_t *node);
+	void insert_before(list_t *list, list_node_t *node, list_node_t *new_node);
+	void insert_after(list_t *list, list_node_t *node, list_node_t *new_node);
+	void remove(list_t *list, list_node_t *node);
+	void sort(list_t *list, list_compare_t compare);
 }
+
 #endif
