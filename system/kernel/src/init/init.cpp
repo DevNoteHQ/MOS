@@ -21,16 +21,6 @@
 
 void kernel_main(void)
 {
-	CPU::init();
-
-	GDT::init();
-	TSS::init();
-	IDT::init();
-
-	Text::init();
-
-	Interrupt::APIC::init();
-
 	for (int iC; iC < 20; iC++)
 	{
 		Text::Simple::Write(" | Hello | ");
@@ -48,6 +38,17 @@ extern "C"
 	void init(uint32_t magic, multiboot_t *multiboot)
 	{
 		multiboot = phy32_to_virt(multiboot);
+
+		CPU::init();
+
+		GDT::init();
+		TSS::init();
+		IDT::init();
+
+		Text::init();
+
+		Interrupt::APIC::init();
+
 		kernel_main();
 	}
 }
