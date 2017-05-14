@@ -1,6 +1,6 @@
 
 #include <interrupt/apic.h>
-#include <CPUID/CPUID.h>
+#include <cpu/CPUID.h>
 
 namespace Interrupt
 {

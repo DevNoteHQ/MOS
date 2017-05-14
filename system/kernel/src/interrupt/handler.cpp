@@ -1,12 +1,18 @@
 
 #include <terminal/text.h>
+#include <interrupt/handler.h>
 
-void interrupt(void)
+void exception(struct cpu_state* cpu)
 {
-	abort();
+
 }
 
-void handler(void)
+void hwinterrupt(struct cpu_state* cpu)
+{
+
+}
+
+void swinterrupt(struct cpu_state* cpu)
 {
 
 }
