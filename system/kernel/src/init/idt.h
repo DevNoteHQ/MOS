@@ -21,7 +21,8 @@ namespace IDT
 	} __attribute__((packed));
 
 	void init(void);
-	static void set(IDTDescr, void(*handler)(void), uint8_t flags);
+	void set(IDTDescr *descriptor, void(*handler)(void), uint8_t flags);
+	
 	extern "C" void idtr_install(IDTR_t *idtr);
 }
 

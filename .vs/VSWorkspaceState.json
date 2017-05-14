@@ -6,8 +6,8 @@
     "\\system\\kernel",
     "\\system\\kernel\\src",
     "\\system\\kernel\\src\\cpu",
-    "\\system\\kernel\\src\\interrupt"
+    "\\system\\kernel\\src\\init"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\cpu\\CPUID.cpp",
+  "SelectedNode": "\\system\\kernel\\src\\init\\idt.h",
   "PreviewInSolutionExplorer": false
 }

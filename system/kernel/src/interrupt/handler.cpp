@@ -16,3 +16,8 @@ void swinterrupt(struct cpu_state* cpu)
 {
 
 }
+
+void spechandler(struct cpu_state* cpu)
+{
+
+}

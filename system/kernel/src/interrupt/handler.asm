@@ -2,13 +2,13 @@
 [extern exception]
 [extern hwinterrupt]
 [extern swinterrupt]
+[extern swinterrupt]
 
 ; fault without error entry code
-%macro fault 1
+%macro fault
 [global fault%1]
 fault%1:
 	push 0
-	push %1
 	jmp _exception
 %endmacro
 
@@ -16,26 +16,31 @@ fault%1:
 %macro fault_err 1
 [global fault%1]
 fault%1:
-	push %1
 	jmp _exception
 %endmacro
 
 ; irq entry code
-%macro irq 2
+%macro irq 1
 [global irq%1]
 irq%1:
 	push 0
-	push %2
 	jmp _hwinterrupt
 %endmacro
 
-; irq entry code
-%macro swintr 2
+; syscall entry code
+%macro swintr 1
 [global swinterrupt%1]
 swinterrupt%1:
 	push 0
-	push %2
 	jmp _swinterrupt
+%endmacro
+
+; special entry code
+%macro special 1
+[global special%1]
+special%1:
+	push 0
+	jmp _special
 %endmacro
 
 %macro save 0
@@ -123,12 +128,17 @@ _hwinterrupt:
 	restore
 	iretq
 
-swinterrupt:
+_swinterrupt:
 	save
 	call swinterrupt
 	restore
 	iretq
 
+_special:
+	save
+	call spechandler
+	restore
+	iretq
 
 
 fault     0
@@ -164,52 +174,60 @@ fault     29
 fault     30
 fault     31
 
-irq 0,  32
-irq 1,  33
-irq 2,  34
-irq 3,  35
-irq 4,  36
-irq 5,  37
-irq 6,  38
-irq 7,  39
-irq 8,  40
-irq 9,  41
-irq 10, 42
-irq 11, 43
-irq 12, 44
-irq 13, 45
-irq 14, 46
-irq 15, 47
-irq 16, 48
-irq 17, 49
-irq 18, 50
-irq 19, 51
-irq 20, 52
-irq 21, 53
-irq 22, 54
-irq 23, 55
+irq 32
+irq 33
+irq 34
+irq 35
+irq 36
+irq 37
+irq 38
+irq 39
+irq 40
+irq 41
+irq 42
+irq 43
+irq 44
+irq 45
+irq 46
+irq 47
+irq 48
+irq 49
+irq 50
+irq 51
+irq 52
+irq 53
+irq 54
+irq 55
 
-swintr 0,  56
-swintr 1,  57
-swintr 2,  58
-swintr 3,  59
-swintr 4,  60
-swintr 5,  61
-swintr 6,  62
-swintr 7,  63
-swintr 8,  64
-swintr 9,  65
-swintr 10, 66
-swintr 11, 67
-swintr 12, 68
-swintr 13, 69
-swintr 14, 70
-swintr 15, 71
-swintr 16, 72
-swintr 17, 73
-swintr 18, 74
-swintr 19, 75
-swintr 20, 76
-swintr 21, 77
-swintr 22, 78
-swintr 23, 79
+swintr 56
+swintr 57
+swintr 58
+swintr 59
+swintr 60
+swintr 61
+swintr 62
+swintr 63
+swintr 64
+swintr 65
+swintr 66
+swintr 67
+swintr 68
+swintr 69
+swintr 70
+swintr 71
+swintr 72
+swintr 73
+swintr 74
+swintr 75
+swintr 76
+swintr 77
+swintr 78
+swintr 79
+
+
+special 250
+special 251
+special 252
+special 253
+special 254
+special 255
