@@ -12,6 +12,10 @@
 #include <init/gdt.h>
 #include <init/cpu.h>
 #include <init/idt.h>
+#include <init/msr.h>
+#include <init/tss.h>
+#include <interrupt/apic.h>
+#include <interrupt/init.h>
 
 #define CPU_COUNT 8
 
@@ -24,7 +28,10 @@ void kernel_main(void)
 	IDT::init();
 
 	Text::init();
-	for (int iC; iC < 250; iC++)
+
+	Interrupt::APIC::init();
+
+	for (int iC; iC < 20; iC++)
 	{
 		Text::Simple::Write(" | Hello | ");
 	}

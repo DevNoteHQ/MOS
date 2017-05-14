@@ -3,8 +3,7 @@
 
 void interrupt(void)
 {
-	Text::Clear();
-	Text::Simple::Write("Interrupt!");
+	abort();
 }
 
 void handler(void)

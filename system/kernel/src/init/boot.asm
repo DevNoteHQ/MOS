@@ -2,9 +2,14 @@
 ;  Original:
 ;  Copyright (c) 2011-2014 Graham Edgecombe <graham@grahamedgecombe.com>
 ;
+; Permission to use, copy, modify, and/or distribute this software for any
+; purpose with or without fee is hereby granted, provided that the above
+; copyright notice and this permission notice appear in all copies.
+;
 
 [bits 32]
 [extern init]
+[extern abort]
 [extern start_ctors]
 [extern end_ctors]
 [extern start_dtors]
@@ -173,12 +178,22 @@ gdtr:
 ; the entry point of the kernel executable
 [global start]
 start:
-	; disable interrupts until there is a IDT:
+	; disable interrupts until there is interrupt handling:
 	cli
 	; move the info GRUB passes us into the registers used for the main() call
 	; later on
 	mov edi, eax
 	mov esi, ebx
+
+	mov eax, 0x80000000    ; Set the A-register to 0x80000000.
+    cpuid                  ; CPU identification.
+    cmp eax, 0x80000001    ; Compare the A-register with 0x80000001.
+    jb .NoLongMode         ; It is less, there is no long mode.
+
+	mov eax, 0x80000001    ; Set the A-register to 0x80000001.
+    cpuid                  ; CPU identification.
+    test edx, 1 << 29      ; Test if the LM-bit, which is bit 29, is set in the D-register.
+    jz .NoLongMode         ; They aren't, there is no long mode.
 
 	; enable PAE and PSE
 	mov eax, cr4
@@ -212,6 +227,9 @@ start:
 
 	jmp 0x08:.trampoline
 
+.NoLongMode:
+	jmp abort
+
 ; some 64-bit code in the lower half used to jump to the higher half
 [bits 64]
 .trampoline:
@@ -222,6 +240,8 @@ start:
 ; the higher-half code
 [section .inith]
 .next:
+	; disable interrupts until there is interrupt management:
+	cli
 	; re-load the GDTR with a virtual base address
 	mov rax, [gdtr + 2]
 	mov rbx, KERNEL_VMA
@@ -302,8 +322,7 @@ start:
 		cmp rbx, end_dtors
 		jb .body
 		
-		cli
-		hlt
+	jmp abort
 
 ; memory reserved for the kernel's stack
 [section .bss align=STACK_ALIGN]

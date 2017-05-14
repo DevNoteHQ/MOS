@@ -15,16 +15,16 @@ BINDIR = bin
 
 INCPATHSNP = $(SRCDIR) ../../include
 INCPATHS = $(addprefix -I ,$(INCPATHSNP))
-INCLUDES = stddef.h stdint.h string.h types.h
+INCLUDES = stddef.h stdint.h string.h types.h assembler.h abort.h
 INCLUDE = $(addprefix -include ,$(INCLUDES))
 
 CINCFLAGS = $(INCPATHS) $(INCLUDE)
-CFFLAGS = -ffreestanding -fno-stack-protector -fno-builtin -fpermissive
+CFFLAGS = -ffreestanding -fno-stack-protector -fno-builtin
 C64FLAGS = -mcmodel=kernel -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -mno-sse3 -mno-3dnow
 CWFLAGS = -Wall -Wextra -Wno-unused-parameter
 
 CPPINCFLAGS = $(INCPATHS) $(INCLUDE)
-CPPFFLAGS = -ffreestanding -fno-stack-protector -fno-builtin -fpermissive
+CPPFFLAGS = -ffreestanding -fno-stack-protector -fno-builtin -fpermissive -fno-rtti -fno-exceptions
 CPP64FLAGS = -mcmodel=kernel -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -mno-sse3 -mno-3dnow
 CPPWFLAGS = -Wall -Wextra -Wno-unused-parameter
 
@@ -69,7 +69,5 @@ $(OBJDIR)/%_asm.o : $(SRCDIR)/%.asm
 .PHONY: clean
 clean:
 	$(rm) $(OBJS)
-	
-.PHONY: remove
-remove:
-	$(rm) $(BINDIR)/$(TARGET)
+	$(rm) $(OBJDIR)
+	mkdir $(OBJDIR)
