@@ -38,8 +38,8 @@ extern "C"
 
 		CPU::init();
 
-		GDT::init();
-		TSS::init();
+		//GDT::init();
+		//TSS::init();
 		IDT::init();
 
 		Text::init();

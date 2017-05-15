@@ -161,19 +161,47 @@ identity_pml2d:
 		%assign pg pg+PAGE_SIZE*TABLE_SIZE
 	%endrep
 
-; the global descriptor table
-gdt:
-	; null selector
-		dq 0
-	; cs selector
-		dq 0x00AF98000000FFFF
-	; ds selector
-		dq 0x00CF92000000FFFF
-gdt_end:
-	dq 0 ; some extra padding so the gdtr is 16-byte aligned
-gdtr:
-	dw gdt_end - gdt - 1
-	dq gdt
+; Global Descriptor Table (64-bit).
+[global GDT64]
+GDT64:
+.Null: equ $ - GDT64         ; The null descriptor.
+	dw 0                         ; Limit (low).
+	dw 0                         ; Base (low).
+	db 0                         ; Base (middle)
+	db 0                         ; Access.
+	db 0                         ; Granularity.
+	db 0                         ; Base (high).
+.Code0: equ $ - GDT64         ; The code descriptor.
+	dw 0                         ; Limit (low).
+	dw 0                         ; Base (low).
+	db 0                         ; Base (middle)
+	db 10011010b                 ; Access (exec/read).
+	db 00100000b                 ; Granularity.
+	db 0                         ; Base (high).
+.Data0: equ $ - GDT64         ; The data descriptor.
+	dw 0                         ; Limit (low).
+	dw 0                         ; Base (low).
+	db 0                         ; Base (middle)
+	db 10010010b                 ; Access (read/write).
+	db 00000000b                 ; Granularity.
+	db 0                         ; Base (high).
+.Code3: equ $ - GDT64         ; The code descriptor.
+	dw 0                         ; Limit (low).
+	dw 0                         ; Base (low).
+	db 0                         ; Base (middle)
+	db 11111010b                 ; Access (exec/read).
+	db 00100000b                 ; Granularity.
+	db 0                         ; Base (high).
+.Data3: equ $ - GDT64         ; The data descriptor.
+	dw 0                         ; Limit (low).
+	dw 0                         ; Base (low).
+	db 0                         ; Base (middle)
+	db 11110010b                 ; Access (read/write).
+	db 00000000b                 ; Granularity.
+	db 0                         ; Base (high).
+.Pointer:                    ; The GDT-pointer.
+	dw $ - GDT64 - 1             ; Limit.
+	dq GDT64                     ; Base.
 
 ; the entry point of the kernel executable
 [global start]
@@ -216,7 +244,7 @@ start:
 	mov cr0, eax
 
 	; leave compatibility mode
-	lgdt [gdtr]
+	lgdt [GDT64.Pointer]
 	mov ax, 0x10
 	mov ss, ax
 	mov ax, 0x0
@@ -243,11 +271,11 @@ start:
 	; disable interrupts until there is interrupt management:
 	cli
 	; re-load the GDTR with a virtual base address
-	mov rax, [gdtr + 2]
+	mov rax, [GDT64.Pointer + 2]
 	mov rbx, KERNEL_VMA
 	add rax, rbx
-	mov [gdtr + 2], rax
-	mov rax, gdtr + KERNEL_VMA
+	mov [GDT64.Pointer  + 2], rax
+	mov rax, GDT64.Pointer + KERNEL_VMA
 	lgdt [rax]
 
 	; map the rest of the kernel into virtual memory

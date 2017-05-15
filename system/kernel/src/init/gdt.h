@@ -35,32 +35,12 @@ namespace GDT
 {
 	typedef struct GDTR_t
 	{
-		uint16_t len;
-		uint64_t addr;
-	} __attribute__((__packed__));
-
-	typedef struct Descriptor
-	{
-		uint16_t limit_low;
-		uint16_t base_low;
-		uint8_t  base_mid;
-		uint8_t  flags;
-		uint8_t  granularity; /* and high limit */
-		uint8_t  base_high;
-	} __attribute__((__packed__));
-
-	typedef struct XDescriptor
-	{
-		Descriptor low;
-		struct
-		{
-			uint32_t base_xhigh;
-			uint32_t reserved;
-		} high;
+		uint16_t limit;
+		uint64_t *pointer;
 	} __attribute__((__packed__));
 
 	void init(void);
-	extern "C" void gdtr_install(GDTR_t *gdtr, uint16_t cs, uint16_t ds);
+	extern "C" void reload(uint64_t gdtr, uint16_t cs, uint16_t ds);
 }
 
 #endif

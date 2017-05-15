@@ -4,13 +4,11 @@
     "\\system",
     "\\system\\kernel",
     "\\system\\kernel\\src",
-    "\\system\\kernel\\src\\cpu",
+    "\\system\\kernel\\src\\init",
     "\\system\\kernel\\src\\interrupt",
     "\\system\\kernel\\src\\interrupt\\handler",
-    "\\system\\kernel\\src\\interrupt\\handler\\fault",
-    "\\system\\kernel\\src\\interrupt\\handler\\irq",
-    "\\system\\kernel\\src\\interrupt\\handler\\special"
+    "\\system\\kernel\\src\\runtime"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\interrupt\\handler\\fault\\DivideByZero_irs.cpp",
+  "SelectedNode": "\\system\\kernel\\src\\init\\boot.asm",
   "PreviewInSolutionExplorer": false
 }

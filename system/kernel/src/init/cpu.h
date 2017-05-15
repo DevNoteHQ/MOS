@@ -55,8 +55,8 @@ namespace CPU
 		//cpu_acpi_id_t acpi_id;
 
 		/* the gdt and gdtr for this processor */
-		GDT::GDTR_t gdtr;
-		GDT::Descriptor descriptors[GDT_DESCRIPTORS];
+		//GDT::GDTR_t gdtr;
+		//GDT::Descriptor descriptors[GDT_DESCRIPTORS];
 
 		/* the tss for this processor */
 		TSS::TSS_t tss;
