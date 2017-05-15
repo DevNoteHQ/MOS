@@ -1,4 +1,6 @@
 
+#ifndef CPU_CPU_H
+#define CPU_CPU_H
 
 struct cpu_state {
 	// Von Hand gesicherte Register
@@ -18,9 +20,6 @@ struct cpu_state {
 	uint64_t rbx;
 	uint64_t rax;
 
-	uint64_t   intr;
-	uint64_t   error;
-
 	// Von der CPU gesichert
 	uint64_t   rip;
 	uint64_t   cs;
@@ -28,3 +27,5 @@ struct cpu_state {
 	uint64_t   rsp;
 	uint64_t   ss;
 };
+
+#endif

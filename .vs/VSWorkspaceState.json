@@ -5,8 +5,12 @@
     "\\system\\kernel",
     "\\system\\kernel\\src",
     "\\system\\kernel\\src\\cpu",
-    "\\system\\kernel\\src\\interrupt"
+    "\\system\\kernel\\src\\interrupt",
+    "\\system\\kernel\\src\\interrupt\\handler",
+    "\\system\\kernel\\src\\interrupt\\handler\\fault",
+    "\\system\\kernel\\src\\interrupt\\handler\\irq",
+    "\\system\\kernel\\src\\interrupt\\handler\\special"
   ],
-  "SelectedNode": "\\system\\kernel\\makefile",
+  "SelectedNode": "\\system\\kernel\\src\\interrupt\\handler\\fault\\DivideByZero_irs.cpp",
   "PreviewInSolutionExplorer": false
 }

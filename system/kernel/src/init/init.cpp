@@ -21,11 +21,11 @@
 
 void kernel_main(void)
 {
-	for (int iC; iC < 20; iC++)
-	{
-		Text::Simple::Write(" | Hello | ");
-	}
-	
+	asm volatile("int $0x00");
+	asm volatile("int $0x20");
+
+	Text::Simple::Write(" Hello Fault!");
+
 	scheduler CPU[CPU_COUNT];
 	for(int i = 0; i < CPU_COUNT; i++)
 	{
