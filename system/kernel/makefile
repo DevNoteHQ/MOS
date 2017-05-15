@@ -38,18 +38,18 @@ LDFLAGS = -T linker.ld -O2 -z max-page-size=0x1000
 
 SRCS_c = $(shell find $(SRCDIR)/* -name '*.c')
 SRCS_cpp = $(shell find $(SRCDIR)/* -name '*.cpp')
-SRCS_cpp := $(filter-out %_irs.cpp,$(SRCS_cpp))
-SRCS_cpp_irs = $(shell find $(SRCDIR)/* -name '*_irs.cpp')
+SRCS_cpp := $(filter-out %_isr.cpp,$(SRCS_cpp))
+SRCS_cpp_isr = $(shell find $(SRCDIR)/* -name '*_isr.cpp')
 SRCS_S = $(shell find $(SRCDIR)/* -name '*.S')
 SRCS_asm = $(shell find $(SRCDIR)/* -name '*.asm')
 
 OBJS_c = $(addprefix $(OBJDIR)/,$(SRCS_c:$(SRCDIR)/%.c=%_c.o))
 OBJS_cpp = $(addprefix $(OBJDIR)/,$(SRCS_cpp:$(SRCDIR)/%.cpp=%_cpp.o))
-OBJS_cpp_irs = $(addprefix $(OBJDIR)/,$(SRCS_cpp_irs:$(SRCDIR)/%_irs.cpp=%_irs_cpp.o))
+OBJS_cpp_isr = $(addprefix $(OBJDIR)/,$(SRCS_cpp_isr:$(SRCDIR)/%_isr.cpp=%_isr_cpp.o))
 OBJS_S = $(addprefix $(OBJDIR)/,$(SRCS_S:$(SRCDIR)/%.S=%_S.o))
 OBJS_asm = $(addprefix $(OBJDIR)/,$(SRCS_asm:$(SRCDIR)/%.asm=%_asm.o))
 
-OBJS = $(OBJS_c) $(OBJS_cpp) $(OBJS_cpp_irs) $(OBJS_S) $(OBJS_asm)
+OBJS = $(OBJS_c) $(OBJS_cpp) $(OBJS_cpp_isr) $(OBJS_S) $(OBJS_asm)
 rm = rm -f -r
 
 $(BINDIR)/$(TARGET): $(OBJS)
@@ -64,7 +64,7 @@ $(OBJDIR)/%_cpp.o : $(SRCDIR)/%.cpp
 	@mkdir -p $(@D)
 	$(CPP) $(CPPFLAGS) -c $< -o $@
 
-$(OBJDIR)/%_irs_cpp.o : $(SRCDIR)/%_irs.cpp
+$(OBJDIR)/%_isr_cpp.o : $(SRCDIR)/%_isr.cpp
 	@mkdir -p $(@D)
 	$(CPP) $(CPPFLAGS) $(INTRFLAGS) -c $< -o $@
 

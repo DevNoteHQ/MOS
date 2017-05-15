@@ -20,11 +20,12 @@
 
 namespace TSS
 {
+	TSS_t Default;
 	void init(void)
 	{
 		/* find this CPU's TSS */
-		cpu_t *cpu = CPU::cpu_get();
-		tss_t *tss = &cpu->tss;
+		CPU::cpu_t *cpu = CPU::cpu_get();
+		TSS_t *tss = &cpu->tss;
 
 		/* reset all the fields */
 		memset(tss, 0, sizeof(*tss));
@@ -37,8 +38,8 @@ namespace TSS
 	void set_rsp0(uint64_t rsp0)
 	{
 		/* find this CPU's TSS */
-		cpu_t *cpu = CPU::cpu_get();
-		tss_t *tss = &cpu->tss;
+		CPU::cpu_t *cpu = CPU::cpu_get();
+		TSS_t *tss = &cpu->tss;
 
 		/* set the stack pointer for this CPU */
 		tss->rsp0 = rsp0;

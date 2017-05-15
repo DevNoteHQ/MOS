@@ -17,8 +17,6 @@
 #ifndef INIT_GDT_H
 #define INIT_GDT_H
 
-#define GDT_DESCRIPTORS 7
-
 #define SLTR_NULL        0x0000
 #define SLTR_KERNEL_CODE 0x0008
 #define SLTR_KERNEL_DATA 0x0010
@@ -31,6 +29,8 @@
 #define RPL2 0x2
 #define RPL3 0x3
 
+#define GDT_DESCRIPTORS 7
+
 namespace GDT
 {
 	typedef struct GDTR_t
@@ -39,7 +39,7 @@ namespace GDT
 		uint64_t addr;
 	} __attribute__((__packed__));
 
-	typedef struct descriptor_t
+	typedef struct Descriptor
 	{
 		uint16_t limit_low;
 		uint16_t base_low;
@@ -49,9 +49,9 @@ namespace GDT
 		uint8_t  base_high;
 	} __attribute__((__packed__));
 
-	typedef struct xdescriptor_t
+	typedef struct XDescriptor
 	{
-		descriptor_t low;
+		Descriptor low;
 		struct
 		{
 			uint32_t base_xhigh;

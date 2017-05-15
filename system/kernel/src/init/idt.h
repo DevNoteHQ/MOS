@@ -4,7 +4,7 @@
 
 namespace IDT
 {
-	typedef struct IDTDescr 
+	typedef struct Descriptor 
 	{
 		uint16_t offset_1; // offset bits 0..15
 		uint16_t selector; // a code segment selector in GDT or LDT
@@ -21,7 +21,8 @@ namespace IDT
 	} __attribute__((packed));
 
 	void init(void);
-	void set(IDTDescr *descriptor, void(*handler)(void), uint8_t flags);
+	void set(Descriptor *descriptor, void(*handler)(struct cpu_state *state), uint8_t flags);
+	void sete(Descriptor *descriptor, void(*handler)(struct cpu_state *state, uint64_t error), uint8_t flags);
 	
 	extern "C" void idtr_install(IDTR_t *idtr);
 }

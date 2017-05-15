@@ -14,8 +14,8 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef ARC_CPU_MSR_H
-#define ARC_CPU_MSR_H
+#ifndef INIT_MSR_H
+#define INIT_MSR_H
 
 #define MSR_EFER           0xC0000080
 #define MSR_FS_BASE        0xC0000100
