@@ -1,6 +1,6 @@
 
-#include <terminal/text.h>
-#include <interrupt/handler/stubs.h>
+#include <terminal/text.hpp>
+#include <interrupt/handler/stubs.hpp>
 
 
 __attribute__((interrupt)) void irq01(CPU::State *state)

@@ -1,6 +1,6 @@
 
-#include <init/idt.h>
-#include <interrupt/handler/stubs.h>
+#include <init/idt.hpp>
+#include <interrupt/handler/stubs.hpp>
 
 #define IDT_PRESENT		0x80
 #define IDT_USER		0x60

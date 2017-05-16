@@ -14,8 +14,8 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <util/list.h>
-#include <assert.h>
+#include <util/list.hpp>
+#include <assert.hpp>
 
 
 typedef struct

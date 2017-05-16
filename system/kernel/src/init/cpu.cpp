@@ -14,9 +14,9 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <init/cpu.h>
-#include <init/msr.h>
-#include <util/list.h>
+#include <init/cpu.hpp>
+#include <init/msr.hpp>
+#include <util/list.hpp>
 
 
 namespace CPU

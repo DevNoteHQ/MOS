@@ -1,6 +1,6 @@
 #include <stdnoreturn.h>
 #include <stdarg.h>
-#include <panic/panic.h>
+#include <panic/panic.hpp>
 
 void panic(const char *message, ...)
 {

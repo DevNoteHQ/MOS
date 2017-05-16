@@ -1,6 +1,6 @@
 
-#include <terminal/text.h>
-#include <memorymanagement/phy32.h>
+#include <terminal/text.hpp>
+#include <memorymanagement/phy32.hpp>
 
 #define VIDEO_BUFFER 0xB8000
 #define VGA_WIDTH  80

@@ -1,6 +1,6 @@
 
 
-#include <cpu/cpu.h>
+#include <cpu/cpu.hpp>
 
 #ifndef INTERRUPT_HANDLER_STUBS_H
 #define INTERRUPT_HANDLER_STUBS_H

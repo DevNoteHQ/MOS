@@ -3,7 +3,7 @@
  *
  */
 
-#include <memorymanagement/phy32.h>
+#include <memorymanagement/phy32.hpp>
 
 void *phy32_to_virt(void *ptr)
 {

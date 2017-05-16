@@ -12,10 +12,13 @@ LD = $(ARCH)-ld
 SRCDIR = src
 OBJDIR = obj
 BINDIR = bin
+DEPDIR = dep
 
 INCPATHSNP = $(SRCDIR) ../../include
 INCPATHS = $(addprefix -I ,$(INCPATHSNP))
-INCLUDES = stddef.h stdint.h string.h types.h assembler.h abort.h
+STDINCLUDES = stddef.h stdint.h
+MOSINCLUDES = string.hpp types.hpp assembler.hpp abort.hpp
+INCLUDES = $(STDINCLUDES) $(MOSINCLUDES)
 INCLUDE = $(addprefix -include ,$(INCLUDES))
 
 CINCFLAGS = $(INCPATHS) $(INCLUDE)
@@ -51,33 +54,34 @@ OBJS_asm = $(addprefix $(OBJDIR)/,$(SRCS_asm:$(SRCDIR)/%.asm=%_asm.o))
 
 OBJS = $(OBJS_c) $(OBJS_cpp) $(OBJS_cpp_isr) $(OBJS_S) $(OBJS_asm)
 rm = rm -f -r
+mk = mkdir -p
 
 $(BINDIR)/$(TARGET): $(OBJS)
-	@mkdir -p $(@D)
+	$(mk) $(@D)
 	$(LD) $(OBJS) $(LDFLAGS) -o $@
 
 $(OBJDIR)/%_c.o : $(SRCDIR)/%.c
-	@mkdir -p $(@D)
+	$(mk) $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 	
 $(OBJDIR)/%_cpp.o : $(SRCDIR)/%.cpp
-	@mkdir -p $(@D)
+	$(mk) $(@D)
 	$(CPP) $(CPPFLAGS) -c $< -o $@
 
 $(OBJDIR)/%_isr_cpp.o : $(SRCDIR)/%_isr.cpp
-	@mkdir -p $(@D)
+	$(mk) $(@D)
 	$(CPP) $(CPPFLAGS) $(INTRFLAGS) -c $< -o $@
 
 $(OBJDIR)/%_S.o : $(SRCDIR)/%.S
-	@mkdir -p $(@D)
+	$(mk) $(@D)
 	$(CC) $(GASFLAGS) -c $< -o $@
 	
 $(OBJDIR)/%_asm.o : $(SRCDIR)/%.asm
-	@mkdir -p $(@D)
+	$(mk) $(@D)
 	$(ASM) $(NASFLAGS) $< -o $@
 
 .PHONY: clean
 clean:
 	$(rm) $(OBJS)
 	$(rm) $(OBJDIR)
-	mkdir $(OBJDIR)
+	$(mk) $(OBJDIR)

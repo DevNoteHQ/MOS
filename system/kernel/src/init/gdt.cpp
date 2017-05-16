@@ -1,8 +1,8 @@
 // Used for creating GDT segment descriptors in 64-bit integer form.
 
-#include <init/gdt.h>
-//#include <init/msr.h>
-//#include <init/cpu.h>
+#include <init/gdt.hpp>
+//#include <init/msr.hpp>
+//#include <init/cpu.hpp>
 
 // Each define here is for a specific flag in the descriptor.
 // Refer to the intel documentation for a description of what each one does.
@@ -36,7 +36,7 @@
                      SEG_PRIV(0)     | SEG_CODE_EXRD
 
 #define GDT_DATA_PL0 SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
-                     SEG_LONG(0)     | SEG_SIZE(1) | SEG_GRAN(1) | \
+                     SEG_LONG(0)     | SEG_SIZE(0) | SEG_GRAN(1) | \
                      SEG_PRIV(0)     | SEG_DATA_RDWR
 
 #define GDT_CODE_PL3 SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
@@ -44,7 +44,7 @@
                      SEG_PRIV(3)     | SEG_CODE_EXRD
 
 #define GDT_DATA_PL3 SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
-                     SEG_LONG(0)     | SEG_SIZE(1) | SEG_GRAN(1) | \
+                     SEG_LONG(0)     | SEG_SIZE(0) | SEG_GRAN(1) | \
                      SEG_PRIV(3)     | SEG_DATA_RDWR
 
 
@@ -52,9 +52,8 @@
 
 namespace GDT
 {
-	static uint64_t gdt[GDT_ENTRIES];
-
-	static void set(int i, uint32_t base, uint32_t limit, uint16_t flag)
+	uint64_t *gdt = &GDT64;
+	void set(int i, uint32_t base, uint32_t limit, uint16_t flag)
 	{
 		// Create the high 32 bit segment
 		gdt[i] = limit & 0x000F0000;         // set limit bits 19:16
@@ -73,14 +72,14 @@ namespace GDT
 	void init(void)
 	{
 		set(0, 0, 0, 0);
-		set(1, 0, 0x00FFFFFF, (GDT_CODE_PL0));
-		set(2, 0, 0x00FFFFFF, (GDT_DATA_PL0));
-		set(3, 0, 0x00FFFFFF, (GDT_CODE_PL3));
-		set(4, 0, 0x00FFFFFF, (GDT_DATA_PL3));
+		set(1, 0, 0x000FFFFF, (GDT_CODE_PL0));
+		set(2, 0, 0x000FFFFF, (GDT_DATA_PL0));
+		set(3, 0, 0x000FFFFF, (GDT_CODE_PL3));
+		set(4, 0, 0x000FFFFF, (GDT_DATA_PL3));
 
 		GDTR_t gdtr;
 		gdtr.limit = GDT_ENTRIES * 8 - 1;
-		gdtr.pointer = (uint64_t) &gdt;
+		gdtr.pointer = gdt;
 
 		reload(&gdtr, 0x0008, 0x0010);
 	}

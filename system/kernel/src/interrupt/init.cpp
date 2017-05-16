@@ -1,6 +1,6 @@
 
-#include <interrupt/init.h>
-#include <cpu/CPUID.h>
+#include <interrupt/init.hpp>
+#include <cpu/CPUID.hpp>
 
 namespace Interrupt
 {

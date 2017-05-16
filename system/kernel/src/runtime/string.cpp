@@ -3,7 +3,7 @@
 
 extern "C"
 {
-	#include <string.h>
+	#include <string.hpp>
 	
 	size_t strlen(const char *s)
 	{

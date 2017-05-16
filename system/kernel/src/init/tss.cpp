@@ -14,8 +14,8 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <init/tss.h>
-#include <init/cpu.h>
+#include <init/tss.hpp>
+#include <init/cpu.hpp>
 
 
 namespace TSS

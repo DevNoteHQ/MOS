@@ -17,9 +17,9 @@
 #ifndef INIT_CPU_H
 #define INIT_CPU_H
 
-#include <init/gdt.h>
-#include <init/tss.h>
-#include <util/list.h>
+#include <init/gdt.hpp>
+#include <init/tss.hpp>
+#include <util/list.hpp>
 
 namespace CPU
 {

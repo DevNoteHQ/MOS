@@ -5,17 +5,15 @@
 
 //Kernel Includes:
 
-#include <scheduler/scheduler.h>
-#include <memorymanagement/phy32.h>
-#include <terminal/text.h>
+#include <scheduler/scheduler.hpp>
+#include <memorymanagement/phy32.hpp>
+#include <terminal/text.hpp>
 #include <multiboot.h>
-#include <init/gdt.h>
-#include <init/cpu.h>
-#include <init/idt.h>
-#include <init/msr.h>
-#include <init/tss.h>
-#include <interrupt/apic.h>
-#include <interrupt/init.h>
+#include <init/idt.hpp>
+#include <init/msr.hpp>
+#include <init/tss.hpp>
+#include <interrupt/apic.hpp>
+#include <interrupt/init.hpp>
 
 #define CPU_COUNT 8
 
@@ -32,14 +30,8 @@ void kernel_main(void)
 
 extern "C"
 {
-	void init(uint32_t magic, multiboot_t *multiboot)
+	void init()
 	{
-		multiboot = phy32_to_virt(multiboot);
-
-		CPU::init();
-
-		//GDT::init();
-		//TSS::init();
 		IDT::init();
 
 		Text::init();

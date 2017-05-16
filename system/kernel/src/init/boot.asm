@@ -210,8 +210,8 @@ start:
 	cli
 	; move the info GRUB passes us into the registers used for the main() call
 	; later on
-	mov edi, eax
-	mov esi, ebx
+	; mov edi, eax
+	; mov esi, ebx
 
 	mov eax, 0x80000000    ; Set the A-register to 0x80000000.
     cpuid                  ; CPU identification.

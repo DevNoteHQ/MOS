@@ -36,10 +36,11 @@ namespace GDT
 	typedef struct GDTR_t
 	{
 		uint16_t limit;
-		uint64_t *pointer;
+		uint64_t pointer;
 	} __attribute__((__packed__));
 
 	void init(void);
+	extern "C" uint64_t GDT64;
 	extern "C" void reload(uint64_t gdtr, uint16_t cs, uint16_t ds);
 }
 

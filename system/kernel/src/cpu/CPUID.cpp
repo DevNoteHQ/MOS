@@ -1,5 +1,5 @@
 
-#include <cpu/CPUID.h>
+#include <cpu/CPUID.hpp>
 
 uint32_t unused;
 

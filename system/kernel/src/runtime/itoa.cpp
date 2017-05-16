@@ -3,7 +3,7 @@
 
 extern "C"
 {
-	#include <string.h>
+	#include <string.hpp>
 	
 	void itoa(char *buf, unsigned long int n, int base)
 	{

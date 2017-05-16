@@ -14,34 +14,12 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef INIT_TSS_H
-#define INIT_TSS_H
+#include <panic/panic.hpp>
 
-namespace TSS
-{
-	typedef struct TSS_t
-	{
-		uint32_t reserved0;
-		uint64_t rsp0;
-		uint64_t rsp1;
-		uint64_t rsp2;
-		uint64_t reserved1;
-		uint64_t ist1;
-		uint64_t ist2;
-		uint64_t ist3;
-		uint64_t ist4;
-		uint64_t ist5;
-		uint64_t ist6;
-		uint64_t ist7;
-		uint64_t reserved2;
-		uint16_t reserved3;
-		uint16_t iomap_base;
-	} __attribute__((__packed__));
+#define static_assert _Static_assert
 
-	extern TSS_t Default;
-	void init(void);
-	void set_rsp0(uint64_t rsp0);
-	extern "C" void tss_install(uint16_t selector);
-}
-
+#ifdef NDEBUG
+#define assert(expr) ((void) 0)
+#else
+#define assert(expr) ((expr) ? ((void) 0) : panic("%s:%d: %s: Assertion `%s' failed", __FILE__, __LINE__, __func__, #expr))
 #endif
