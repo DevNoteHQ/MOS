@@ -53,6 +53,11 @@ OBJS_S = $(addprefix $(OBJDIR)/,$(SRCS_S:$(SRCDIR)/%.S=%_S.o))
 OBJS_asm = $(addprefix $(OBJDIR)/,$(SRCS_asm:$(SRCDIR)/%.asm=%_asm.o))
 
 OBJS = $(OBJS_c) $(OBJS_cpp) $(OBJS_cpp_isr) $(OBJS_S) $(OBJS_asm)
+
+DEPS =  -MD -MP -MT $@ -MF $(subst obj,dep, $(addsuffix .d,$(basename $@)))
+
+OLDDEPS = $(shell find $(DEPDIR)/* -name '*.d')
+
 rm = rm -f -r
 mk = mkdir -p
 
@@ -60,17 +65,22 @@ $(BINDIR)/$(TARGET): $(OBJS)
 	$(mk) $(@D)
 	$(LD) $(OBJS) $(LDFLAGS) -o $@
 
+include $(OLDDEPS)
+
 $(OBJDIR)/%_c.o : $(SRCDIR)/%.c
 	$(mk) $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(mk) $(subst obj,dep,$(@D))
+	$(CC) $(CFLAGS) $(DEPS) -c $< -o $@
 	
 $(OBJDIR)/%_cpp.o : $(SRCDIR)/%.cpp
 	$(mk) $(@D)
-	$(CPP) $(CPPFLAGS) -c $< -o $@
+	$(mk) $(subst obj,dep,$(@D))
+	$(CPP) $(CPPFLAGS) $(DEPS) -c $< -o $@
 
 $(OBJDIR)/%_isr_cpp.o : $(SRCDIR)/%_isr.cpp
 	$(mk) $(@D)
-	$(CPP) $(CPPFLAGS) $(INTRFLAGS) -c $< -o $@
+	$(mk) $(subst obj,dep,$(@D))
+	$(CPP) $(CPPFLAGS) $(INTRFLAGS) $(DEPS) -c $< -o $@
 
 $(OBJDIR)/%_S.o : $(SRCDIR)/%.S
 	$(mk) $(@D)
@@ -82,6 +92,7 @@ $(OBJDIR)/%_asm.o : $(SRCDIR)/%.asm
 
 .PHONY: clean
 clean:
-	$(rm) $(OBJS)
 	$(rm) $(OBJDIR)
 	$(mk) $(OBJDIR)
+	$(rm) $(DEPDIR)
+	$(mk) $(DEPDIR)

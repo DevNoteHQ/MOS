@@ -14,8 +14,17 @@ AR = $(ARCH)-ar
 SRCDIR = src
 OBJDIR = obj
 BINDIR = ../../include
+DEPDIR = dep
 
-INCFLAGS = -I $(SRCDIR) -I ../../include -include types.hpp
+INCPATHSNP = $(SRCDIR) ../../include
+INCPATHS = $(addprefix -I ,$(INCPATHSNP))
+STDINCLUDES = stddef.h stdint.h
+MOSINCLUDES = string.hpp types.hpp assembler.hpp abort.hpp
+INCLUDES = $(STDINCLUDES) $(MOSINCLUDES)
+INCLUDE = $(addprefix -include ,$(INCLUDES))
+
+INCFLAGS = $(INCPATHS) $(INCLUDE)
+
 FFLAGS = -ffreestanding -fno-exceptions -fno-rtti 
 64FLAGS = -mcmodel=kernel -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -mno-sse3 -mno-3dnow
 WFLAGS = -pedantic -Wall -Wextra -Wno-unused-parameter
@@ -39,22 +48,33 @@ OBJS_S = $(addprefix $(OBJDIR)/,$(SRCS_S:$(SRCDIR)/%.S=%_S.o))
 OBJS_asm = $(addprefix $(OBJDIR)/,$(SRCS_asm:$(SRCDIR)/%.asm=%_asm.o))
 
 OBJS = $(OBJS_c) $(OBJS_cpp) $(OBJS_S) $(OBJS_asm) $(OBJS_cc)
+
+DEPS =  -MD -MP -MT $@ -MF $(subst obj,dep, $(addsuffix .d,$(basename $@)))
+
+OLDDEPS = $(shell find $(DEPDIR)/* -name '*.d')
+
 rm = rm -f -r
+mk = mkdir -p
 
 $(BINDIR)/$(TARGET): $(OBJS)
 	$(AR) rcs $@ $(OBJS)
 
+include $(OLDDEPS)
+
 $(OBJDIR)/%_c.o : $(SRCDIR)/%.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(mk) $(subst obj,dep,$(@D))
+	$(CC) $(CFLAGS) $(DEPS) -c $< -o $@
 	
 $(OBJDIR)/%_cpp.o : $(SRCDIR)/%.cpp
 	@mkdir -p $(@D)
-	$(CPP) $(CPPFLAGS) -c $< -o $@
+	$(mk) $(subst obj,dep,$(@D))
+	$(CPP) $(CPPFLAGS) $(DEPS) -c $< -o $@
 	
 $(OBJDIR)/%_cc.o : $(SRCDIR)/%.cc
 	@mkdir -p $(@D)
-	$(CPP) $(CPPFLAGS) -c $< -o $@
+	$(mk) $(subst obj,dep,$(@D))
+	$(CPP) $(CPPFLAGS) $(DEPS) -c $< -o $@
 
 $(OBJDIR)/%_S.o : $(SRCDIR)/%.S
 	@mkdir -p $(@D)
@@ -66,8 +86,7 @@ $(OBJDIR)/%_asm.o : $(SRCDIR)/%.asm
 
 .PHONY: clean
 clean:
-	$(rm) $(OBJS)
-	
-.PHONY: remove
-remove:
-	$(rm) $(BINDIR)/$(TARGET)
+	$(rm) $(OBJDIR)
+	$(mk) $(OBJDIR)
+	$(rm) $(DEPDIR)
+	$(mk) $(DEPDIR)

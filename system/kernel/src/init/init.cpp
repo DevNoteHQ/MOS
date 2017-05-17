@@ -30,8 +30,10 @@ void kernel_main(void)
 
 extern "C"
 {
-	void init()
+	void init(uint32_t magic, multiboot_t *multiboot)
 	{
+		multiboot = phy32_to_virt(multiboot);
+
 		IDT::init();
 
 		Text::init();

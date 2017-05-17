@@ -1,11 +1,14 @@
 {
   "ExpandedNodes": [
     "",
+    "\\libs",
+    "\\libs\\bfunwind",
+    "\\libs\\libcxxrt",
+    "\\libs\\MOSLib",
     "\\system",
     "\\system\\kernel",
-    "\\system\\kernel\\src",
-    "\\system\\kernel\\src\\init"
+    "\\system\\kernel\\src"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\init\\msr.hpp",
+  "SelectedNode": "\\libs\\bfunwind\\makefile",
   "PreviewInSolutionExplorer": false
 }
