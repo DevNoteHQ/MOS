@@ -39,8 +39,8 @@ namespace GDT
 		uint64_t pointer;
 	} __attribute__((__packed__));
 
-	void init(void);
-	extern "C" uint64_t GDT64;
+	void remake(void);
+	extern uint64_t GDT64;
 	extern "C" void reload(uint64_t gdtr, uint16_t cs, uint16_t ds);
 }
 

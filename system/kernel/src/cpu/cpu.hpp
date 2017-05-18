@@ -2,6 +2,9 @@
 #ifndef CPU_CPU_H
 #define CPU_CPU_H
 
+
+
+
 namespace CPU
 {
 	typedef struct State {

@@ -10,8 +10,9 @@
 #include <terminal/text.hpp>
 #include <multiboot.h>
 #include <init/idt.hpp>
-#include <init/msr.hpp>
+#include <init/gdt.hpp>
 #include <init/tss.hpp>
+#include <cpu/msr.hpp>
 #include <interrupt/apic.hpp>
 #include <interrupt/init.hpp>
 
@@ -35,6 +36,9 @@ extern "C"
 		multiboot = phy32_to_virt(multiboot);
 
 		IDT::init();
+		asm volatile("sti");
+		GDT::remake();
+		//TSS::init();
 
 		Text::init();
 

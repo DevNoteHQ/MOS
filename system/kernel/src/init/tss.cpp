@@ -15,18 +15,15 @@
  */
 
 #include <init/tss.hpp>
-#include <init/cpu.hpp>
 
+#define SLTR_TSS	0x0028
 
 namespace TSS
 {
 	TSS_t Default;
+	TSS_t *tss = &Default;
 	void init(void)
 	{
-		/* find this CPU's TSS */
-		CPU::cpu_t *cpu = CPU::cpu_get();
-		TSS_t *tss = &cpu->tss;
-
 		/* reset all the fields */
 		memset(tss, 0, sizeof(*tss));
 		tss->iomap_base = sizeof(*tss);
@@ -37,11 +34,6 @@ namespace TSS
 
 	void set_rsp0(uint64_t rsp0)
 	{
-		/* find this CPU's TSS */
-		CPU::cpu_t *cpu = CPU::cpu_get();
-		TSS_t *tss = &cpu->tss;
-
-		/* set the stack pointer for this CPU */
 		tss->rsp0 = rsp0;
 	}
 }

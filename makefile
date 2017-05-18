@@ -42,3 +42,7 @@ mount:
 	cp grub/grub.cfg isodir/boot/grub/grub.cfg
 	grub-mkrescue -o isodir/mos.iso isodir
 	./Multiboot.sh
+
+run:
+	export DISPLAY=:0
+	./QEMU.sh
