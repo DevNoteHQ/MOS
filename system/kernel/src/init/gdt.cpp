@@ -1,8 +1,8 @@
 // Used for creating GDT segment descriptors in 64-bit integer form.
 
 #include <init/gdt.hpp>
-//#include <init/msr.hpp>
-//#include <init/cpu.hpp>
+#include <init/tss.hpp>
+#include <cpu/msr.hpp>
 
 // Each define here is for a specific flag in the descriptor.
 // Refer to the intel documentation for a description of what each one does.
@@ -49,9 +49,16 @@
 
 
 #define GDT_ENTRIES 5
+#define TSS_ENTRIES 1 //Temporary until i can get CPU-Count and set a Entry for each CPU
+#define ENTRIES 6 //Temporary until i can get CPU-Count and set a Entry for each CPU
+
+#define TSS_FLAG 0x89
+
+#define TSS_LIMIT 0x67 //Temporary until TSS has a Size
 
 namespace GDT
 {
+	uint64_t GDT64 = 0;
 	uint64_t *gdt = &GDT64;
 	void set(int i, uint32_t base, uint32_t limit, uint16_t flag)
 	{
@@ -69,19 +76,30 @@ namespace GDT
 		gdt[i] |= limit & 0x0000FFFF;               // set limit bits 15:0
 	}
 
-	void init(void)
+	void remake(void)
 	{
+		memset(gdt, 0, ENTRIES);
+
+		uint64_t tss_base = (uint64_t)TSS::tss;
+		uint64_t tss_limit = sizeof(*TSS::tss);
+
 		set(0, 0, 0, 0);
 		set(1, 0, 0x000FFFFF, (GDT_CODE_PL0));
 		set(2, 0, 0x000FFFFF, (GDT_DATA_PL0));
 		set(3, 0, 0x000FFFFF, (GDT_CODE_PL3));
 		set(4, 0, 0x000FFFFF, (GDT_DATA_PL3));
+		set(5, (uint32_t)tss_base, TSS_LIMIT, TSS_FLAG);
+
+		uint64_t gs_base = msr_read(MSR_GS_BASE);
 
 		GDTR_t gdtr;
-		gdtr.limit = GDT_ENTRIES * 8 - 1;
+		gdtr.limit = ENTRIES * 8 - 1;
 		gdtr.pointer = gdt;
 
 		reload(&gdtr, 0x0008, 0x0010);
+
+		msr_write(MSR_GS_BASE, gs_base);
+		msr_write(MSR_GS_KERNEL_BASE, gs_base);
 	}
 }
 
