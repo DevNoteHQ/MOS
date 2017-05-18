@@ -1,14 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\libs",
-    "\\libs\\bfunwind",
-    "\\libs\\libcxxrt",
-    "\\libs\\MOSLib",
     "\\system",
     "\\system\\kernel",
     "\\system\\kernel\\src"
   ],
-  "SelectedNode": "\\libs\\bfunwind\\makefile",
+  "SelectedNode": "\\system\\kernel\\src\\interrupt",
   "PreviewInSolutionExplorer": false
 }

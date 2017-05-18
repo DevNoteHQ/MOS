@@ -50,7 +50,7 @@
 
 #define GDT_ENTRIES 5
 #define TSS_ENTRIES 1 //Temporary until i can get CPU-Count and set a Entry for each CPU
-#define ENTRIES 6 //Temporary until i can get CPU-Count and set a Entry for each CPU
+#define ENTRIES 5 //Temporary until i can get CPU-Count and set a Entry for each CPU
 
 #define TSS_FLAG 0x89
 
@@ -88,7 +88,7 @@ namespace GDT
 		set(2, 0, 0x000FFFFF, (GDT_DATA_PL0));
 		set(3, 0, 0x000FFFFF, (GDT_CODE_PL3));
 		set(4, 0, 0x000FFFFF, (GDT_DATA_PL3));
-		set(5, (uint32_t)tss_base, TSS_LIMIT, TSS_FLAG);
+		//set(5, (uint32_t)tss_base, TSS_LIMIT, TSS_FLAG);
 
 		uint64_t gs_base = msr_read(MSR_GS_BASE);
 

@@ -5,6 +5,6 @@
 
 void CoprocessorSegmentOverrun(CPU::State *state)
 {
-	Text::Clear();
+	//Text::Clear();
 	Text::Simple::Write("FAULT: Coporcessor Segment Overrun!");
 }

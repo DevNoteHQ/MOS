@@ -25,8 +25,8 @@ namespace TSS
 	void init(void)
 	{
 		/* reset all the fields */
-		memset(tss, 0, sizeof(*tss));
-		tss->iomap_base = sizeof(*tss);
+		memset(tss, 0, sizeof(TSS_t));
+		tss->iomap_base = sizeof(TSS_t);
 
 		/* install it using the LTR instruction */
 		tss_install(SLTR_TSS);

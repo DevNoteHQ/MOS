@@ -4,6 +4,6 @@
 
 void DivideByZero(CPU::State *state)
 {
-	Text::Clear();
+	//Text::Clear();
 	Text::Simple::Write("FAULT: Divide By Zero!");
 }

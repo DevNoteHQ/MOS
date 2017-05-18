@@ -5,6 +5,6 @@
 
 void SecuritySensitiveEvent(CPU::State *state, uint64_t error)
 {
-	Text::Clear();
+	//Text::Clear();
 	Text::Simple::Write("FAULT: Security-sensitive Event in Host!");
 }

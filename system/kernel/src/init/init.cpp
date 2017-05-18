@@ -20,7 +20,9 @@
 
 void kernel_main(void)
 {
-	Text::Simple::Write("Hello Fault!");
+	asm volatile("int $0x00");
+
+	Text::Simple::Write(" Hello Fault!");
 
 	scheduler CPU[CPU_COUNT];
 	for(int i = 0; i < CPU_COUNT; i++)
@@ -35,15 +37,15 @@ extern "C"
 	{
 		multiboot = phy32_to_virt(multiboot);
 
-		IDT::init();
-		asm volatile("sti");
 		GDT::remake();
+		IDT::init();
 		//TSS::init();
 
 		Text::init();
 
 		Interrupt::APIC::init();
 
+		asm volatile("sti");
 		kernel_main();
 	}
 }

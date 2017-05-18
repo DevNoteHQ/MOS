@@ -5,6 +5,6 @@
 
 void MachineCheck(CPU::State *state)
 {
-	Text::Clear();
+	//Text::Clear();
 	Text::Simple::Write("FAULT: Machine Check!");
 }

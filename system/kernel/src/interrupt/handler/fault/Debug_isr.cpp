@@ -5,6 +5,6 @@
 
 void Debug(CPU::State *state)
 {
-	Text::Clear();
+	//Text::Clear();
 	Text::Simple::Write("FAULT: Debug!");
 }
