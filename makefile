@@ -45,4 +45,4 @@ mount:
 
 run:
 	export DISPLAY=:0
-	./QEMU.sh
+	qemu-system-x86_64 -cdrom isodir/mos.iso
