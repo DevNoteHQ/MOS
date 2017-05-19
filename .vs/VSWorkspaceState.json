@@ -3,8 +3,9 @@
     "",
     "\\system",
     "\\system\\kernel",
-    "\\system\\kernel\\src"
+    "\\system\\kernel\\src",
+    "\\system\\kernel\\src\\init"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\interrupt",
+  "SelectedNode": "\\system\\kernel\\src\\init\\idt.hpp",
   "PreviewInSolutionExplorer": false
 }

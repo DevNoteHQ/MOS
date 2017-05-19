@@ -29,6 +29,10 @@ void kernel_main(void)
 	{
 		CPU[i].init();
 	}
+	while (true)
+	{
+
+	}
 }
 
 extern "C"
@@ -45,7 +49,7 @@ extern "C"
 
 		Interrupt::APIC::init();
 
-		asm volatile("sti");
+		//asm volatile("sti");
 		kernel_main();
 	}
 }
