@@ -10,6 +10,8 @@ namespace Text
 	// Leeren des Bildschirms, die Größe beträgt 80x25 Zeichen
 	void Clear();
 
+	void ClearBuffer();
+
 	// Textausgabe
 	void Write(const char* s);
 

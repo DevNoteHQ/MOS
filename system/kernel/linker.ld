@@ -1,33 +1,35 @@
 /*
- * Copyright (c) 2011-2014 Graham Edgecombe <graham@grahamedgecombe.com>
+ *  Original:
+ *  Copyright(c) 2011 - 2014 Graham Edgecombe <graham@grahamedgecombe.com>
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
  */
 
 OUTPUT_FORMAT(elf64-x86-64)
 ENTRY(start)
 
 PAGE_SIZE  = 0x1000;
-KERNEL_VMA = 0xFFFFFFFF80000000;
 UPPER_MEM  = 0x100000;
 
 SECTIONS
 {
 	. = UPPER_MEM;
-	_start = . + KERNEL_VMA;
+	_start = . ;
 
-	.init :
+	.multiboot :
 	{
-		*(.initl)
+		*(.multiboot)
 	}
 
-	. += KERNEL_VMA;
-
-	.text ALIGN(PAGE_SIZE) : AT(ADDR(.text) - KERNEL_VMA)
+	.text ALIGN(PAGE_SIZE) :
 	{
-		*(.inith)
 		*(.text)
+		*(.rodata)
 	}
 
-	.data ALIGN(PAGE_SIZE) : AT(ADDR(.data) - KERNEL_VMA)
+	.data ALIGN(PAGE_SIZE) :
 	{
 		start_ctors = .;
 		*(.ctor*)
@@ -38,17 +40,12 @@ SECTIONS
 		*(.data)
 	}
 
-	.rodata ALIGN(PAGE_SIZE) : AT(ADDR(.rodata) - KERNEL_VMA)
+	.bss :
 	{
-		*(.rodata)
-	}
-
-	.bss ALIGN(PAGE_SIZE) : AT(ADDR(.bss) - KERNEL_VMA)
-	{
-		sbss = .;
+		_sbss = .;
 		*(COMMON)
 		*(.bss)
-		ebss = .;
+		_ebss = .;
 	}
 
 	_end = .;

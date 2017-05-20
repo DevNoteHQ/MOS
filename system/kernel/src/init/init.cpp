@@ -6,7 +6,7 @@
 //Kernel Includes:
 
 #include <scheduler/scheduler.hpp>
-#include <mm/phy32.hpp>
+#include <mm/vmm.hpp>
 #include <terminal/text.hpp>
 #include <multiboot.h>
 #include <init/idt.hpp>
@@ -18,11 +18,17 @@
 
 #define CPU_COUNT 8
 
+#define PL2P 0xFFFFFFFFC0000000
+
 void kernel_main(void)
 {
-	asm volatile("int $0x00");
+	for (int i; i < 300; i++)
+	{
+		Text::Write("Hello! ");
+	}
 
-	Text::Simple::Write(" Hello Fault!");
+	//Paging::init();
+	abort();
 
 	scheduler CPU[CPU_COUNT];
 	for(int i = 0; i < CPU_COUNT; i++)
@@ -39,8 +45,7 @@ extern "C"
 {
 	void init(uint32_t magic, multiboot_t *multiboot)
 	{
-		multiboot = phy32_to_virt(multiboot);
-
+		//multiboot = phy32_to_virt(multiboot);
 		GDT::remake();
 		IDT::init();
 		//TSS::init();

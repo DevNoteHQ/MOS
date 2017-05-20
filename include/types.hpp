@@ -19,6 +19,8 @@ typedef uint32_t cpu_lapic_id_t;
 
 typedef uint8_t ioapic_id_t;
 
+//C++ Types
+
 #ifdef __cplusplus
 
 enum class Color

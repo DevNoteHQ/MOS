@@ -1,29 +1,28 @@
 
 #include <terminal/text.hpp>
-#include <mm/phy32.hpp>
 
 #define VIDEO_BUFFER 0xB8000
 #define VGA_WIDTH  80
 #define VGA_HEIGHT 25
 #define PAGES 5
 
-
 namespace Text
 {
 	uint16_t iColor = 0;
 	uint16_t *iVideo = 0;
-	uint16_t iVideo_Buff[VGA_WIDTH * VGA_HEIGHT * PAGES];
-	uint iX = 0;
-	uint iY = 0;
-	uint iScroll = 0;
-	uint iMoved = 0;
-	uint iPageRows = PAGES * VGA_HEIGHT;
-	bool bMoved = false;
+	uint16_t iVideo_Buff[VGA_HEIGHT + 1][VGA_WIDTH];
+	uint16_t iX = 0;
+	uint16_t iY = 0;
+	uint16_t iBY = 0;
+	uint16_t iMoved = 0;
 
 	void init()
 	{
-		iVideo = (uint16_t*)aphy32_to_virt(VIDEO_BUFFER);
+		iVideo = VIDEO_BUFFER;
 		Clear();
+		ClearBuffer();
+		iX = 0;
+		iY = 0;
 		ForegroundColor(Color::White);
 		BackgroundColor(Color::Black);
 	}
@@ -31,17 +30,18 @@ namespace Text
 	void Clear()
 	{
 		// Füllen des Bildschirms mit Leerzeichen
-		for (int i = 0; i < (VGA_WIDTH * VGA_HEIGHT); i++)
+		for (uint32_t i = 0; i < (VGA_WIDTH * VGA_HEIGHT); i++)
 		{
 			iVideo[i] = (unsigned char)' ' | iColor;
 		}
-		for (int i = 0; i < (VGA_WIDTH * VGA_HEIGHT * PAGES); i++)
+	}
+	void ClearBuffer()
+	{
+		for (uint16_t iYC = 0; iYC < VGA_HEIGHT; iYC++)
 		{
-			iVideo_Buff[i] = (unsigned char)' ' | iColor;
+			for (uint16_t iXC = 0; iXC < VGA_WIDTH; iXC++)
+				iVideo_Buff[iYC][iXC] = (unsigned char)' ' | iColor;
 		}
-		// Zurücksetzen der Textausgabe nach links oben
-		iX = 0;
-		iY = 0;
 	}
 
 	void Write(const char* s)
@@ -63,49 +63,56 @@ namespace Text
 
 	void Putc(char cC)
 	{
-		int tmp;
-
-		if (iY >= VGA_HEIGHT)
+		if (iY >= VGA_HEIGHT - 1)
 		{
-			if ((iX >= VGA_WIDTH))
+			if (iX >= VGA_WIDTH)
 			{
 				iX = 0;
-				if (iScroll < iPageRows)
+				iMoved++;
+				iBY++;
+				if (iMoved >= VGA_HEIGHT)
 				{
-					iScroll++;
-				}
-				else
-				{
-					iMoved++;
+					iMoved = 0;
 				}
 				Scroll();
 			}
 		}
 		else
 		{
-			if ((iX >= VGA_WIDTH))
+			if (iX >= VGA_WIDTH)
 			{
 				iX = 0;
 				iY++;
-				iScroll++;
+				iBY++;
 			}
 		}
+		if (iBY >= VGA_HEIGHT)
+		{
+			iBY = 0;
+		}
 		iVideo[iX + VGA_WIDTH * iY] = (uint16_t)cC | iColor;
-		iVideo_Buff[iX + VGA_WIDTH * iScroll++] = (uint16_t)cC | iColor;
+		iVideo_Buff[iBY][iX] = (uint16_t)cC | iColor;
 		iX++;
 	}
 
-	void Scroll()
+	void Scroll(void)
 	{
-		uint iSCount = iMoved * VGA_WIDTH;
-		uint iCount = 0;
-		for (; (iCount < VGA_WIDTH * VGA_HEIGHT) && (iSCount < VGA_WIDTH * VGA_HEIGHT); iCount++, iSCount++)
+		uint16_t iYSC = iMoved;
+		uint16_t iYC = 0;
+		uint16_t iXC = 0;
+		for (iXC = 0; iXC < VGA_WIDTH; iXC++)
 		{
-			iVideo[iCount] = iVideo_Buff[iSCount + iScroll * VGA_WIDTH];
+			iVideo_Buff[iMoved - 1][iXC] = (unsigned char)' ' | iColor;
 		}
-		for (iSCount = 0; (iCount < VGA_WIDTH * VGA_HEIGHT) && (iSCount < iMoved * VGA_WIDTH); iCount++, iSCount++)
+		for (; (iYC < VGA_HEIGHT) && (iYSC < VGA_HEIGHT); iYC++, iYSC++)
 		{
-			iVideo[iCount] = iVideo_Buff[iSCount + iScroll * VGA_WIDTH];
+			for(iXC = 0; iXC < VGA_WIDTH; iXC++)
+				iVideo[iYC * VGA_WIDTH + iXC] = iVideo_Buff[iYSC][iXC];
+		}
+		for (iYSC = 0; (iYC < VGA_HEIGHT) && (iYSC < VGA_HEIGHT); iYC++, iYSC++)
+		{
+			for (iXC = 0; iXC < VGA_WIDTH; iXC++)
+				iVideo[iYC * VGA_WIDTH + iXC] = iVideo_Buff[iYSC][iXC];
 		}
 	}
 }
