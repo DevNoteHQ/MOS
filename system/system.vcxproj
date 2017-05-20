@@ -67,40 +67,79 @@
     <NMakeOutput>-</NMakeOutput>
     <NMakeCleanCommandLine>-</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>-</NMakeReBuildCommandLine>
-    <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>-</NMakePreprocessorDefinitions>
+    <OutDir>-</OutDir>
+    <IntDir>-</IntDir>
+    <ExecutablePath>-</ExecutablePath>
+    <IncludePath>D:\Coding\OSDev\MOS\include;D:\Coding\OSDev\MOS\system\kernel\src</IncludePath>
+    <ReferencePath>-</ReferencePath>
+    <LibraryPath>-</LibraryPath>
+    <LibraryWPath>-</LibraryWPath>
+    <ExcludePath>-</ExcludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NMakeBuildCommandLine>-</NMakeBuildCommandLine>
     <NMakeOutput>-</NMakeOutput>
     <NMakeCleanCommandLine>-</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>-</NMakeReBuildCommandLine>
-    <NMakePreprocessorDefinitions>_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <OutDir />
-    <IntDir />
-    <ExecutablePath />
-    <IncludePath>D:\Coding\OSDev\MOS\system\kernel\src; D:\Coding\OSDev\MOS\include</IncludePath>
-    <ReferencePath />
-    <LibraryPath />
-    <LibraryWPath />
-    <ExcludePath />
+    <NMakePreprocessorDefinitions>-</NMakePreprocessorDefinitions>
+    <OutDir>-</OutDir>
+    <IntDir>-</IntDir>
+    <ExecutablePath>-</ExecutablePath>
+    <IncludePath>D:\Coding\OSDev\MOS\include;D:\Coding\OSDev\MOS\system\kernel\src</IncludePath>
+    <ReferencePath>-</ReferencePath>
+    <LibraryPath>-</LibraryPath>
+    <LibraryWPath>-</LibraryWPath>
+    <ExcludePath>-</ExcludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakeBuildCommandLine>-</NMakeBuildCommandLine>
     <NMakeOutput>-</NMakeOutput>
     <NMakeCleanCommandLine>-</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>-</NMakeReBuildCommandLine>
-    <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>-</NMakePreprocessorDefinitions>
+    <OutDir>-</OutDir>
+    <IntDir>-</IntDir>
+    <ExecutablePath>-</ExecutablePath>
+    <IncludePath>D:\Coding\OSDev\MOS\include;D:\Coding\OSDev\MOS\system\kernel\src</IncludePath>
+    <ReferencePath>-</ReferencePath>
+    <LibraryPath>-</LibraryPath>
+    <LibraryWPath>-</LibraryWPath>
+    <ExcludePath>-</ExcludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <NMakeBuildCommandLine>-</NMakeBuildCommandLine>
     <NMakeOutput>-</NMakeOutput>
     <NMakeCleanCommandLine>-</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>-</NMakeReBuildCommandLine>
-    <NMakePreprocessorDefinitions>NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>-</NMakePreprocessorDefinitions>
+    <OutDir>-</OutDir>
+    <IntDir>-</IntDir>
+    <ExecutablePath>-</ExecutablePath>
+    <IncludePath>D:\Coding\OSDev\MOS\include;D:\Coding\OSDev\MOS\system\kernel\src</IncludePath>
+    <ReferencePath>-</ReferencePath>
+    <LibraryPath>-</LibraryPath>
+    <LibraryWPath>-</LibraryWPath>
+    <ExcludePath>-</ExcludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <BuildLog>
-      <Path />
+      <Path>-</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <BuildLog>
+      <Path>-</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <BuildLog>
+      <Path>-</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <BuildLog>
+      <Path>-</Path>
     </BuildLog>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -33,11 +33,11 @@
 
 namespace GDT
 {
-	typedef struct GDTR_t
+	typedef struct
 	{
 		uint16_t limit;
 		uint64_t pointer;
-	} __attribute__((__packed__));
+	} __attribute__((__packed__)) GDTR_t;
 
 	void remake(void);
 	extern uint64_t GDT64;

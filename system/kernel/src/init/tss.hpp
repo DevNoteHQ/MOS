@@ -19,7 +19,7 @@
 
 namespace TSS
 {
-	typedef struct TSS_t
+	typedef struct
 	{
 		uint32_t reserved0;
 		uint64_t rsp0;
@@ -36,7 +36,7 @@ namespace TSS
 		uint64_t reserved2;
 		uint16_t reserved3;
 		uint16_t iomap_base;
-	} __attribute__((__packed__));
+	} __attribute__((__packed__)) TSS_t;
 
 
 	extern TSS_t Default;

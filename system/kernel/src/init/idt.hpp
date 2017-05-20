@@ -4,7 +4,7 @@
 
 namespace IDT
 {
-	typedef struct Descriptor 
+	typedef struct
 	{
 		uint16_t offset_1; // offset bits 0..15
 		uint16_t selector; // a code segment selector in GDT or LDT
@@ -13,12 +13,12 @@ namespace IDT
 		uint16_t offset_2; // offset bits 16..31
 		uint32_t offset_3; // offset bits 32..63
 		uint32_t zero;     // reserved
-	} __attribute__((packed));
-	typedef struct IDTR_t
+	} __attribute__((packed)) Descriptor;
+	typedef struct
 	{
 		uint16_t len;
 		uint64_t addr;
-	} __attribute__((packed));
+	} __attribute__((packed)) IDTR_t;
 
 	void init(void);
 	void set(Descriptor *descriptor, void(*handler)(struct cpu_state *state), uint8_t flags);

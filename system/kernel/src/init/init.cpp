@@ -6,7 +6,7 @@
 //Kernel Includes:
 
 #include <scheduler/scheduler.hpp>
-#include <memorymanagement/phy32.hpp>
+#include <mm/phy32.hpp>
 #include <terminal/text.hpp>
 #include <multiboot.h>
 #include <init/idt.hpp>

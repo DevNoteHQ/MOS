@@ -1,6 +1,6 @@
+
 #ifndef TERMINAL_TEXT_H
 #define TERMINAL_TEXT_H
-
 
 namespace Text
 {

@@ -7,7 +7,7 @@
 
 namespace CPU
 {
-	typedef struct State {
+	typedef struct{
 		// Von Hand gesicherte Register
 		uint64_t r15;
 		uint64_t r14;
@@ -31,7 +31,7 @@ namespace CPU
 		uint64_t   rflags;
 		uint64_t   rsp;
 		uint64_t   ss;
-	} __attribute__((__packed__));
+	} __attribute__((__packed__)) State;
 }
 
 #endif

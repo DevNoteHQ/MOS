@@ -4,7 +4,8 @@ DIRS := $(patsubst ./%,%,$(FDIRS))
 DIRSNBIN := $(patsubst .%,%,$(DIRS))
 DIRSNDEB := $(filter-out Debug,$(DIRSNBIN))
 DIRSNOBJ := $(filter-out obj,$(DIRSNDEB))
-MODULES := $(filter-out bin,$(DIRSNOBJ))
+DIRSNTRA := $(filter-out -,$(DIRSNOBJ))
+MODULES := $(filter-out bin,$(DIRSNTRA))
 
 .PHONY: all clean $(MODULES)
 
