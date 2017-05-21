@@ -111,17 +111,10 @@ start:
 
 	mov DWORD [edi], 0x2003      ; Set the uint32_t at the destination index to 0x2003.
     add edi, 0x1000              ; Add 0x1000 to the destination index.
-    mov DWORD [edi], 0x3003      ; Set the uint32_t at the destination index to 0x3003.
-    add edi, 0x1000              ; Add 0x1000 to the destination index.
 
-	mov ebx, 0x00000083			; Set the B-register to 0x000000083. 0x83 = PS = 1 (=> 2MiB Page) R/W = 1, P = 1
-    mov ecx, 256				; Set the C-register to 256.
+	mov ebx, 0x00000083			; Set the B-register to 0x000000083. 0x83 = PS = 1 (=> 1GiB Page) R/W = 1, P = 1
  
-.SetEntry:
 	mov DWORD [edi], ebx		; Set the uint32_t at the destination index to the B-register.
-	add ebx, 0x200000			; Add 0x1000 to the B-register.
-	add edi, 8					; Add eight to the destination index.
-	loop .SetEntry				; Set the next entry.
 
 	mov eax, cr4				; Set the A-register to control register 4.
 	or eax, 1 << 5				; Set the PAE-bit, which is the 6th bit (bit 5).

@@ -2,35 +2,40 @@
 #include <mm/vmm.hpp>
 #include <common.hpp>
 
-#define PL2E 512 //512 --> 512 * 2MB Pages per PL3 Entry --> 512 * 16 * 2MB Pages per Process
-#define PL3E 16  //16 --> 16 GB max Pages per Process. 512 is just to big.
-#define PL4E 512 //512 --> PID of the running process --> 512 processes possible
+#define PL2E  512 //512 --> 512 * 2MB Pages per PL3 Entry --> 512 * 16 * 2MB Pages per Process
+#define PL3E  32  //32  --> 32 GB max per process
+#define PL3KE 512 //512 --> 512 GB address space for the kernel
+#define PL4E  512 //512 --> PID of the running process --> 512 processes possible without adding another PML4T
 
 #define SIZE2M 0x000200000
 #define SIZE1G 0x040000000
 
-#define PG_PRESENT   0x1
-#define PG_WRITABLE  0x2
-#define PG_USER      0x4
-#define PG_BIG       0x80
-#define PG_NO_EXEC   0x8000000000000000
-#define PG_ADDR_MASK 0xFFFFFFFFFF000
+#define PG_PRESENT		0x1
+#define PG_WRITABLE		0x2
+#define PG_USER			0x4
+#define PG_BIG			0x80
+#define PG_NO_EXEC		0x8000000000000000
+#define PG_ADDR_MASK	0xFFFFFFFFFF000
 
-#define Proc_Kernel_VMA		0x000003E0000000 //The kernels base addres in each Process
+#define Proc_Kernel_VMA	0x000003E0000000 //The kernels base addres in each Process
 
-#define PL2P 0x1F400000
-#define PL3P 0x1FA00000
-#define PL4P 0x1FC00000
+#define PL4P	0x7E00000 //Position of the global PML4T
+
+#define ALIGN	512 //Each entry has to be 4K aligned. Each entry is a uint64_t -> 8Bytes per Address -> PL4[1] = 8 + PL4[0] -> 8Bytes * 512 = 4096
 
 namespace Paging
 {
-	uint64_t *PL2 = PL2P;
-	uint64_t *PL3 = PL3P;
 	uint64_t *PL4 = PL4P;
-
+	uint64_t *PL3 = PL4P + 8 * ALIGN; //The address has to be 4K aligned --> set it with 8 * ALIGN
 	void init(void)
 	{
-		
-		//SetCR3((uint64_t) PL4);
+		PL4[(PL4E - 1) * ALIGN] = (((uint64_t) PL4) | PG_WRITABLE | PG_PRESENT);
+		PL4[0] = (((uint64_t) PL3) | PG_WRITABLE | PG_PRESENT);
+		for (uint64_t i = 0; i < (PL4E - 2); i++)
+		{
+			PL3[i * ALIGN] = (((uint64_t) i * SIZE1G) | PG_WRITABLE | PG_PRESENT | PG_BIG);
+		}
+		SetCR3((uint64_t) PL4);
+		//asm volatile("mov %0, %%cr3" : : "r" (PL4));
 	}
 }

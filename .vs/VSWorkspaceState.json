@@ -4,8 +4,8 @@
     "\\system",
     "\\system\\kernel",
     "\\system\\kernel\\src",
-    "\\system\\kernel\\src\\terminal"
+    "\\system\\kernel\\src\\init"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\terminal\\text.hpp",
+  "SelectedNode": "\\system\\kernel\\src\\init\\boot.asm",
   "PreviewInSolutionExplorer": false
 }

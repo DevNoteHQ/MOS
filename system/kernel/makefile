@@ -21,6 +21,9 @@ MOSINCLUDES = string.hpp types.hpp assembler.hpp abort.hpp
 INCLUDES = $(STDINCLUDES) $(MOSINCLUDES)
 INCLUDE = $(addprefix -include ,$(INCLUDES))
 
+LIBDIR = -L../../include/ -L../../../cross/lib/gcc/x86_64-elf/7.1.0/
+LIBS = -lgcc -lMOS
+
 CINCFLAGS = $(INCPATHS) $(INCLUDE)
 CFFLAGS = -ffreestanding -fno-stack-protector -fno-builtin
 C64FLAGS = -mcmodel=kernel -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -mno-sse3 -mno-3dnow
@@ -35,9 +38,9 @@ INTRFLAGS = -mgeneral-regs-only
 
 NASFLAGS = -f elf64
 GASFLAGS = 
-CPPFLAGS = -m64 $(CPP64FLAGS) $(CPPINCFLAGS) $(CPPFFLAGS) $(CPPWFLAGS) -std=gnu++14 -O2 -nostdlib -nostartfiles -lgcc
-CFLAGS = -m64 $(C64FLAGS) $(CINCFLAGS) $(CFFLAGS) $(CWFLAGS) -std=gnu11 -O2 -nostdlib -nostartfiles -lgcc
-LDFLAGS = -T linker.ld -O2 -z max-page-size=0x1000
+CPPFLAGS = -m64 $(CPP64FLAGS) $(CPPINCFLAGS) $(CPPFFLAGS) $(CPPWFLAGS) $(LIBDIR) $(LIBS) -std=gnu++14 -O2 -nostdlib -nostartfiles
+CFLAGS = -m64 $(C64FLAGS) $(CINCFLAGS) $(CFFLAGS) $(CWFLAGS) $(LIBDIR) $(LIBS) -std=gnu11 -O2 -nostdlib -nostartfiles
+LDFLAGS = -T linker.ld -O2 -z max-page-size=0x1000 $(LIBDIR) $(LIBS)
 
 SRCS_c = $(shell find $(SRCDIR)/* -name '*.c')
 SRCS_cpp = $(shell find $(SRCDIR)/* -name '*.cpp')
@@ -96,3 +99,4 @@ clean:
 	$(mk) $(OBJDIR)
 	$(rm) $(DEPDIR)
 	$(mk) $(DEPDIR)
+	

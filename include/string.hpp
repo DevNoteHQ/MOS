@@ -1,12 +1,6 @@
-/*	Copyright (c) 1988 AT&T	*/
-/*	  All Rights Reserved  	*/
 
-/*	THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF AT&T	*/
-/*	The copyright notice above does not evidence any   	*/
-/*	actual or intended publication of such source code.	*/
-
-#ifndef _STRING_H
-#define	_STRING_H
+#ifndef C_STRING_H
+#define	C_STRING_H
 
 //#include <sys/feature_tests.h>
 
