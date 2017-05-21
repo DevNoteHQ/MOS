@@ -15,7 +15,8 @@
 #include <cpu/msr.hpp>
 #include <interrupt/apic.hpp>
 #include <interrupt/init.hpp>
-//#include <libMOS.hpp> TODO: Get the link to the lib working
+#include <libMOS/convert/convert.hpp>
+//#include <libMOS.hpp> //TODO: Get the link to the lib working
 
 #define CPU_COUNT 8
 
@@ -23,10 +24,12 @@ namespace main
 {
 	void kernel_main(void)
 	{
-		for (int i; i < 300; i++)
-		{
-			Text::Write("Hello! ");
-		}
+		Converter Convert;
+		uint64_t iInt = 100;
+		Text::Write(Convert.ToString(iInt));
+		Text::Write(" Hello!");
+
+		abort();
 
 		scheduler CPUscheduler[CPU_COUNT];
 		for (int i = 0; i < CPU_COUNT; i++)

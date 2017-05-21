@@ -56,32 +56,33 @@ rm = rm -f -r
 mk = mkdir -p
 
 $(BINDIR)/$(TARGET): $(OBJS)
+	$(mk) $(@D)
 	$(AR) rcs $@ $(OBJS)
 	cp $(BINDIR)/$(TARGET) ../../include/$(TARGET)
 
 include $(OLDDEPS)
 
 $(OBJDIR)/%_c.o : $(SRCDIR)/%.c
-	@mkdir -p $(@D)
+	$(mk)$(@D)
 	$(mk) $(subst obj,dep,$(@D))
 	$(CC) $(CFLAGS) $(DEPS) -c $< -o $@
 	
 $(OBJDIR)/%_cpp.o : $(SRCDIR)/%.cpp
-	@mkdir -p $(@D)
+	$(mk)$(@D)
 	$(mk) $(subst obj,dep,$(@D))
 	$(CPP) $(CPPFLAGS) $(DEPS) -c $< -o $@
 	
 $(OBJDIR)/%_cc.o : $(SRCDIR)/%.cc
-	@mkdir -p $(@D)
+	$(mk)$(@D)
 	$(mk) $(subst obj,dep,$(@D))
 	$(CPP) $(CPPFLAGS) $(DEPS) -c $< -o $@
 
 $(OBJDIR)/%_S.o : $(SRCDIR)/%.S
-	@mkdir -p $(@D)
+	$(mk)$(@D)
 	$(AS) $(GASFLAGS) -c $< -o $@
 	
 $(OBJDIR)/%_asm.o : $(SRCDIR)/%.asm
-	@mkdir -p $(@D)
+	$(mk)$(@D)
 	$(ASM) $(NASFLAGS) $< -o $@
 
 .PHONY: clean

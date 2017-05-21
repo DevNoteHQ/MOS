@@ -4,8 +4,10 @@
     "\\system",
     "\\system\\kernel",
     "\\system\\kernel\\src",
-    "\\system\\kernel\\src\\init"
+    "\\system\\kernel\\src\\libMOS",
+    "\\system\\kernel\\src\\libMOS\\base",
+    "\\system\\kernel\\src\\runtime"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\init\\boot.asm",
+  "SelectedNode": "\\system\\kernel\\src\\runtime\\itoa.cpp",
   "PreviewInSolutionExplorer": false
 }

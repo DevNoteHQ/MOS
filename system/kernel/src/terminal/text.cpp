@@ -1,5 +1,6 @@
 
 #include <terminal/text.hpp>
+#include <assembler.hpp>
 
 #define VIDEO_BUFFER 0xB8000
 #define VGA_WIDTH  80
@@ -35,6 +36,17 @@ namespace Text
 			iVideo[i] = (unsigned char)' ' | iColor;
 		}
 	}
+
+	void Cursor()
+	{
+		// The screen is 80 characters wide...
+		uint16_t iCursor = iY * 80 + iX;
+		Assembler::IO::outb(0x3D4, 14);					// Tell the VGA board we are setting the high cursor byte.
+		Assembler::IO::outb(0x3D5, iCursor >> 8);		// Send the high cursor byte.
+		Assembler::IO::outb(0x3D4, 15);					// Tell the VGA board we are setting the low cursor byte.
+		Assembler::IO::outb(0x3D5, iCursor);			// Send the low cursor byte.
+	}
+
 	void ClearBuffer()
 	{
 		for (uint16_t iYC = 0; iYC < VGA_HEIGHT; iYC++)
@@ -93,6 +105,7 @@ namespace Text
 		iVideo[iX + VGA_WIDTH * iY] = (uint16_t)cC | iColor;
 		iVideo_Buff[iBY][iX] = (uint16_t)cC | iColor;
 		iX++;
+		Cursor();
 	}
 
 	void Scroll(void)

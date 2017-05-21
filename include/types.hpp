@@ -1,3 +1,4 @@
+
 #ifndef TYPESC_H
 #define TYPESC_H
 
@@ -9,7 +10,7 @@ typedef unsigned short 	ushort;
 typedef unsigned int 	uint;
 typedef unsigned long long 	ulong;
 
-typedef unsigned char byte;
+typedef unsigned char Byte;
 
 typedef uint32_t irq_t;
 typedef uint8_t intr_t;

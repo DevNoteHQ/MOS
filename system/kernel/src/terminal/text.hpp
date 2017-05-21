@@ -12,6 +12,8 @@ namespace Text
 
 	void ClearBuffer();
 
+	void Cursor();
+
 	// Textausgabe
 	void Write(const char* s);
 
