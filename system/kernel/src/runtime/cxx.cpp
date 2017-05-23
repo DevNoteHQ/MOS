@@ -64,13 +64,13 @@ void __attribute__((noreturn)) __stack_chk_fail()
 
 void operator delete(void *ptr) 
 {
-		kfree(ptr);
+	free(ptr);
 }
 
 #ifndef __arm__
 void* operator new(size_t len) 
 {
-	return (void*)kmalloc(len);
+	return (void*)malloc(len);
 }
 
 void operator delete[](void *ptr) 
@@ -88,7 +88,7 @@ void* operator new[](size_t len)
 	
 void* operator new(size_t len) 
 {
-	return (void*)kmalloc(len);
+	return (void*)malloc(len);
 }
 
 void operator delete[](void *ptr) 

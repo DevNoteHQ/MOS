@@ -9,7 +9,7 @@ string::string()
 
 string::string(char *str)
 {
-	cstr = new char[strlen(str)];
+	cstr = new char[strlen(str) + 1];
 	strcpy(cstr, str);
 }
 

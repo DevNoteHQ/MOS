@@ -8,7 +8,7 @@
 #include <scheduler/scheduler.hpp>
 #include <mm/vmm.hpp>
 #include <terminal/text.hpp>
-#include <multiboot.h>
+#include <multiboot.hpp>
 #include <init/idt.hpp>
 #include <init/gdt.hpp>
 #include <init/tss.hpp>
@@ -20,13 +20,12 @@
 
 #define CPU_COUNT 8
 
-namespace main
+namespace System
 {
 	void kernel_main(void)
 	{
-		Converter Convert;
 		uint64_t iInt = 100;
-		Text::Write(Convert.ToString(iInt));
+		Text::Write(Convert::ToString(iInt));
 		Text::Write(" Hello!");
 
 		abort();

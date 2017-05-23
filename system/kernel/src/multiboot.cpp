@@ -14,7 +14,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <multiboot.h>
+#include <multiboot.hpp>
 
 multiboot_tag_t *multiboot_get(multiboot_t *multiboot, uint32_t type)
 {

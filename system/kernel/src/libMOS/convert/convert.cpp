@@ -1,7 +1,7 @@
 
 #include "convert.hpp"
 
-char* Converter::ToString(uint64_t iC)
+static char* Convert::ToString(uint64_t iC)
 {
 	char sString[] = "                    ";
 	Byte iBuffer = 0;

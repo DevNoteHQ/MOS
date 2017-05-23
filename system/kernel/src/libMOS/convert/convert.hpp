@@ -2,10 +2,10 @@
 #ifndef CONVERT_HPP
 #define CONVERT_HPP
 
-class Converter
+class Convert
 {
 public:
-	char* ToString(uint64_t iC);
+	static char* ToString(uint64_t iC);
 };
 
 #endif
