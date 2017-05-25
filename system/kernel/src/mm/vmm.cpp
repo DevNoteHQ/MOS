@@ -17,7 +17,7 @@
 #define PG_NO_EXEC		0x8000000000000000
 #define PG_ADDR_MASK	0xFFFFFFFFFF000
 
-#define Proc_Kernel_VMA	0x000003E0000000 //The kernels base addres in each Process
+#define Proc_Kernel_VMA	0x000003E0000000 //The kernels base addres in each Process TODO: Change to PML4[510]
 
 #define PL4P	0x7E00000 //Position of the global PML4T
 
@@ -39,3 +39,5 @@ namespace Paging
 		//asm volatile("mov %0, %%cr3" : : "r" (PL4));
 	}
 }
+
+//TODO: Setup Lower Half and Higher Half --> switch to Higher Half --> delete Lower Half Page entry

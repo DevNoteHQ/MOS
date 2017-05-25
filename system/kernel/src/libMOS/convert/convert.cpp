@@ -1,17 +1,18 @@
 
 #include "convert.hpp"
 
-static char* Convert::ToString(uint64_t iC)
+static void Convert::OldToString(uint64_t iC, char sString[])
 {
-	char sString[] = "                    ";
-	Byte iBuffer = 0;
+	char sBuffer[20];
 	int iX = 0;
 	for (iX = 0; iC > 0; iX++)
 	{
-		iBuffer = iC % 10;
+		sBuffer[iX] = iC % 10 + '0';
 		iC /= 10;
-		sString[iX] = iBuffer + 48;
 	}
-	sString[iX] = '\0';
-	return sString;
+	iX--;
+	for (int iY = 0; iX >= 0; iX--, iY++)
+	{
+		sString[iY] = sBuffer[iX];
+	}
 }

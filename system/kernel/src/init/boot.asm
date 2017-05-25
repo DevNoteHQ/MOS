@@ -89,8 +89,8 @@ start:
 	cli
 	mov edi, eax
 	mov esi, ebx
-	; push edi
-	; push esi
+	push edi
+	push esi
 
 	mov eax, 0x80000000    ; Set the A-register to 0x80000000.
 	cpuid                  ; CPU identification.
@@ -128,6 +128,9 @@ start:
 	mov eax, cr0                 ; Set the A-register to control register 0.
 	or eax, 1 << 31              ; Set the PG-bit, which is the 32nd bit (bit 31).
 	mov cr0, eax                 ; Set control register 0 to the A-register.
+
+	pop esi
+	pop edi
 
 	lgdt [GDT64.Pointer]         ; Load the 64-bit global descriptor table.
 	jmp GDT64.Code:Realm64       ; Set the code segment and enter 64-bit long mode.

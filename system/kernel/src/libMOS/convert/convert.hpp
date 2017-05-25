@@ -5,7 +5,8 @@
 class Convert
 {
 public:
-	static char* ToString(uint64_t iC);
+	static void OldToString(uint64_t iC, char sString[20]);
+	//static string ToString(uint64_t iC);
 };
 
 #endif

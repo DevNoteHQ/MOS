@@ -24,8 +24,10 @@ namespace System
 {
 	void kernel_main(void)
 	{
-		uint64_t iInt = 100;
-		Text::Write(Convert::ToString(iInt));
+		uint64_t iInt = 150;
+		char sZahl[20];
+		Convert::OldToString(iInt, sZahl);
+		Text::Write(sZahl);
 		Text::Write(" Hello!");
 
 		abort();
@@ -45,12 +47,13 @@ namespace System
 	{
 		void init(uint32_t magic, multiboot_t *multiboot)
 		{
+			abort();
+			Paging::init();
+
 			//multiboot = phy32_to_virt(multiboot);
 			GDT::remake();
 			IDT::init();
 			//TSS::init();
-
-			Paging::init();
 
 			Text::init();
 
