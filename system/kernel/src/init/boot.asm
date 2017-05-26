@@ -117,9 +117,9 @@ start:
 	add edi, 0x1000					; Add 0x1000 to the destination index.
 	mov DWORD [edi], ebx			; Set the uint32_t at the destination index to the B-register.
 
-	mov edi, 0x7FFE000				; Set the destination index to 0x1000.
+	mov edi, 0x7E00FF0				; Set the destination index to 0x1000.
 	mov DWORD [edi], 0x7E01003		; Set the uint32_t at the destination index to 0x7E01003. This is for HVMA
-    add edi, 0x1000					; Add 0x1000 to the destination index.
+    add edi, 0x8					; Add 0x8 to the destination index.
 	mov DWORD [edi], 0x7E00003		; Set the uint32_t at the destination index to 0x7E00003. This is for recrusive mapping
 
 	mov eax, cr4				; Set the A-register to control register 4.
@@ -183,7 +183,8 @@ start:
 		call [rbx]
 		add rbx,4
 	.test:
-		cmp rbx, end_ctors
+		mov r8, end_ctors
+		cmp rbx, r8
 		jb .body
 		push rbx
 		call init                      ; call kernel proper
@@ -195,7 +196,8 @@ start:
 		call [rbx]
 		add rbx,4
 	.test:
-		cmp rbx, end_dtors
+		mov r9, end_dtors
+		cmp rbx, r9
 		jb .body
 
 	jmp abort

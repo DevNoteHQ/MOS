@@ -24,12 +24,12 @@ SECTIONS
 
 	.data ALIGN(0x1000) : AT(ADDR(.data) - HVMA)
 	{
-		start_ctors = . - HVMA;
+		start_ctors = .;
 		*(.ctor*)
-		end_ctors = . - HVMA;
-		start_dtors = . - HVMA;
+		end_ctors = .;
+		start_dtors = .;
 		*(.dtor*)
-		end_dtors = . - HVMA;
+		end_dtors = .;
 		*(.data)
 	}
 

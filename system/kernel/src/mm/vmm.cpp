@@ -29,14 +29,26 @@ namespace Paging
 	uint64_t *PL3 = PL4P + 8 * ALIGN; //The address has to be 4K aligned --> set it with 8 * ALIGN
 	void init(void)
 	{
-		PL4[(PL4E - 1) * ALIGN] = (((uint64_t) PL4) | PG_WRITABLE | PG_PRESENT);
-		PL4[(PL4E - 2) * ALIGN] = (((uint64_t) PL3) | PG_WRITABLE | PG_PRESENT);
+		PL4[PL4E - 1] = (((uint64_t) PL4) | PG_WRITABLE | PG_PRESENT);
+		PL4[PL4E - 2] = (((uint64_t) PL3) | PG_WRITABLE | PG_PRESENT);
 		PL4[0] = (((uint64_t) PL3) | PG_WRITABLE | PG_PRESENT);
-		for (uint64_t i = 0; i < 500; i++)
+		for (uint64_t i = 0; i < 512; i++)
 		{
-			PL3[i * ALIGN] = (((uint64_t) i * SIZE1G) | PG_WRITABLE | PG_PRESENT | PG_BIG);
+			PL3[i] = (((uint64_t) i * SIZE1G) | PG_WRITABLE | PG_PRESENT | PG_BIG);
 		}
 		SetCR3((uint64_t) PL4);
+	}
+	
+	void *ToVMA_V(void *addr)
+	{
+		uintptr_t iAddr = (uintptr_t)addr;
+		iAddr += HVMA;
+		return (void *)iAddr;
+	}
+
+	uintptr_t ToVMA_I(uintptr_t addr)
+	{
+		return addr + HVMA;
 	}
 }
 

@@ -1,4 +1,5 @@
 
+#include <mm/vmm.hpp>
 #include <terminal/text.hpp>
 #include <assembler.hpp>
 
@@ -10,7 +11,7 @@
 namespace Text
 {
 	uint16_t iColor = 0;
-	uint16_t *iVideo = VIDEO_BUFFER;
+	uint16_t *iVideo = 0;
 	uint16_t iVideo_Buff[VGA_HEIGHT][VGA_WIDTH];
 	uint16_t iX = 0;
 	uint16_t iY = 0;
@@ -19,6 +20,7 @@ namespace Text
 
 	void init()
 	{
+		iVideo = Paging::ToVMA_I(VIDEO_BUFFER);
 		ForegroundColor(Color::White);
 		BackgroundColor(Color::Black);
 		iX = 0;
