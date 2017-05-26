@@ -10,8 +10,8 @@
 namespace Text
 {
 	uint16_t iColor = 0;
-	uint16_t *iVideo = 0;
-	uint16_t iVideo_Buff[VGA_HEIGHT + 1][VGA_WIDTH];
+	uint16_t *iVideo = VIDEO_BUFFER;
+	uint16_t iVideo_Buff[VGA_HEIGHT][VGA_WIDTH];
 	uint16_t iX = 0;
 	uint16_t iY = 0;
 	uint16_t iBY = 0;
@@ -19,13 +19,12 @@ namespace Text
 
 	void init()
 	{
-		iVideo = VIDEO_BUFFER;
-		Clear();
-		ClearBuffer();
-		iX = 0;
-		iY = 0;
 		ForegroundColor(Color::White);
 		BackgroundColor(Color::Black);
+		iX = 0;
+		iY = 0;
+		Clear();
+		ClearBuffer();
 	}
 
 	void Clear()
@@ -37,6 +36,15 @@ namespace Text
 		}
 	}
 
+	void ClearBuffer()
+	{
+		for (uint16_t iYC = 0; iYC < VGA_HEIGHT; iYC++)
+		{
+			for (uint16_t iXC = 0; iXC < VGA_WIDTH; iXC++)
+				iVideo_Buff[iYC][iXC] = (unsigned char)' ' | iColor;
+		}
+	}
+
 	void Cursor()
 	{
 		// The screen is 80 characters wide...
@@ -45,15 +53,6 @@ namespace Text
 		Assembler::IO::outb(0x3D5, iCursor >> 8);		// Send the high cursor byte.
 		Assembler::IO::outb(0x3D4, 15);					// Tell the VGA board we are setting the low cursor byte.
 		Assembler::IO::outb(0x3D5, iCursor);			// Send the low cursor byte.
-	}
-
-	void ClearBuffer()
-	{
-		for (uint16_t iYC = 0; iYC < VGA_HEIGHT; iYC++)
-		{
-			for (uint16_t iXC = 0; iXC < VGA_WIDTH; iXC++)
-				iVideo_Buff[iYC][iXC] = (unsigned char)' ' | iColor;
-		}
 	}
 
 	void Write(const char* s)
@@ -143,8 +142,6 @@ namespace Text
 
 		void Putc(char cC)
 		{
-			int tmp;
-
 			if ((iX >= VGA_WIDTH))
 			{
 				iX = 0;
@@ -156,6 +153,7 @@ namespace Text
 			}
 			iVideo[iX + VGA_WIDTH * iY] = (uint16_t)cC | iColor;
 			iX++;
+			Cursor();
 		}
 	}
 }

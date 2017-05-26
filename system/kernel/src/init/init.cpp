@@ -24,13 +24,10 @@ namespace System
 {
 	void kernel_main(void)
 	{
-		uint64_t iInt = 150;
 		char sZahl[20];
+		uint64_t iInt = (uint64_t) Paging::PL4[510 * 512];
 		Convert::OldToString(iInt, sZahl);
 		Text::Write(sZahl);
-		Text::Write(" Hello!");
-
-		abort();
 
 		scheduler CPUscheduler[CPU_COUNT];
 		for (int i = 0; i < CPU_COUNT; i++)
@@ -39,7 +36,7 @@ namespace System
 		}
 		while (true)
 		{
-
+			asm volatile("hlt");
 		}
 	}
 
@@ -47,7 +44,6 @@ namespace System
 	{
 		void init(uint32_t magic, multiboot_t *multiboot)
 		{
-			abort();
 			Paging::init();
 
 			//multiboot = phy32_to_virt(multiboot);

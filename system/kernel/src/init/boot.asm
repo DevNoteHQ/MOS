@@ -7,6 +7,10 @@
 [extern start_dtors]
 [extern end_dtors]
 
+STACKSIZE  equ 0x4000
+
+HVMA equ 0xFFFFFF0000000000
+
 ; multiboot flag bitmasks
 MB_FLAGS_ALIGN equ 0x1
 MB_FLAGS_MMAP  equ 0x2
@@ -24,7 +28,7 @@ MB_INFO_MODULES   equ 3
 MB_INFO_MMAP      equ 6
 
 ; includes initialization code and lower-half data
-[section .multiboot align=MB_ALIGN]
+[section .initl align=MB_ALIGN]
 ; the multiboot header
 mb_hdr_start:
 	dd MB_MAGIC
@@ -53,8 +57,8 @@ mb_hdr_start:
 	mb_tag_terminator_end:
 mb_hdr_end:
 
-[section .data]
 align 0x1000
+
 GDT64:                           ; Global Descriptor Table (64-bit).
     .Null: equ $ - GDT64         ; The null descriptor.
     dw 0                         ; Limit (low).
@@ -81,8 +85,6 @@ GDT64:                           ; Global Descriptor Table (64-bit).
     dw $ - GDT64 - 1             ; Limit.
     dq GDT64                     ; Base.
 
-[section .text]
-STACKSIZE  equ 0x4000
 
 [global start]
 start:
@@ -102,19 +104,23 @@ start:
 	test edx, 1 << 29      ; Test if the LM-bit, which is bit 29, is set in the D-register.
 	jz .NoLongMode         ; They aren't, there is no long mode.
 
-	mov edi, 0x1000			; Set the destination index to 0x1000.
+	mov edi, 0x7E00000		; Set the destination index to 0x7E00000.
     mov cr3, edi			; Set control register 3 to the destination index.
     xor eax, eax			; Nullify the A-register.
     mov ecx, 4096			; Set the C-register to 4096.
     rep stosd				; Clear the memory.
     mov edi, cr3			; Set the destination index to control register 3.
 
-	mov DWORD [edi], 0x2003      ; Set the uint32_t at the destination index to 0x2003.
-    add edi, 0x1000              ; Add 0x1000 to the destination index.
+	mov DWORD [edi], 0x7E01003		; Set the uint32_t at the destination index to 0x7E01003.
 
-	mov ebx, 0x00000083			; Set the B-register to 0x000000083. 0x83 = PS = 1 (=> 1GiB Page) R/W = 1, P = 1
- 
-	mov DWORD [edi], ebx		; Set the uint32_t at the destination index to the B-register.
+	mov ebx, 0x00000083				; Set the B-register to 0x000000083. 0x83 = PS = 1 (=> 1GiB Page) R/W = 1, P = 1
+	add edi, 0x1000					; Add 0x1000 to the destination index.
+	mov DWORD [edi], ebx			; Set the uint32_t at the destination index to the B-register.
+
+	mov edi, 0x7FFE000				; Set the destination index to 0x1000.
+	mov DWORD [edi], 0x7E01003		; Set the uint32_t at the destination index to 0x7E01003. This is for HVMA
+    add edi, 0x1000					; Add 0x1000 to the destination index.
+	mov DWORD [edi], 0x7E00003		; Set the uint32_t at the destination index to 0x7E00003. This is for recrusive mapping
 
 	mov eax, cr4				; Set the A-register to control register 4.
 	or eax, 1 << 5				; Set the PAE-bit, which is the 6th bit (bit 5).
@@ -132,23 +138,38 @@ start:
 	pop esi
 	pop edi
 
-	lgdt [GDT64.Pointer]         ; Load the 64-bit global descriptor table.
-	jmp GDT64.Code:Realm64       ; Set the code segment and enter 64-bit long mode.
+	lgdt [GDT64.Pointer]			; Load the 64-bit global descriptor table.
+	mov ax, 0x10
+	mov ss, ax
+	mov ax, 0x0
+	mov ds, ax
+	mov es, ax
+	mov fs, ax
+	mov gs, ax
+
+	jmp GDT64.Code:.trampoline      ; Set the code segment and enter 64-bit long mode.
 
 .NoLongMode:
 	cli
 	hlt
 
 [BITS 64]
-Realm64:
-	cli                           ; Clear the interrupt flag.
-	mov ax, GDT64.Data            ; Set the A-register to the data descriptor.
-	mov ds, ax                    ; Set the data segment to the A-register.
-	mov es, ax                    ; Set the extra segment to the A-register.
-	mov fs, ax                    ; Set the F-segment to the A-register.
-	mov gs, ax                    ; Set the G-segment to the A-register.
-	mov ss, ax                    ; Set the stack segment to the A-register.
-	
+.trampoline:
+	; enter the higher half
+	mov rax, QWORD .Realm64
+	jmp rax
+
+[section .inith]
+.Realm64:
+	cli		; Clear the interrupt flag.
+
+	mov rax, [GDT64.Pointer + 2]
+	mov rbx, HVMA
+	add rax, rbx
+	mov [GDT64.Pointer  + 2], rax
+	mov rax, GDT64.Pointer + HVMA
+	lgdt [rax]
+
 	mov rsp, stack+STACKSIZE      ; set up the stack
 
 	; call the kernel
@@ -179,7 +200,7 @@ Realm64:
 
 	jmp abort
 
-section .bss
+[section .bss]
 align 32
 stack:
 	resb STACKSIZE

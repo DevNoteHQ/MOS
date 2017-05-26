@@ -2,34 +2,43 @@
 OUTPUT_FORMAT(elf64-x86-64)
 ENTRY(start)
 
+HVMA = 0xFFFFFF0000000000;
+
 SECTIONS
 {
 	. = 1M;
-	_start = . ;
+	_start = . + HVMA;
 
-	.multiboot :
+	.init :
 	{
-		*(.multiboot)
+		*(.initl)
 	}
 
-	.text ALIGN(0x1000) :
+	. += HVMA;
+
+	.text ALIGN(0x1000) : AT(ADDR(.text) - HVMA)
 	{
+		*(.inith)
 		*(.text)
-		*(.rodata)
 	}
 
-	.data ALIGN(0x1000) :
+	.data ALIGN(0x1000) : AT(ADDR(.data) - HVMA)
 	{
-		start_ctors = .;
+		start_ctors = . - HVMA;
 		*(.ctor*)
-		end_ctors = .;
-		start_dtors = .;
+		end_ctors = . - HVMA;
+		start_dtors = . - HVMA;
 		*(.dtor*)
-		end_dtors = .;
+		end_dtors = . - HVMA;
 		*(.data)
 	}
 
-	.bss :
+	.rodata ALIGN(0x1000) : AT(ADDR(.rodata) - HVMA)
+	{
+		*(.rodata)
+	}
+
+	.bss ALIGN(0x1000) : AT(ADDR(.bss) - HVMA)
 	{
 		_sbss = .;
 		*(COMMON)

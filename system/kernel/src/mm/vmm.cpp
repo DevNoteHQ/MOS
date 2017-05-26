@@ -17,9 +17,9 @@
 #define PG_NO_EXEC		0x8000000000000000
 #define PG_ADDR_MASK	0xFFFFFFFFFF000
 
-#define Proc_Kernel_VMA	0x000003E0000000 //The kernels base addres in each Process TODO: Change to PML4[510]
+#define HVMA 0xFFFFFF0000000000 //HVMA = Higher Virtual Memory Address
 
-#define PL4P	0x7E00000 //Position of the global PML4T
+#define PL4P	0x7E00000 //Position of the global PML4T in LVMA (PL4P = 0x7E00000 + HVMA for position in HVMA)
 
 #define ALIGN	512 //Each entry has to be 4K aligned. Each entry is a uint64_t -> 8Bytes per Address -> PL4[1] = 8 + PL4[0] -> 8Bytes * 512 = 4096
 
@@ -30,13 +30,13 @@ namespace Paging
 	void init(void)
 	{
 		PL4[(PL4E - 1) * ALIGN] = (((uint64_t) PL4) | PG_WRITABLE | PG_PRESENT);
+		PL4[(PL4E - 2) * ALIGN] = (((uint64_t) PL3) | PG_WRITABLE | PG_PRESENT);
 		PL4[0] = (((uint64_t) PL3) | PG_WRITABLE | PG_PRESENT);
-		for (uint64_t i = 0; i < (PL4E - 2); i++)
+		for (uint64_t i = 0; i < 500; i++)
 		{
 			PL3[i * ALIGN] = (((uint64_t) i * SIZE1G) | PG_WRITABLE | PG_PRESENT | PG_BIG);
 		}
 		SetCR3((uint64_t) PL4);
-		//asm volatile("mov %0, %%cr3" : : "r" (PL4));
 	}
 }
 

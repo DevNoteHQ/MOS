@@ -26,12 +26,12 @@ LIBS = -lgcc -lMOS
 
 CINCFLAGS = $(INCPATHS) $(INCLUDE)
 CFFLAGS = -ffreestanding -fno-stack-protector -fno-builtin
-C64FLAGS = -mcmodel=kernel -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -mno-sse3 -mno-3dnow
+C64FLAGS = -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -mno-sse3 -mno-3dnow
 CWFLAGS = -Wall -Wextra -Wno-unused-parameter
 
 CPPINCFLAGS = $(INCPATHS) $(INCLUDE)
 CPPFFLAGS = -ffreestanding -fno-stack-protector -fno-builtin -fpermissive -fno-rtti -fno-exceptions
-CPP64FLAGS = -mcmodel=kernel -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -mno-sse3 -mno-3dnow
+CPP64FLAGS = -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -mno-sse3 -mno-3dnow
 CPPWFLAGS = -Wall -Wextra -Wno-unused-parameter
 
 INTRFLAGS = -mgeneral-regs-only
