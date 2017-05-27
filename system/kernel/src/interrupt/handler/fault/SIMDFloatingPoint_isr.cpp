@@ -6,5 +6,5 @@
 void SIMDFloatingPoint(CPU::State *state)
 {
 	//Text::Clear();
-	Text::Simple::Write("FAULT: SIMD Floating Point!");
+	Text::WriteLine("FAULT: SIMD Floating Point!");
 }

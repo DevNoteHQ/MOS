@@ -6,5 +6,5 @@
 void BoundRange(CPU::State *state)
 {
 	//Text::Clear();
-	Text::Simple::Write("FAULT: Bound Range!");
+	Text::WriteLine("FAULT: Bound Range!");
 }

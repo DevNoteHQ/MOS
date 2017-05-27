@@ -6,5 +6,5 @@
 void InvalidTSS(CPU::State *state, uint64_t error)
 {
 	//Text::Clear();
-	Text::Simple::Write("FAULT: Invalid TSS!");
+	Text::WriteLine("FAULT: Invalid TSS!");
 }

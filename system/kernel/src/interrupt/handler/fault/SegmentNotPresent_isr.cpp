@@ -6,5 +6,5 @@
 void SegmentNotPresent(CPU::State *state, uint64_t error)
 {
 	//Text::Clear();
-	Text::Simple::Write("FAULT: Segment Not Present!");
+	Text::WriteLine("FAULT: Segment Not Present!");
 }

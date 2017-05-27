@@ -1,13 +1,14 @@
 
-
 #ifndef CPUID_CPUID_H
 #define CPUID_CPUID_H
 
 extern uint32_t unused;
 
+#define cpuid(in, a, b, c, d) __asm__("cpuid": "=a" (a), "=b" (b), "=c" (c), "=d" (d) : "a" (in));
+
 namespace CPUID
 {
-	enum F1
+	enum EAX1
 	{
 		ECX_SSE3 = 1 << 0,
 		ECX_PCLMUL = 1 << 1,
@@ -66,7 +67,5 @@ namespace CPUID
 		EDX_IA64 = 1 << 30,
 		EDX_PBE = 1 << 31
 	};
-
-	extern "C" void get(uint32_t in, uint32_t *eax, uint32_t *ebx, uint32_t *ecx, uint32_t *edx);
 }
 #endif

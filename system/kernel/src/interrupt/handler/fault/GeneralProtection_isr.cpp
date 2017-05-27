@@ -6,5 +6,5 @@
 void GeneralProtection(CPU::State *state, uint64_t error)
 {
 	//Text::Clear();
-	Text::Simple::Write("FAULT: General Protection!");
+	Text::WriteLine("FAULT: General Protection!");
 }

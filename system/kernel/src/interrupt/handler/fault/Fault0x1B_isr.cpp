@@ -6,5 +6,5 @@
 void Fault0x1B(CPU::State *state)
 {
 	//Text::Clear();
-	Text::Simple::Write("FAULT: Fault0x1B!");
+	Text::WriteLine("FAULT: Fault0x1B!");
 }

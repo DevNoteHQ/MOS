@@ -1,7 +1,8 @@
 
 #include <mm/vmm.hpp>
-#include <terminal/text.hpp>
 #include <assembler.hpp>
+
+#include "text.hpp"
 
 #define VIDEO_BUFFER 0xB8000
 #define VGA_WIDTH  80
@@ -61,7 +62,19 @@ namespace Text
 	{
 		// Für jedes einzelne Zeichen wird put() aufgerufen
 		while (*s != '\0')
+		{
 			Putc(*s++);
+		}
+	}
+
+	void WriteLine(const char* s)
+	{
+		// Für jedes einzelne Zeichen wird put() aufgerufen
+		while (*s != '\0')
+		{
+			Putc(*s++);
+		}
+		Putc('\n');
 	}
 
 	void ForegroundColor(Color color)
@@ -76,40 +89,50 @@ namespace Text
 
 	void Putc(char cC)
 	{
-		if (iY >= VGA_HEIGHT - 1)
+		switch (cC)
 		{
-			if (iX >= VGA_WIDTH)
+		case '\n':
+			iX = 0;
+			iY++;
+			Cursor();
+			break;
+		default:
+			if (iY >= VGA_HEIGHT - 1)
 			{
-				iX = 0;
-				iMoved++;
-				iBY++;
-				if (iMoved >= VGA_HEIGHT)
+				if (iX >= VGA_WIDTH)
 				{
-					iMoved = 0;
+					iX = 0;
+					iMoved++;
+					iBY++;
+					if (iMoved >= VGA_HEIGHT)
+					{
+						iMoved = 0;
+					}
+					Scroll();
 				}
-				Scroll();
 			}
-		}
-		else
-		{
-			if (iX >= VGA_WIDTH)
+			else
 			{
-				iX = 0;
-				iY++;
-				iBY++;
+				if (iX >= VGA_WIDTH)
+				{
+					iX = 0;
+					iY++;
+					iBY++;
+				}
 			}
+			if (iBY >= VGA_HEIGHT)
+			{
+				iBY = 0;
+			}
+			iVideo[iX + VGA_WIDTH * iY] = (uint16_t)cC | iColor;
+			iVideo_Buff[iBY][iX] = (uint16_t)cC | iColor;
+			iX++;
+			Cursor();
+			break;
 		}
-		if (iBY >= VGA_HEIGHT)
-		{
-			iBY = 0;
-		}
-		iVideo[iX + VGA_WIDTH * iY] = (uint16_t)cC | iColor;
-		iVideo_Buff[iBY][iX] = (uint16_t)cC | iColor;
-		iX++;
-		Cursor();
 	}
 
-	void Scroll(void)
+	void Scroll()
 	{
 		uint16_t iYSC = iMoved;
 		uint16_t iYC = 0;
@@ -129,33 +152,18 @@ namespace Text
 				iVideo[iYC * VGA_WIDTH + iXC] = iVideo_Buff[iYSC][iXC];
 		}
 	}
-}
 
-namespace Text
-{
-	namespace Simple
+	void UpdateScreenColor()
 	{
-		void Write(const char* s)
+		for (uint32_t i = 0; i < (VGA_WIDTH * VGA_HEIGHT); i++)
 		{
-			// Für jedes einzelne Zeichen wird put() aufgerufen
-			while (*s != '\0')
-				Putc(*s++);
+			iVideo[i] |= iColor;
 		}
 
-		void Putc(char cC)
+		for (uint16_t iYC = 0; iYC < VGA_HEIGHT; iYC++)
 		{
-			if ((iX >= VGA_WIDTH))
-			{
-				iX = 0;
-				iY++;
-			}
-			if (iY >= VGA_HEIGHT)
-			{
-				iY = 0;
-			}
-			iVideo[iX + VGA_WIDTH * iY] = (uint16_t)cC | iColor;
-			iX++;
-			Cursor();
+			for (uint16_t iXC = 0; iXC < VGA_WIDTH; iXC++)
+				iVideo_Buff[iYC][iXC] |= iColor;
 		}
 	}
 }

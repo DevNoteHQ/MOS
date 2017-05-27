@@ -17,7 +17,7 @@ DEPDIR = dep
 INCPATHSNP = $(SRCDIR) ../../include
 INCPATHS = $(addprefix -I ,$(INCPATHSNP))
 STDINCLUDES = stddef.h stdint.h
-MOSINCLUDES = string.hpp types.hpp assembler.hpp abort.hpp
+MOSINCLUDES = string.hpp types.hpp assembler.hpp abort.hpp common.hpp
 INCLUDES = $(STDINCLUDES) $(MOSINCLUDES)
 INCLUDE = $(addprefix -include ,$(INCLUDES))
 

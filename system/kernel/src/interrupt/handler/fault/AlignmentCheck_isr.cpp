@@ -6,5 +6,5 @@
 void AlignmentCheck(CPU::State *state, uint64_t error)
 {
 	//Text::Clear();
-	Text::Simple::Write("FAULT Alignment Check!");
+	Text::WriteLine("FAULT Alignment Check!");
 }

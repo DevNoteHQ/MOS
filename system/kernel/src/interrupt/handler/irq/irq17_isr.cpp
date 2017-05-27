@@ -6,5 +6,5 @@
 __attribute__((interrupt)) void irq17(CPU::State *state)
 {
 	//Text::Clear();
-	Text::Simple::Write("IRQ!");
+	Text::WriteLine("IRQ!");
 }

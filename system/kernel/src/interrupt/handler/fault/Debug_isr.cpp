@@ -6,5 +6,5 @@
 void Debug(CPU::State *state)
 {
 	//Text::Clear();
-	Text::Simple::Write("FAULT: Debug!");
+	Text::WriteLine("FAULT: Debug!");
 }

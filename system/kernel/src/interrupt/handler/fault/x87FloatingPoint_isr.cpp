@@ -6,5 +6,5 @@
 void x87FloatingPoint(CPU::State *state)
 {
 	//Text::Clear();
-	Text::Simple::Write("FAULT: x87 Floating Point!");
+	Text::WriteLine("FAULT: x87 Floating Point!");
 }

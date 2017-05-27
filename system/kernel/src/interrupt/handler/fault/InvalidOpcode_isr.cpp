@@ -6,5 +6,5 @@
 void InvalidOpcode(CPU::State *state)
 {
 	//Text::Clear();
-	Text::Simple::Write("FAULT: Invalid Opcode!");
+	Text::WriteLine("FAULT: Invalid Opcode!");
 }

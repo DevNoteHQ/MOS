@@ -6,5 +6,5 @@
 void NonMaskableInterrupt(CPU::State *state)
 {
 	//Text::Clear();
-	Text::Simple::Write("FAULT: Non Maskable Interrupt!");
+	Text::WriteLine("FAULT: Non Maskable Interrupt!");
 }

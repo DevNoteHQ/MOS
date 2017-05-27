@@ -6,5 +6,5 @@
 void Fault0x14(CPU::State *state)
 {
 	//Text::Clear();
-	Text::Simple::Write("FAULT: Fault0x14!");
+	Text::WriteLine("FAULT: Fault0x14!");
 }

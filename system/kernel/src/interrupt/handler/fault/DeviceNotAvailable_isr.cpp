@@ -6,5 +6,5 @@
 void DeviceNotAvailable(CPU::State *state)
 {
 	//Text::Clear();
-	Text::Simple::Write("FAULT: Device Not Available!");
+	Text::WriteLine("FAULT: Device Not Available!");
 }

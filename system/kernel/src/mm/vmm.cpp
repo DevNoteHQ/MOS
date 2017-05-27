@@ -1,6 +1,5 @@
 
-#include <mm/vmm.hpp>
-#include <common.hpp>
+#include "vmm.hpp"
 
 #define PL2E  512 //512 --> 512 * 2MB Pages per PL3 Entry --> 512 * 16 * 2MB Pages per Process
 #define PL3E  32  //32  --> 32 GB max per process
@@ -17,16 +16,14 @@
 #define PG_NO_EXEC		0x8000000000000000
 #define PG_ADDR_MASK	0xFFFFFFFFFF000
 
-#define HVMA 0xFFFFFF0000000000 //HVMA = Higher Virtual Memory Address
-
 #define PL4P	0x7E00000 //Position of the global PML4T in LVMA (PL4P = 0x7E00000 + HVMA for position in HVMA)
 
-#define ALIGN	512 //Each entry has to be 4K aligned. Each entry is a uint64_t -> 8Bytes per Address -> PL4[1] = 8 + PL4[0] -> 8Bytes * 512 = 4096
+#define ALIGN	4096 //Each entry has to be 4K aligned. Each entry is a uint64_t -> 8Bytes per Address -> PL4[1] = 8 + PL4[0] -> 8Bytes * 512 = 4096
 
 namespace Paging
 {
 	uint64_t *PL4 = PL4P;
-	uint64_t *PL3 = PL4P + 8 * ALIGN; //The address has to be 4K aligned --> set it with 8 * ALIGN
+	uint64_t *PL3 = PL4P + ALIGN;
 	void init(void)
 	{
 		PL4[PL4E - 1] = (((uint64_t) PL4) | PG_WRITABLE | PG_PRESENT);
@@ -51,5 +48,3 @@ namespace Paging
 		return addr + HVMA;
 	}
 }
-
-//TODO: Setup Lower Half and Higher Half --> switch to Higher Half --> delete Lower Half Page entry

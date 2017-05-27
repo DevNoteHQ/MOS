@@ -17,6 +17,8 @@ namespace Text
 	// Textausgabe
 	void Write(const char* s);
 
+	void WriteLine(const char* s);
+
 	// Vordergrundfarbe setzen
 	void ForegroundColor(Color color);
 
@@ -28,11 +30,7 @@ namespace Text
 
 	void Scroll();
 
-	namespace Simple
-	{
-		void Putc(char cC);
-		void Write(const char* s);
-	}
+	void UpdateScreenColor();
 }
 
 #endif

@@ -6,5 +6,5 @@
 void Fault0x18(CPU::State *state)
 {
 	//Text::Clear();
-	Text::Simple::Write("FAULT: Fault0x18!");
+	Text::WriteLine("FAULT: Fault0x18!");
 }

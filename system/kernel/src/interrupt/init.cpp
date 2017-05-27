@@ -9,8 +9,8 @@ namespace Interrupt
 		bool check()
 		{
 			uint32_t eax, edx;
-			CPUID::get(1, &eax, &unused, &unused, &edx);
-			return edx & CPUID::F1::EDX_APIC;
+			cpuid(1, eax, unused, unused, edx);
+			return edx & CPUID::EAX1::EDX_APIC;
 		}
 
 		void init(void)

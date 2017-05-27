@@ -3,8 +3,6 @@
 #define CPU_CPU_H
 
 
-
-
 namespace CPU
 {
 	typedef struct{

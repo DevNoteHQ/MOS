@@ -6,5 +6,5 @@
 void Fault0x16(CPU::State *state)
 {
 	//Text::Clear();
-	Text::Simple::Write("FAULT: Fault0x16!");
+	Text::WriteLine("FAULT: Fault0x16!");
 }
