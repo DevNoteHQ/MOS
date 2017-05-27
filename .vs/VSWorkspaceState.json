@@ -4,8 +4,8 @@
     "\\system",
     "\\system\\kernel",
     "\\system\\kernel\\src",
-    "\\system\\kernel\\src\\runtime"
+    "\\system\\kernel\\src\\mm"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\runtime\\memory.cpp",
+  "SelectedNode": "\\system\\kernel\\src\\mm\\kmalloc.cpp",
   "PreviewInSolutionExplorer": false
 }
