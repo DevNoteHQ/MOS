@@ -31,7 +31,7 @@ WFLAGS = -pedantic -Wall -Wextra -Wno-unused-parameter
 
 NASFLAGS = -f elf64
 GASFLAGS = 
-CPPFLAGS = $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu++14 -O2 -nostdlib -nostartfiles -lgcc
+CPPFLAGS = $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu++1z -O2 -nostdlib -nostartfiles -lgcc
 CFLAGS = $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu11 -O2 -nostdlib -nostartfiles -lgcc
 LDFLAGS = -T linker.ld -O2 -z max-page-size=0x1000
 

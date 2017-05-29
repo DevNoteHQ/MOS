@@ -38,7 +38,7 @@ INTRFLAGS = -mgeneral-regs-only
 
 NASFLAGS = -f elf64
 GASFLAGS = 
-CPPFLAGS = -m64 $(CPP64FLAGS) $(CPPINCFLAGS) $(CPPFFLAGS) $(CPPWFLAGS) $(LIBDIR) $(LIBS) -std=gnu++14 -O2 -nostdlib -nostartfiles
+CPPFLAGS = -m64 $(CPP64FLAGS) $(CPPINCFLAGS) $(CPPFFLAGS) $(CPPWFLAGS) $(LIBDIR) $(LIBS) -std=gnu++1z -O2 -nostdlib -nostartfiles
 CFLAGS = -m64 $(C64FLAGS) $(CINCFLAGS) $(CFFLAGS) $(CWFLAGS) $(LIBDIR) $(LIBS) -std=gnu11 -O2 -nostdlib -nostartfiles
 LDFLAGS = -T linker.ld -O2 -z max-page-size=0x1000 $(LIBDIR) $(LIBS)
 

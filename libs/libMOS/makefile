@@ -31,7 +31,7 @@ WFLAGS = -pedantic -Wall -Wextra -Wno-unused-parameter
 
 NASFLAGS = -f elf64
 GASFLAGS = 
-CPPFLAGS = $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu++14 -O2 -nostdlib -nostartfiles -lgcc
+CPPFLAGS = $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu++1z -O2 -nostdlib -nostartfiles -lgcc
 CFLAGS = $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu11 -O2 -nostdlib -nostartfiles -lgcc
 
 SRCS_c = $(shell find $(SRCDIR)/* -name '*.c')

@@ -3,7 +3,8 @@ obj/multiboot_cpp.o: src/multiboot.cpp \
  /mnt/d/Coding/OSDev/cross/lib/gcc/x86_64-elf/7.1.0/include/stdint.h \
  /mnt/d/Coding/OSDev/cross/lib/gcc/x86_64-elf/7.1.0/include/stdint-gcc.h \
  ../../include/string.hpp ../../include/types.hpp \
- ../../include/assembler.hpp ../../include/abort.hpp src/multiboot.hpp
+ ../../include/assembler.hpp ../../include/abort.hpp src/common.hpp \
+ src/multiboot.hpp
 
 /mnt/d/Coding/OSDev/cross/lib/gcc/x86_64-elf/7.1.0/include/stddef.h:
 
@@ -18,5 +19,7 @@ obj/multiboot_cpp.o: src/multiboot.cpp \
 ../../include/assembler.hpp:
 
 ../../include/abort.hpp:
+
+src/common.hpp:
 
 src/multiboot.hpp:

@@ -3,9 +3,8 @@
     "",
     "\\system",
     "\\system\\kernel",
-    "\\system\\kernel\\src",
-    "\\system\\kernel\\src\\mm"
+    "\\userland"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\mm\\kmalloc.cpp",
+  "SelectedNode": "\\system\\kernel\\makefile",
   "PreviewInSolutionExplorer": false
 }

@@ -23,7 +23,7 @@ namespace Text
 	{
 		iVideo = Paging::ToVMA_I(VIDEO_BUFFER);
 		ForegroundColor(Color::White);
-		BackgroundColor(Color::Black);
+		BackgroundColor(Color::Blue);
 		iX = 0;
 		iY = 0;
 		Clear();

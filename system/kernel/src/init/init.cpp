@@ -24,10 +24,8 @@ namespace System
 {
 	void kernel_main()
 	{
-		Text::BackgroundColor(Color::Blue);
-		Text::UpdateScreenColor();
 		Text::WriteLine("Hello!");
-		Text::WriteLine("Stinker!");
+		Text::WriteLine("Alex!");
 
 		scheduler CPUscheduler[CPU_COUNT];
 		for (int i = 0; i < CPU_COUNT; i++)
