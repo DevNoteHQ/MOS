@@ -15,4 +15,4 @@ For a description on how to build a crosscompiler, see http://wiki.osdev.org/GCC
 Note: It is important that you have at least GCC 7.1.0. MOS uses GCC features that are only available since GCC 7.1.0 (for example `__attribute__((interrupt))`
 
 
-TODO: Bluescreens, APCI, Memory Management, new and delete Operator, MOSLib with Convert and String class;
+TODO: Bluescreens (in green, red or yellow, but not in blue!), APCI, Memory Management, new and delete Operator, MOSLib with Convert and String class;
