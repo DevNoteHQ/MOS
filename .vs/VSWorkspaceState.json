@@ -3,8 +3,11 @@
     "",
     "\\system",
     "\\system\\kernel",
+    "\\system\\kernel\\src",
+    "\\system\\kernel\\src\\init",
+    "\\system\\kernel\\src\\interrupt",
     "\\userland"
   ],
-  "SelectedNode": "\\system\\kernel\\makefile",
+  "SelectedNode": "\\system\\kernel\\src\\interrupt\\init.cpp",
   "PreviewInSolutionExplorer": false
 }

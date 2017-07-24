@@ -3,7 +3,7 @@
 #include <interrupt/handler/stubs.hpp>
 
 
-void AlignmentCheck(CPU::State *state, uint64_t error)
+__attribute__((interrupt)) void AlignmentCheck(CPU::State *state, uint64_t error)
 {
 	//Text::Clear();
 	Text::WriteLine("FAULT Alignment Check!");

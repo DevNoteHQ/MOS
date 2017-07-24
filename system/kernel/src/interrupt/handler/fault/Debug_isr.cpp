@@ -3,7 +3,7 @@
 #include <interrupt/handler/stubs.hpp>
 
 
-void Debug(CPU::State *state)
+__attribute__((interrupt)) void Debug(CPU::State *state)
 {
 	//Text::Clear();
 	Text::WriteLine("FAULT: Debug!");

@@ -3,7 +3,7 @@
 #include <interrupt/handler/stubs.hpp>
 
 
-void MachineCheck(CPU::State *state)
+__attribute__((interrupt)) void MachineCheck(CPU::State *state)
 {
 	//Text::Clear();
 	Text::WriteLine("FAULT: Machine Check!");

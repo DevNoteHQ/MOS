@@ -3,7 +3,7 @@
 #include <interrupt/handler/stubs.hpp>
 
 
-void CoprocessorSegmentOverrun(CPU::State *state)
+__attribute__((interrupt)) void CoprocessorSegmentOverrun(CPU::State *state)
 {
 	//Text::Clear();
 	Text::WriteLine("FAULT: Coporcessor Segment Overrun!");
