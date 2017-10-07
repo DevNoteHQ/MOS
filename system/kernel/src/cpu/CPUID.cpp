@@ -37,5 +37,6 @@ namespace CPUID
 	{
 		Text::WriteLine("CPU Vendor String:");
 		Text::WriteLine(cVendor);
+		Text::WriteLine("");
 	}
 }

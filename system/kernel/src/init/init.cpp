@@ -5,6 +5,10 @@
 
 //Kernel Includes:
 
+#include "idt.hpp"
+#include "gdt.hpp"
+#include "tss.hpp"
+
 #include <cpu/msr.hpp>
 #include <cpu/CPUID.hpp>
 #include <libMOS/convert/convert.hpp>
@@ -14,10 +18,6 @@
 #include <interrupt/init.hpp>
 #include <scheduler/scheduler.hpp>
 #include <terminal/text.hpp>
-
-#include "idt.hpp"
-#include "gdt.hpp"
-#include "tss.hpp"
 
 #define CPU_COUNT 8
 
@@ -48,21 +48,20 @@ namespace System
 			IDT::init();
 			//TSS::init();
 
-			CPUID::GetCPUInfo();
-
 			Text::init();
 
+			CPUID::GetCPUInfo();
+			Interrupt::APIC::init();
+			CPUID::GetCPUInfo();
 			CPUID::PasteCPUVendor();
 
-			Interrupt::APIC::init();
-			
-			//asm volatile("sti");
-			
 			Text::WriteLine("--------------------------------------------------------------------------------");
 			Text::WriteLine("----------------  Hello! This is MOS - Modern Operating System  ----------------");
 			Text::WriteLine("--------------------------------------------------------------------------------");
 			Text::WriteLine("");
 			Text::Write("Something> ");
+
+			//asm volatile("sti");
 
 			kernel_main();
 		}

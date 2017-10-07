@@ -72,6 +72,9 @@ __attribute__((interrupt)) void syscall0(CPU::State *state);
 
 //Special:
 __attribute__((interrupt)) void special(CPU::State *state);
+__attribute__((interrupt)) void lvt_timer(CPU::State *state);
+__attribute__((interrupt)) void lvt_error(CPU::State *state);
+__attribute__((interrupt)) void spurious(CPU::State *state);
 
 
 #endif

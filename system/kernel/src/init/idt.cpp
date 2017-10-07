@@ -122,12 +122,12 @@ namespace IDT
 		set (&descriptors[0x38], &syscall0,						IDT_PRESENT | IDT_INTERRUPT);
 
 		//Special:
-		set (&descriptors[NOT_INTR], &special,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[IPI_PANIC], &special,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[IPI_TLB], &special,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[LVT_TIMER], &special,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[LVT_ERROR], &special,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[SPURIOUS], &special,					IDT_PRESENT | IDT_INTERRUPT);
+		set (&descriptors[NOT_INTR],	&special,					IDT_PRESENT | IDT_INTERRUPT);
+		set (&descriptors[IPI_PANIC],	&special,					IDT_PRESENT | IDT_INTERRUPT);
+		set (&descriptors[IPI_TLB],		&special,					IDT_PRESENT | IDT_INTERRUPT);
+		set (&descriptors[LVT_TIMER],	&lvt_timer,					IDT_PRESENT | IDT_INTERRUPT);
+		set (&descriptors[LVT_ERROR],	&lvt_error,					IDT_PRESENT | IDT_INTERRUPT);
+		set (&descriptors[SPURIOUS],	&spurious,					IDT_PRESENT | IDT_INTERRUPT);
 
 		idtr.addr = (uint64_t)descriptors;
 		idtr.len = sizeof(descriptors) - 1;
