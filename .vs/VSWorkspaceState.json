@@ -4,10 +4,13 @@
     "\\system",
     "\\system\\kernel",
     "\\system\\kernel\\src",
+    "\\system\\kernel\\src\\cpu",
     "\\system\\kernel\\src\\init",
     "\\system\\kernel\\src\\interrupt",
+    "\\system\\kernel\\src\\libMOS",
+    "\\system\\kernel\\src\\libMOS\\convert",
     "\\userland"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\interrupt\\init.cpp",
+  "SelectedNode": "\\system\\kernel\\src\\libMOS\\convert\\convert.hpp",
   "PreviewInSolutionExplorer": false
 }

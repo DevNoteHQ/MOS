@@ -6,12 +6,11 @@ namespace Interrupt
 {
 	namespace APIC
 	{
-		bool check();
-		void init(void);
+		void init();
 	}
 	namespace IOAPIC
 	{
-		void init(void);
+		void init();
 	}
 }
 #endif

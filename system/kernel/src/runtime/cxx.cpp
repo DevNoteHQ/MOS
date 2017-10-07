@@ -1,4 +1,6 @@
 
+#include <mm/kmalloc.hpp>
+
 extern "C"
 {
 	
@@ -60,17 +62,15 @@ void __attribute__((noreturn)) __stack_chk_fail()
 	for(;;) ;
 }
 
-/*
-
 void operator delete(void *ptr) 
 {
-	free(ptr);
+	kfree(ptr);
 }
 
 #ifndef __arm__
 void* operator new(size_t len) 
 {
-	return (void*)malloc(len);
+	return (void*)kmalloc(len);
 }
 
 void operator delete[](void *ptr) 
@@ -88,7 +88,7 @@ void* operator new[](size_t len)
 	
 void* operator new(size_t len) 
 {
-	return (void*)malloc(len);
+	return (void*)kmalloc(len);
 }
 
 void operator delete[](void *ptr) 
@@ -102,5 +102,4 @@ void* operator new[](size_t len)
 }
 #endif
 
-*/
 void *__gxx_personality_v0=(void*)0xDEADBEAF;

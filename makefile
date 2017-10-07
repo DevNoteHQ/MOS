@@ -16,7 +16,7 @@ USRMODULES := $(USRDIR)/$(USRMODULES)
 
 MODULES := libs $(SYSDIR) $(USRDIR)
 
-.PHONY: all clean libs mount $(MODULES) $(SYSMODULES) $(USRMODULES)
+.PHONY: all clean mount run $(MODULES) $(SYSMODULES) $(USRMODULES)
 
 all: $(MODULES)
 
@@ -45,4 +45,4 @@ mount:
 
 run:
 	export DISPLAY=:0
-	qemu-system-x86_64 -cdrom isodir/mos.iso
+	qemu-system-x86_64 -cdrom isodir/mos.iso -cpu Haswell

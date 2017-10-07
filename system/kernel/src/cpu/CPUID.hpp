@@ -8,6 +8,11 @@ extern uint32_t unused;
 
 namespace CPUID
 {
+	extern uint32_t CPUID_0[4][4];
+	extern uint32_t CPUID_8[5][4];
+	extern char cVendor[12];
+	void GetCPUInfo();
+	void PasteCPUVendor();
 	enum EAX1
 	{
 		ECX_SSE3 = 1 << 0,

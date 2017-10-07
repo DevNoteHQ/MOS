@@ -5,14 +5,15 @@
 
 //Kernel Includes:
 
-#include <scheduler/scheduler.hpp>
-#include <mm/vmm.hpp>
-#include <terminal/text.hpp>
-#include <multiboot.hpp>
 #include <cpu/msr.hpp>
+#include <cpu/CPUID.hpp>
+#include <libMOS/convert/convert.hpp>
+#include <mm/vmm.hpp>
+#include <multiboot.hpp>
 #include <interrupt/apic.hpp>
 #include <interrupt/init.hpp>
-#include <libMOS/convert/convert.hpp>
+#include <scheduler/scheduler.hpp>
+#include <terminal/text.hpp>
 
 #include "idt.hpp"
 #include "gdt.hpp"
@@ -24,9 +25,6 @@ namespace System
 {
 	void kernel_main()
 	{
-		Text::WriteLine("Hello!");
-		Text::WriteLine("Alex!");
-
 		scheduler CPUscheduler[CPU_COUNT];
 		for (int i = 0; i < CPU_COUNT; i++)
 		{
@@ -34,8 +32,9 @@ namespace System
 		}
 		while (true)
 		{
-			asm volatile("hlt");
+
 		}
+		asm volatile("hlt");
 	}
 
 	extern "C"
@@ -49,11 +48,22 @@ namespace System
 			IDT::init();
 			//TSS::init();
 
+			CPUID::GetCPUInfo();
+
 			Text::init();
 
-			Interrupt::APIC::init();
+			CPUID::PasteCPUVendor();
 
+			Interrupt::APIC::init();
+			
 			//asm volatile("sti");
+			
+			Text::WriteLine("--------------------------------------------------------------------------------");
+			Text::WriteLine("----------------  Hello! This is MOS - Modern Operating System  ----------------");
+			Text::WriteLine("--------------------------------------------------------------------------------");
+			Text::WriteLine("");
+			Text::Write("Something> ");
+
 			kernel_main();
 		}
 	}

@@ -1,0 +1,277 @@
+2017-10-07T14:00:29.367+02:00| vmx| I125: Log for VMware Player pid=8652 version=12.5.7 build=build-5813279 option=Release
+2017-10-07T14:00:29.367+02:00| vmx| I125: The process is 64-bit.
+2017-10-07T14:00:29.367+02:00| vmx| I125: Host codepage=windows-1252 encoding=windows-1252
+2017-10-07T14:00:29.367+02:00| vmx| I125: Host is Windows 10, 64-bit  (Build 15063)
+2017-10-07T14:00:29.357+02:00| vmx| I125: VTHREAD initialize main thread 0 "vmx" host id 9272
+2017-10-07T14:00:29.358+02:00| vmx| I125: LOCALE windows-1252 -> NULL User=c07 System=c07
+2017-10-07T14:00:29.358+02:00| vmx| I125: Msg_SetLocaleEx: HostLocale=windows-1252 UserLocale=NULL
+2017-10-07T14:00:29.358+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\ProgramData\VMware): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.358+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\ProgramData\VMware\VMware Workstation): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.359+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\ProgramData\VMware): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.359+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\ProgramData\VMware\VMware Workstation): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.359+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\ProgramData\VMware): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.359+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\ProgramData\VMware\VMware Workstation): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.360+02:00| vmx| I125: DictionaryLoad: Cannot open file "C:\Users\Default\AppData\Roaming\VMware\config.ini": Unknown error 3 (0x3).
+2017-10-07T14:00:29.360+02:00| vmx| I125: Msg_Reset:
+2017-10-07T14:00:29.360+02:00| vmx| I125: [msg.dictionary.load.openFailed] Cannot open file "C:\Users\Default\AppData\Roaming\VMware\config.ini": Unknown error 3 (0x3).
+2017-10-07T14:00:29.360+02:00| vmx| I125: ----------------------------------------
+2017-10-07T14:00:29.360+02:00| vmx| I125: ConfigDB: Failed to load C:\Users\Default\AppData\Roaming\VMware\config.ini
+2017-10-07T14:00:29.360+02:00| vmx| I125: OBJLIB-LIB: Objlib initialized.
+2017-10-07T14:00:29.361+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\ProgramData\VMware): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.361+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\ProgramData\VMware\VMware Player): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.361+02:00| vmx| I125: DictionaryLoad: Cannot open file "C:\ProgramData\VMware\VMware Player\config.ini": Unknown error 2 (0x2).
+2017-10-07T14:00:29.361+02:00| vmx| I125: PREF Optional preferences file not found at C:\ProgramData\VMware\VMware Player\config.ini. Using default values.
+2017-10-07T14:00:29.361+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\ProgramData\VMware): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.361+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\ProgramData\VMware\VMware Player): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.361+02:00| vmx| I125: DictionaryLoad: Cannot open file "C:\ProgramData\VMware\VMware Player\settings.ini": Unknown error 2 (0x2).
+2017-10-07T14:00:29.361+02:00| vmx| I125: PREF Optional preferences file not found at C:\ProgramData\VMware\VMware Player\settings.ini. Using default values.
+2017-10-07T14:00:29.361+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\ProgramData\VMware): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.361+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\ProgramData\VMware\VMware Player): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.361+02:00| vmx| I125: DictionaryLoad: Cannot open file "C:\ProgramData\VMware\VMware Player\config.ini": Unknown error 2 (0x2).
+2017-10-07T14:00:29.361+02:00| vmx| I125: PREF Optional preferences file not found at C:\ProgramData\VMware\VMware Player\config.ini. Using default values.
+2017-10-07T14:00:29.361+02:00| vmx| I125: DictionaryLoad: Cannot open file "C:\Users\Default\AppData\Roaming\VMware\config.ini": Unknown error 3 (0x3).
+2017-10-07T14:00:29.361+02:00| vmx| I125: PREF Optional preferences file not found at C:\Users\Default\AppData\Roaming\VMware\config.ini. Using default values.
+2017-10-07T14:00:29.361+02:00| vmx| I125: UUID: SMBIOS UUID is reported as '00 00 00 00 00 00 00 00-00 00 d4 3d 7e e2 5d 57'.
+2017-10-07T14:00:29.361+02:00| vmx| I125: FILE: FileLockDynaLink: Further process validation tools are: available
+2017-10-07T14:00:29.361+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\Users\Default\AppData\Roaming\VMware\preferences.ini.lck): Unknown error 3 (0x3) (3)
+2017-10-07T14:00:29.361+02:00| vmx| W115: FILE: FileLockCreateEntryDirectory creation failure on 'C:\Users\Default\AppData\Roaming\VMware\preferences.ini.lck': No such file or directory
+2017-10-07T14:00:29.361+02:00| vmx| I125: Msg_Reset:
+2017-10-07T14:00:29.361+02:00| vmx| I125: [msg.preference.loadNoLock] Unable to lock user preference file C:\Users\Default\AppData\Roaming\VMware\preferences.ini for reading.
+2017-10-07T14:00:29.361+02:00| vmx| I125: ----------------------------------------
+2017-10-07T14:00:29.361+02:00| vmx| I125: PREF Failed to load user preferences.
+2017-10-07T14:00:29.365+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\ProgramData\VMware): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.365+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\ProgramData\VMware): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.365+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\ProgramData\VMware): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.365+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\ProgramData\VMware): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.365+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\ProgramData\VMware): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.366+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\Users): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.366+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\Users\Mathias): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.366+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\Users\Mathias\AppData): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.366+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\Users\Mathias\AppData\Local): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.366+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\Users\Mathias\AppData\Local\Temp): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.366+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\Users\Mathias\AppData\Local\Temp\vmware-Mathias): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.367+02:00| vmx| I125: Hostname=DevNoteHQ-PC
+2017-10-07T14:00:29.370+02:00| vmx| I125: IP=fe80::b552:e85c:355f:63f2%10
+2017-10-07T14:00:29.370+02:00| vmx| I125: IP=fe80::a48a:af76:1ba4:e4af%13
+2017-10-07T14:00:29.370+02:00| vmx| I125: IP=fe80::581d:a41e:e285:6ead%2
+2017-10-07T14:00:29.370+02:00| vmx| I125: IP=fe80::8ba:3540:f5ff:fff5%11
+2017-10-07T14:00:29.370+02:00| vmx| I125: IP=10.0.0.10
+2017-10-07T14:00:29.370+02:00| vmx| I125: IP=192.168.132.1
+2017-10-07T14:00:29.370+02:00| vmx| I125: IP=192.168.126.1
+2017-10-07T14:00:29.370+02:00| vmx| I125: IP=2001:0:9d38:953c:8ba:3540:f5ff:fff5
+2017-10-07T14:00:29.391+02:00| vmx| I125: System uptime 4178089563 us
+2017-10-07T14:00:29.391+02:00| vmx| I125: Command line: "C:\Program Files (x86)\VMware\VMware Player\x64\vmware-vmx.exe" "-T" "querytoken" "-ssnapshot.numRollingTiers=0" "-sRemoteDisplay.vnc.enabled=FALSE" "-s" "vmx.stdio.keep=TRUE" "-#" "product=4;name=VMware Player;version=12.5.7;buildnumber=5813279;licensename=VMware Player;licenseversion=12.0;" "-@" "pipe=\\.\pipe\vmx88dfc72eb05d7aa8;msgs=ui" "D:\Coding\OSDev\MOS\Testing\VMW\MOS.vmx"
+2017-10-07T14:00:29.391+02:00| vmx| I125: Msg_SetLocaleEx: HostLocale=windows-1252 UserLocale=NULL
+2017-10-07T14:00:29.411+02:00| vmx| I125: WQPoolAllocPoll : pollIx = 1, signalHandle = 644
+2017-10-07T14:00:29.411+02:00| vmx| I125: WQPoolAllocPoll : pollIx = 2, signalHandle = 700
+2017-10-07T14:00:29.411+02:00| vmx| I125: VigorTransport listening on fd 712
+2017-10-07T14:00:29.411+02:00| vmx| I125: Vigor_Init 1
+2017-10-07T14:00:29.411+02:00| vmx| I125: Connecting 'ui' to pipe '\\.\pipe\vmx88dfc72eb05d7aa8' with user '(null)'
+2017-10-07T14:00:29.412+02:00| vmx| I125: VMXVmdb: Local connection timeout: 60000 ms.
+2017-10-07T14:00:29.451+02:00| vmx| I125: VmdbAddConnection: cnxPath=/db/connection/#1/, cnxIx=1
+2017-10-07T14:00:29.452+02:00| vmx| I125: Vix: [9272 mainDispatch.c:490]: VMAutomation: Initializing VMAutomation.
+2017-10-07T14:00:29.452+02:00| vmx| I125: Vix: [9272 mainDispatch.c:746]: VMAutomationOpenListenerSocket() listening
+2017-10-07T14:00:29.457+02:00| vmx| I125: Vix: [9272 mainDispatch.c:4238]: VMAutomation_ReportPowerOpFinished: statevar=0, newAppState=1870, success=1 additionalError=0
+2017-10-07T14:00:29.457+02:00| vmx| I125: Transitioned vmx/execState/val to poweredOff
+2017-10-07T14:00:29.457+02:00| vmx| I125: Vix: [9272 mainDispatch.c:4238]: VMAutomation_ReportPowerOpFinished: statevar=1, newAppState=1873, success=1 additionalError=0
+2017-10-07T14:00:29.457+02:00| vmx| I125: Vix: [9272 mainDispatch.c:4238]: VMAutomation_ReportPowerOpFinished: statevar=2, newAppState=1877, success=1 additionalError=0
+2017-10-07T14:00:29.457+02:00| vmx| I125: Vix: [9272 mainDispatch.c:4238]: VMAutomation_ReportPowerOpFinished: statevar=3, newAppState=1881, success=1 additionalError=0
+2017-10-07T14:00:29.474+02:00| vmx| I125: IOPL_VBSRunning: VBS is set to 0
+2017-10-07T14:00:29.474+02:00| vmx| I125: IOCTL_VMX86_SET_MEMORY_PARAMS already set
+2017-10-07T14:00:29.475+02:00| vmx| I125: FeatureCompat: No EVC masks.
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID vendor: GenuineIntel
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID family: 0x6 model: 0x3c stepping: 0x3
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID codename: Haswell DT
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID name: Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 00000000, 0: 0x0000000d 0x756e6547 0x6c65746e 0x49656e69
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 00000001, 0: 0x000306c3 0x00100800 0x7ffafbff 0xbfebfbff
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 00000002, 0: 0x76036301 0x00f0b5ff 0x00000000 0x00c10000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 00000003, 0: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 00000004, 0: 0x1c004121 0x01c0003f 0x0000003f 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 00000004, 1: 0x1c004122 0x01c0003f 0x0000003f 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 00000004, 2: 0x1c004143 0x01c0003f 0x000001ff 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 00000004, 3: 0x1c03c163 0x03c0003f 0x00001fff 0x00000006
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 00000004, 4: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 00000005, 0: 0x00000040 0x00000040 0x00000003 0x00042120
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 00000006, 0: 0x00000077 0x00000002 0x00000001 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 00000007, 0: 0x00000000 0x000027ab 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 00000008, 0: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 00000009, 0: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000a, 0: 0x07300403 0x00000000 0x00000000 0x00000603
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000b, 0: 0x00000001 0x00000002 0x00000100 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000b, 1: 0x00000004 0x00000008 0x00000201 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000b, 2: 0x00000000 0x00000000 0x00000002 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000c, 0: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 0: 0x00000007 0x00000340 0x00000340 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 1: 0x00000001 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 2: 0x00000100 0x00000240 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 3: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 4: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 5: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 6: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 7: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 8: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 9: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, a: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, b: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, c: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, d: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, e: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, f: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 10: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 11: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 12: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 13: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 14: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 15: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 16: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 17: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 18: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 19: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 1a: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 1b: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 1c: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 1d: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 1e: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 1f: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 20: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 21: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 22: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 23: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 24: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 25: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 26: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 27: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 28: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 29: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 2a: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 2b: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 2c: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 2d: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 2e: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 2f: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 30: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 31: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 32: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 33: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 34: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 35: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 36: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 37: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 38: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 39: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 3a: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 3b: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 3c: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 3d: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 3e: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 0000000d, 3f: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 80000000, 0: 0x80000008 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 80000001, 0: 0x00000000 0x00000000 0x00000021 0x2c100800
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 80000002, 0: 0x65746e49 0x2952286c 0x726f4320 0x4d542865
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 80000003, 0: 0x37692029 0x3737342d 0x50432030 0x20402055
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 80000004, 0: 0x30342e33 0x007a4847 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 80000005, 0: 0x00000000 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 80000006, 0: 0x00000000 0x00000000 0x01006040 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 80000007, 0: 0x00000000 0x00000000 0x00000000 0x00000100
+2017-10-07T14:00:29.478+02:00| vmx| I125: hostCPUID level 80000008, 0: 0x00003027 0x00000000 0x00000000 0x00000000
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID differences from hostCPUID.
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[1] level 00000001, 0: 0x000306c3 0x01100800 0x7ffafbff 0xbfebfbff
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[1] level 0000000b, 0: 0x00000001 0x00000002 0x00000100 0x00000001
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[1] level 0000000b, 1: 0x00000004 0x00000008 0x00000201 0x00000001
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[1] level 0000000b, 2: 0x00000000 0x00000000 0x00000002 0x00000001
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[2] level 00000001, 0: 0x000306c3 0x02100800 0x7ffafbff 0xbfebfbff
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[2] level 0000000b, 0: 0x00000001 0x00000002 0x00000100 0x00000002
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[2] level 0000000b, 1: 0x00000004 0x00000008 0x00000201 0x00000002
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[2] level 0000000b, 2: 0x00000000 0x00000000 0x00000002 0x00000002
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[3] level 00000001, 0: 0x000306c3 0x03100800 0x7ffafbff 0xbfebfbff
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[3] level 0000000b, 0: 0x00000001 0x00000002 0x00000100 0x00000003
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[3] level 0000000b, 1: 0x00000004 0x00000008 0x00000201 0x00000003
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[3] level 0000000b, 2: 0x00000000 0x00000000 0x00000002 0x00000003
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[4] level 00000001, 0: 0x000306c3 0x04100800 0x7ffafbff 0xbfebfbff
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[4] level 0000000b, 0: 0x00000001 0x00000002 0x00000100 0x00000004
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[4] level 0000000b, 1: 0x00000004 0x00000008 0x00000201 0x00000004
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[4] level 0000000b, 2: 0x00000000 0x00000000 0x00000002 0x00000004
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[5] level 00000001, 0: 0x000306c3 0x05100800 0x7ffafbff 0xbfebfbff
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[5] level 0000000b, 0: 0x00000001 0x00000002 0x00000100 0x00000005
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[5] level 0000000b, 1: 0x00000004 0x00000008 0x00000201 0x00000005
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[5] level 0000000b, 2: 0x00000000 0x00000000 0x00000002 0x00000005
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[6] level 00000001, 0: 0x000306c3 0x06100800 0x7ffafbff 0xbfebfbff
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[6] level 0000000b, 0: 0x00000001 0x00000002 0x00000100 0x00000006
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[6] level 0000000b, 1: 0x00000004 0x00000008 0x00000201 0x00000006
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[6] level 0000000b, 2: 0x00000000 0x00000000 0x00000002 0x00000006
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[7] level 00000001, 0: 0x000306c3 0x07100800 0x7ffafbff 0xbfebfbff
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[7] level 0000000b, 0: 0x00000001 0x00000002 0x00000100 0x00000007
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[7] level 0000000b, 1: 0x00000004 0x00000008 0x00000201 0x00000007
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID[7] level 0000000b, 2: 0x00000000 0x00000000 0x00000002 0x00000007
+2017-10-07T14:00:29.478+02:00| vmx| I125: CPUID Maximum Physical Address Bits supported across all CPUs: 39
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR       0x3a =                0x5
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR      0x480 =   0xda040000000012
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR      0x481 =       0x7f00000016
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR      0x482 = 0xfff9fffe0401e172
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR      0x483 =   0x7fffff00036dff
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR      0x484 =     0xffff000011ff
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR      0x485 =         0x300481e5
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR      0x486 =         0x80000021
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR      0x487 =         0xffffffff
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR      0x488 =             0x2000
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR      0x489 =           0x1767ff
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR      0x48a =               0x2a
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR      0x48b =     0x7cff00000000
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR      0x48c =      0xf0106334141
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR      0x48d =       0x7f00000016
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR      0x48e = 0xfff9fffe04006172
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR      0x48f =   0x7fffff00036dfb
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR      0x490 =     0xffff000011fb
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR      0x491 =                0x1
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR 0xc0010114 =                  0
+2017-10-07T14:00:29.479+02:00| vmx| I125: Common: MSR       0xce =    0x80838f3012200
+2017-10-07T14:00:29.479+02:00| vmx| I125: VMMon_GetkHzEstimate: Calculated 3400007 kHz
+2017-10-07T14:00:29.479+02:00| vmx| I125: HOSTINFO: Host supports constant rate TSC.
+2017-10-07T14:00:29.479+02:00| vmx| I125: TSC kHz estimates: vmmon 3400007, remembered 0, osReported 3401000. Using 3400007 kHz.
+2017-10-07T14:00:29.479+02:00| vmx| I125: TSC first measured delta 236
+2017-10-07T14:00:29.479+02:00| vmx| I125: TSC min delta 236
+2017-10-07T14:00:29.479+02:00| vmx| I125: PTSC: RefClockToPTSC 0 @ 3320320Hz -> 0 @ 3400007000Hz
+2017-10-07T14:00:29.479+02:00| vmx| I125: PTSC: RefClockToPTSC ((x * 4294966437) >> 22) + -7808730594919
+2017-10-07T14:00:29.479+02:00| vmx| I125: PTSC: tscOffset -7834675401971
+2017-10-07T14:00:29.479+02:00| vmx| I125: PTSC: using TSC
+2017-10-07T14:00:29.479+02:00| vmx| I125: PTSC: hardware TSCs are synchronized.
+2017-10-07T14:00:29.479+02:00| vmx| I125: PTSC: hardware TSCs may have been adjusted by the host.
+2017-10-07T14:00:29.479+02:00| vmx| I125: PTSC: current PTSC=6397628723205
+2017-10-07T14:00:29.479+02:00| vmx| I125: WQPoolAllocPoll : pollIx = 3, signalHandle = 892
+2017-10-07T14:00:29.507+02:00| vmx| I125: ConfigCheck: No rules file found. Checks are disabled.
+2017-10-07T14:00:29.507+02:00| vmx| I125: changing directory to D:\Coding\OSDev\MOS\Testing\VMW\.
+2017-10-07T14:00:29.507+02:00| vmx| I125: Config file: D:\Coding\OSDev\MOS\Testing\VMW\MOS.vmx
+2017-10-07T14:00:29.507+02:00| vmx| I125: Vix: [9272 mainDispatch.c:4238]: VMAutomation_ReportPowerOpFinished: statevar=1, newAppState=1873, success=1 additionalError=0
+2017-10-07T14:00:29.507+02:00| vmx| I125: Vix: [9272 mainDispatch.c:4238]: VMAutomation_ReportPowerOpFinished: statevar=2, newAppState=1878, success=1 additionalError=0
+2017-10-07T14:00:29.507+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\Users): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.507+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\Users\Mathias): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.508+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\Users\Mathias\AppData): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.508+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\Users\Mathias\AppData\Local): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.508+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\Users\Mathias\AppData\Local\Temp): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.508+02:00| vmx| I125: FILE: FileCreateDirectoryRetry: Non-retriable error encountered (C:\Users\Mathias\AppData\Local\Temp\vmware-Mathias): Unknown error 183 (0xb7) (183)
+2017-10-07T14:00:29.548+02:00| vmx| I125: VMXVmdbCbVmVmxExecState: Exec state change requested to state poweredOn without reset, soft, softOptionTimeout: 0.
+2017-10-07T14:00:29.548+02:00| vmx| I125: Tools: sending 'OS_PowerOn' (state = 3) state change request
+2017-10-07T14:00:29.548+02:00| vmx| I125: Tools: Delaying state change request to state 3.
+2017-10-07T14:00:29.548+02:00| vmx| W115: PowerOn
+2017-10-07T14:00:29.548+02:00| vmx| I125: VMX_PowerOn: VMX build 5813279, UI build 5813279
+2017-10-07T14:00:29.548+02:00| vmx| I125: Msg_Post: Error
+2017-10-07T14:00:29.548+02:00| vmx| I125: [msg.vmx.badWorkingDir] This virtual machine cannot be powered on because its working directory is not valid. Use the configuration editor to set a valid working directory, and then try again.
+2017-10-07T14:00:29.548+02:00| vmx| I125: ----------------------------------------
+2017-10-07T14:00:32.851+02:00| vmx| I125: Vix: [9272 mainDispatch.c:4238]: VMAutomation_ReportPowerOpFinished: statevar=0, newAppState=1870, success=1 additionalError=0
+2017-10-07T14:00:32.851+02:00| vmx| I125: Transitioned vmx/execState/val to poweredOff
+2017-10-07T14:00:32.851+02:00| vmx| I125: Vix: [9272 mainDispatch.c:4238]: VMAutomation_ReportPowerOpFinished: statevar=0, newAppState=1870, success=0 additionalError=0
+2017-10-07T14:00:32.851+02:00| vmx| I125: Vix: [9272 mainDispatch.c:4277]: Error VIX_E_FAIL in VMAutomation_ReportPowerOpFinished(): Unknown error
+2017-10-07T14:00:32.851+02:00| vmx| I125: Vix: [9272 mainDispatch.c:4238]: VMAutomation_ReportPowerOpFinished: statevar=0, newAppState=1870, success=1 additionalError=0
+2017-10-07T14:00:32.851+02:00| vmx| I125: Transitioned vmx/execState/val to poweredOff
+2017-10-07T14:00:32.851+02:00| vmx| I125: WQPoolFreePoll : pollIx = 3, signalHandle = 892
+2017-10-07T14:00:32.851+02:00| vmx| I125: Vix: [9272 mainDispatch.c:834]: VMAutomation_LateShutdown()
+2017-10-07T14:00:32.851+02:00| vmx| I125: Vix: [9272 mainDispatch.c:783]: VMAutomationCloseListenerSocket. Closing listener socket.
+2017-10-07T14:00:32.851+02:00| vmx| I125: Flushing VMX VMDB connections
+2017-10-07T14:00:32.852+02:00| vmx| I125: VmdbDbRemoveCnx: Removing Cnx from Db for '/db/connection/#1/'
+2017-10-07T14:00:32.852+02:00| vmx| I125: VmdbCnxDisconnect: Disconnect: closed pipe for pub cnx '/db/connection/#1/' (0)
+2017-10-07T14:00:32.852+02:00| vmx| I125: VigorTransport_ServerDestroy: server destroyed.
+2017-10-07T14:00:32.852+02:00| vmx| I125: WQPoolFreePoll : pollIx = 2, signalHandle = 700
+2017-10-07T14:00:32.852+02:00| vmx| I125: WQPoolFreePoll : pollIx = 1, signalHandle = 644
+2017-10-07T14:00:32.855+02:00| vmx| I125: VMX exit (0).
+2017-10-07T14:00:32.855+02:00| vmx| I125: OBJLIB-LIB: ObjLib cleanup done.
