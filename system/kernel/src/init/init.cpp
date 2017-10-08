@@ -14,7 +14,6 @@
 #include <libMOS/convert/convert.hpp>
 #include <mm/vmm.hpp>
 #include <multiboot.hpp>
-#include <interrupt/apic.hpp>
 #include <interrupt/init.hpp>
 #include <scheduler/scheduler.hpp>
 #include <terminal/text.hpp>
@@ -23,37 +22,39 @@
 
 namespace System
 {
-	void kernel_main()
+	namespace Kernel
 	{
-		scheduler CPUscheduler[CPU_COUNT];
-		for (int i = 0; i < CPU_COUNT; i++)
+		void Main()
 		{
-			CPUscheduler[i].init();
-		}
-		while (true)
-		{
+			scheduler CPUscheduler[CPU_COUNT];
+			for (int i = 0; i < CPU_COUNT; i++)
+			{
+				CPUscheduler[i].init();
+			}
+			while (true)
+			{
 
+			}
+			asm volatile("hlt");
 		}
-		asm volatile("hlt");
 	}
 
 	extern "C"
 	{
-		void init(uint32_t magic, multiboot_t *multiboot)
+		void Init(uint32_t magic, multiboot_t *multiboot)
 		{
-			Paging::init();
+			Paging::Init();
 			multiboot = Paging::ToVMA_V(multiboot);
 
-			GDT::remake();
-			IDT::init();
-			//TSS::init();
+			GDT::Remake();
+			IDT::Init();
+			//TSS::Init();
 
-			Text::init();
+			Text::Init();
 
 			CPUID::GetCPUInfo();
-			Interrupt::APIC::init();
+			Interrupt::Init();
 			CPUID::GetCPUInfo();
-			CPUID::PasteCPUVendor();
 
 			Text::WriteLine("--------------------------------------------------------------------------------");
 			Text::WriteLine("----------------  Hello! This is MOS - Modern Operating System  ----------------");
@@ -63,7 +64,7 @@ namespace System
 
 			//asm volatile("sti");
 
-			kernel_main();
+			Kernel::Main();
 		}
 	}
 }

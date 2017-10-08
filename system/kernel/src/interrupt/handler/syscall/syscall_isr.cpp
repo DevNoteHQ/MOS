@@ -3,7 +3,7 @@
 #include <interrupt/handler/stubs.hpp>
 
 
-__attribute__((interrupt)) void syscall0(CPU::State *state)
+__attribute__((interrupt)) void Syscall0(CPU::State *state)
 {
 
 }

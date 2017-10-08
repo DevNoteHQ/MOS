@@ -5,7 +5,7 @@
 namespace Text
 {
 	// Konstruktor
-	void init();
+	void Init();
 
 	// Leeren des Bildschirms, die Größe beträgt 80x25 Zeichen
 	void Clear();

@@ -3,7 +3,7 @@
 #include <interrupt/handler/stubs.hpp>
 
 
-__attribute__((interrupt)) void x87FloatingPoint(CPU::State *state)
+__attribute__((interrupt)) void X87FloatingPoint(CPU::State *state)
 {
 	//Text::Clear();
 	Text::WriteLine("FAULT: x87 Floating Point!");

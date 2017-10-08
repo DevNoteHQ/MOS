@@ -4,13 +4,20 @@
 
 namespace Interrupt
 {
+	void Init();
+
+	namespace PIC
+	{
+		void Init();
+	}
 	namespace APIC
 	{
-		void init();
+		void Init();
+		extern bool bX2APIC;
 	}
 	namespace IOAPIC
 	{
-		void init();
+		void Init();
 	}
 }
 #endif

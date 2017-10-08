@@ -3,7 +3,7 @@
 #include <interrupt/handler/stubs.hpp>
 
 
-__attribute__((interrupt)) void spurious(CPU::State *state)
+__attribute__((interrupt)) void Spurious(CPU::State *state)
 {
 	Text::WriteLine("Spurious!");
 }

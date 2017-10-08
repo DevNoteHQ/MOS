@@ -22,7 +22,7 @@ namespace TSS
 {
 	TSS_t Default;
 	TSS_t *tss = &Default;
-	void init(void)
+	void Init(void)
 	{
 		/* reset all the fields */
 		memset(tss, 0, sizeof(TSS_t));
@@ -32,7 +32,7 @@ namespace TSS
 		tss_install(SLTR_TSS);
 	}
 
-	void set_rsp0(uint64_t rsp0)
+	void Set_rsp0(uint64_t rsp0)
 	{
 		tss->rsp0 = rsp0;
 	}

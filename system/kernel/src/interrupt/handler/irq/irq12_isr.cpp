@@ -3,7 +3,7 @@
 #include <interrupt/handler/stubs.hpp>
 
 
-__attribute__((interrupt)) void irq12(CPU::State *state)
+__attribute__((interrupt)) void Irq12(CPU::State *state)
 {
 	//Text::Clear();
 	Text::WriteLine("IRQ!");

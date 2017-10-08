@@ -3,8 +3,6 @@
 #include <libMOS/convert/convert.hpp>
 #include <terminal/text.hpp>
 
-uint32_t unused;
-
 namespace CPUID
 {
 	uint32_t CPUID_0[4][4];

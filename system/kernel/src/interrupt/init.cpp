@@ -74,38 +74,63 @@
 #define DCR_64  0x9
 #define DCR_128 0xA
 
+#define FORCE_PIC
+
 namespace Interrupt
 {
+	void Init()
+	{
+		if (!(CPUID::CPUID_0[1][3] & CPUID::EAX1::EDX_APIC))
+		{
+			PIC::Init();
+		}
+		else
+		{
+#ifndef FORCE_PIC
+			APIC::Init();
+#else
+			PIC::Init();
+#endif
+		}
+	}
+
+	namespace PIC
+	{
+		void Init()
+		{
+			Text::WriteLine("Initialising PIC...");
+		}
+	}
+
 	namespace APIC
 	{
+		bool bX2APIC = true;
+
 		void Write(size_t reg, uint64_t val)
 		{
-			msr_write(MSR_X2APIC_MMIO + reg, val);
-			/*	APIC Writing:
-			apic_mmio[reg * 4] = val;
-			*/
+			if (bX2APIC == true)
+				msr_write(MSR_X2APIC_MMIO + reg, val);
+			else
+			{
+				//apic_mmio[reg * 4] = val;
+			}
 		}
 
-		void init()
+		void Init()
 		{
-			if (!(CPUID::CPUID_0[1][3] & CPUID::EAX1::EDX_APIC))
+			Text::WriteLine("Initialising APIC...");
+			if (!(CPUID::CPUID_0[1][2] & CPUID::EAX1::ECX_x2APIC))
 			{
-				Text::WriteLine("Your CPU doesn't support APIC! Aborting!");
+				bX2APIC = false;
+				Text::WriteLine("Your CPU doesn't support x2APIC! Aborting!");
 				abort();
 			}
 			else
 			{
-				if (!(CPUID::CPUID_0[1][2] & CPUID::EAX1::ECX_x2APIC))
-				{
-					Text::WriteLine("Your CPU doesn't support x2APIC! Aborting!");
-					abort();
-				}
-				else
-				{
-					uint64_t base = msr_read(MSR_APIC_BASE) | APIC_BASE_ENABLED | APIC_BASE_X2_MODE;
-					msr_write(MSR_APIC_BASE, base);
-				}
+				uint64_t base = msr_read(MSR_APIC_BASE) | APIC_BASE_ENABLED | APIC_BASE_X2_MODE;
+				msr_write(MSR_APIC_BASE, base);
 			}
+
 			//Set the Spurious Interrupt Vector Register
 			Write(APIC_SVR, SVR_ENABLED | SPURIOUS);
 			//Set the Task Priority Register
@@ -121,16 +146,16 @@ namespace Interrupt
 			//Write(APIC_LVT_LINT1, WERT);
 
 			//Reset Priority
-			
+
 
 			Write(APIC_EOI, 0);
 		}
 	}
 	namespace IOAPIC
 	{
-		void init()
+		void Init()
 		{
-
+			Text::WriteLine("Initialising IO-APIC...");
 		}
 	}
 }

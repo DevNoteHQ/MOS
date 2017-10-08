@@ -24,7 +24,7 @@ namespace Paging
 {
 	uint64_t *PL4 = PL4P;
 	uint64_t *PL3 = PL4P + ALIGN;
-	void init(void)
+	void Init(void)
 	{
 		PL4[PL4E - 1] = (((uint64_t) PL4) | PG_WRITABLE | PG_PRESENT);
 		PL4[PL4E - 2] = (((uint64_t) PL3) | PG_WRITABLE | PG_PRESENT);
@@ -33,7 +33,7 @@ namespace Paging
 		{
 			PL3[i] = (((uint64_t) i * SIZE1G) | PG_WRITABLE | PG_PRESENT | PG_BIG);
 		}
-		SetCR3((uint64_t) PL4);
+		setCR3((uint64_t) PL4);
 	}
 	
 	void *ToVMA_V(void *addr)

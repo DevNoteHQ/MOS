@@ -2,8 +2,6 @@
 #ifndef CPUID_CPUID_H
 #define CPUID_CPUID_H
 
-extern uint32_t unused;
-
 #define cpuid(in, a, b, c, d) __asm__("cpuid": "=a" (a), "=b" (b), "=c" (c), "=d" (d) : "a" (in));
 
 namespace CPUID

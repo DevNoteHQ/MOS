@@ -13,7 +13,7 @@ namespace IDT
 	static Descriptor descriptors[INTERRUPTS];
 	static IDTR_t idtr;
 
-	void set (Descriptor *descriptor, void(*handler)(CPU::State *state), uint8_t flags)
+	void Set (Descriptor *descriptor, void(*handler)(CPU::State *state), uint8_t flags)
 	{
 		descriptor->selector = 0x08;
 
@@ -25,7 +25,7 @@ namespace IDT
 		descriptor->flags = flags;
 	}
 
-	void sete(Descriptor *descriptor, void(*handler)(CPU::State *state, uint64_t error), uint8_t flags)
+	void Sete(Descriptor *descriptor, void(*handler)(CPU::State *state, uint64_t error), uint8_t flags)
 	{
 		descriptor->selector = 0x08;
 
@@ -37,80 +37,80 @@ namespace IDT
 		descriptor->flags = flags;
 	}
 
-	void init(void)
+	void Init()
 	{
 		memset(descriptors, 0, sizeof(descriptors));
 
 		//Faults:
-		set (&descriptors[0x00], &DivideByZero,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x01], &Debug,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x02], &NonMaskableInterrupt,			IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x03], &Breakpoint,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x04], &Overflow,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x05], &BoundRange,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x06], &InvalidOpcode,				IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x07], &DeviceNotAvailable,			IDT_PRESENT | IDT_INTERRUPT);
-		sete(&descriptors[0x08], &DoubleFault,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x09], &CoprocessorSegmentOverrun,	IDT_PRESENT | IDT_INTERRUPT);
-		sete(&descriptors[0x0A], &InvalidTSS,					IDT_PRESENT | IDT_INTERRUPT);
-		sete(&descriptors[0x0B], &SegmentNotPresent,			IDT_PRESENT | IDT_INTERRUPT);
-		sete(&descriptors[0x0C], &StackFault,					IDT_PRESENT | IDT_INTERRUPT);
-		sete(&descriptors[0x0D], &GeneralProtection,			IDT_PRESENT | IDT_INTERRUPT);
-		sete(&descriptors[0x0E], &PageFault,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x0F], &Fault0x0F,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x10], &x87FloatingPoint,				IDT_PRESENT | IDT_INTERRUPT);
-		sete(&descriptors[0x11], &AlignmentCheck,				IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x12], &MachineCheck,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x13], &SIMDFloatingPoint,			IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x14], &Fault0x14,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x15], &Fault0x15,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x16], &Fault0x16,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x17], &Fault0x17,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x18], &Fault0x18,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x19], &Fault0x19,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x1A], &Fault0x1A,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x1B], &Fault0x1B,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x1C], &Fault0x1C,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x1D], &Fault0x1D,					IDT_PRESENT | IDT_INTERRUPT);
-		sete(&descriptors[0x1E], &SecuritySensitiveEvent,		IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x1F], &Fault0x1F,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x00], &DivideByZero,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x01], &Debug,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x02], &NonMaskableInterrupt,			IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x03], &Breakpoint,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x04], &Overflow,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x05], &BoundRange,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x06], &InvalidOpcode,				IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x07], &DeviceNotAvailable,			IDT_PRESENT | IDT_INTERRUPT);
+		Sete(&descriptors[0x08], &DoubleFault,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x09], &CoprocessorSegmentOverrun,	IDT_PRESENT | IDT_INTERRUPT);
+		Sete(&descriptors[0x0A], &InvalidTSS,					IDT_PRESENT | IDT_INTERRUPT);
+		Sete(&descriptors[0x0B], &SegmentNotPresent,			IDT_PRESENT | IDT_INTERRUPT);
+		Sete(&descriptors[0x0C], &StackFault,					IDT_PRESENT | IDT_INTERRUPT);
+		Sete(&descriptors[0x0D], &GeneralProtection,			IDT_PRESENT | IDT_INTERRUPT);
+		Sete(&descriptors[0x0E], &PageFault,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x0F], &Fault0x0F,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x10], &X87FloatingPoint,				IDT_PRESENT | IDT_INTERRUPT);
+		Sete(&descriptors[0x11], &AlignmentCheck,				IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x12], &MachineCheck,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x13], &SIMDFloatingPoint,			IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x14], &Fault0x14,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x15], &Fault0x15,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x16], &Fault0x16,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x17], &Fault0x17,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x18], &Fault0x18,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x19], &Fault0x19,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x1A], &Fault0x1A,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x1B], &Fault0x1B,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x1C], &Fault0x1C,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x1D], &Fault0x1D,					IDT_PRESENT | IDT_INTERRUPT);
+		Sete(&descriptors[0x1E], &SecuritySensitiveEvent,		IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x1F], &Fault0x1F,					IDT_PRESENT | IDT_INTERRUPT);
 
 		//IRQs:
-		set (&descriptors[0x20], &irq00,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x21], &irq01,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x22], &irq02,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x23], &irq03,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x24], &irq04,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x25], &irq05,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x26], &irq06,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x27], &irq07,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x28], &irq08,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x29], &irq09,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x2A], &irq00,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x2B], &irq11,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x2C], &irq12,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x2D], &irq13,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x2E], &irq14,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x2F], &irq15,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x30], &irq16,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x31], &irq17,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x32], &irq18,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x33], &irq19,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x34], &irq20,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x35], &irq21,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x36], &irq22,						IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[0x37], &irq23,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x20], &Irq00,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x21], &Irq01,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x22], &Irq02,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x23], &Irq03,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x24], &Irq04,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x25], &Irq05,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x26], &Irq06,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x27], &Irq07,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x28], &Irq08,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x29], &Irq09,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x2A], &Irq00,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x2B], &Irq11,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x2C], &Irq12,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x2D], &Irq13,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x2E], &Irq14,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x2F], &Irq15,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x30], &Irq16,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x31], &Irq17,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x32], &Irq18,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x33], &Irq19,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x34], &Irq20,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x35], &Irq21,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x36], &Irq22,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x37], &Irq23,						IDT_PRESENT | IDT_INTERRUPT);
 
 		//Syscalls:
-		set (&descriptors[0x38], &syscall0,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x38], &Syscall0,						IDT_PRESENT | IDT_INTERRUPT);
 
 		//Special:
-		set (&descriptors[NOT_INTR],	&special,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[IPI_PANIC],	&special,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[IPI_TLB],		&special,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[LVT_TIMER],	&lvt_timer,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[LVT_ERROR],	&lvt_error,					IDT_PRESENT | IDT_INTERRUPT);
-		set (&descriptors[SPURIOUS],	&spurious,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[NOT_INTR],	&Special,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[IPI_PANIC],	&Special,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[IPI_TLB],		&Special,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[LVT_TIMER],	&LVT_Timer,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[LVT_ERROR],	&LVT_Error,					IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[SPURIOUS],	&Spurious,					IDT_PRESENT | IDT_INTERRUPT);
 
 		idtr.addr = (uint64_t)descriptors;
 		idtr.len = sizeof(descriptors) - 1;

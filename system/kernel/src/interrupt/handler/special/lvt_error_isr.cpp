@@ -3,7 +3,7 @@
 #include <interrupt/handler/stubs.hpp>
 
 
-__attribute__((interrupt)) void lvt_error(CPU::State *state)
+__attribute__((interrupt)) void LVT_Error(CPU::State *state)
 {
 	Text::WriteLine("LVT_Error!");
 }

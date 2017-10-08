@@ -1,5 +1,5 @@
 
-[global SetCR3]
-SetCR3:
+[global setCR3]
+setCR3:
 	mov cr3, rdi
 	ret

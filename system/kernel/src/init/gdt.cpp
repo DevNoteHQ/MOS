@@ -49,8 +49,8 @@
 
 
 #define GDT_ENTRIES 5
-#define TSS_ENTRIES 1 //Temporary until i can get CPU-Count and set a Entry for each CPU
-#define ENTRIES 6 //Temporary until i can get CPU-Count and set a Entry for each CPU
+#define TSS_ENTRIES 1 //Temporary until i can get CPU-Count and Set a Entry for each CPU
+#define ENTRIES 6 //Temporary until i can get CPU-Count and Set a Entry for each CPU
 
 #define TSS_FLAG 0x89
 
@@ -60,35 +60,35 @@ namespace GDT
 {
 	uint64_t GDT64 = 0;
 	uint64_t *gdt = &GDT64;
-	void set(int i, uint32_t base, uint32_t limit, uint16_t flag)
+	void Set(int i, uint32_t base, uint32_t limit, uint16_t flag)
 	{
 		// Create the high 32 bit segment
-		gdt[i] = limit & 0x000F0000;         // set limit bits 19:16
-		gdt[i] |= (flag << 8) & 0x00F0FF00;         // set type, p, dpl, s, g, d/b, l and avl fields
-		gdt[i] |= (base >> 16) & 0x000000FF;         // set base bits 23:16
-		gdt[i] |= base & 0xFF000000;         // set base bits 31:24
+		gdt[i] = limit & 0x000F0000;         // Set limit bits 19:16
+		gdt[i] |= (flag << 8) & 0x00F0FF00;         // Set type, p, dpl, s, g, d/b, l and avl fields
+		gdt[i] |= (base >> 16) & 0x000000FF;         // Set base bits 23:16
+		gdt[i] |= base & 0xFF000000;         // Set base bits 31:24
 
 												 // Shift by 32 to allow for low part of segment
 		gdt[i] <<= 32;
 
 		// Create the low 32 bit segment
-		gdt[i] |= base << 16;                       // set base bits 15:0
-		gdt[i] |= limit & 0x0000FFFF;               // set limit bits 15:0
+		gdt[i] |= base << 16;                       // Set base bits 15:0
+		gdt[i] |= limit & 0x0000FFFF;               // Set limit bits 15:0
 	}
 
-	void remake(void)
+	void Remake(void)
 	{
 		memset(gdt, 0, ENTRIES);
 
 		uint64_t tss_base = (uint64_t)TSS::tss;
 		uint64_t tss_limit = sizeof(*TSS::tss);
 
-		set(0, 0, 0, 0);
-		set(1, 0, 0xFFFFFFFF, (GDT_CODE_PL0));
-		set(2, 0, 0xFFFFFFFF, (GDT_DATA_PL0));
-		set(3, 0, 0xFFFFFFFF, (GDT_CODE_PL3));
-		set(4, 0, 0xFFFFFFFF, (GDT_DATA_PL3));
-		set(5, (uint32_t)tss_base, TSS_LIMIT, TSS_FLAG);
+		Set(0, 0, 0, 0);
+		Set(1, 0, 0xFFFFFFFF, (GDT_CODE_PL0));
+		Set(2, 0, 0xFFFFFFFF, (GDT_DATA_PL0));
+		Set(3, 0, 0xFFFFFFFF, (GDT_CODE_PL3));
+		Set(4, 0, 0xFFFFFFFF, (GDT_DATA_PL3));
+		Set(5, (uint32_t)tss_base, TSS_LIMIT, TSS_FLAG);
 
 		uint64_t gs_base = msr_read(MSR_GS_BASE);
 

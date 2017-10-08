@@ -1,6 +1,6 @@
 
 [bits 32]
-[extern init]
+[extern Init]
 [extern abort]
 [extern start_ctors]
 [extern end_ctors]
@@ -186,7 +186,7 @@ start:
 		cmp rbx, r8
 		jb .body
 		push rbx
-		call init                      ; call kernel proper
+		call Init                      ; call kernel proper
  
 	static_dtors_loop:
 		mov rbx, start_dtors

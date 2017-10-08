@@ -3,7 +3,7 @@
 #include <interrupt/handler/stubs.hpp>
 
 
-__attribute__((interrupt)) void special(CPU::State *state)
+__attribute__((interrupt)) void Special(CPU::State *state)
 {
 
 }

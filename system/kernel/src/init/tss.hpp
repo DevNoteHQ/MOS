@@ -41,8 +41,8 @@ namespace TSS
 
 	extern TSS_t Default;
 	extern TSS_t *tss;
-	void init(void);
-	void set_rsp0(uint64_t rsp0);
+	void Init(void);
+	void Set_rsp0(uint64_t rsp0);
 	extern "C" void tss_install(uint16_t selector);
 }
 

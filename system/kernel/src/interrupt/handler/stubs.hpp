@@ -23,7 +23,7 @@ __attribute__((interrupt)) void StackFault(CPU::State *state, uint64_t error);
 __attribute__((interrupt)) void GeneralProtection(CPU::State *state, uint64_t error);
 __attribute__((interrupt)) void PageFault(CPU::State *state, uint64_t error);
 __attribute__((interrupt)) void Fault0x0F(CPU::State *state);
-__attribute__((interrupt)) void x87FloatingPoint(CPU::State *state);
+__attribute__((interrupt)) void X87FloatingPoint(CPU::State *state);
 __attribute__((interrupt)) void AlignmentCheck(CPU::State *state, uint64_t error);
 __attribute__((interrupt)) void MachineCheck(CPU::State *state);
 __attribute__((interrupt)) void SIMDFloatingPoint(CPU::State *state);
@@ -41,40 +41,40 @@ __attribute__((interrupt)) void SecuritySensitiveEvent(CPU::State *state, uint64
 __attribute__((interrupt)) void Fault0x1F(CPU::State *state);
 
 //IRQs:
-__attribute__((interrupt)) void irq00(CPU::State *state);
-__attribute__((interrupt)) void irq01(CPU::State *state);
-__attribute__((interrupt)) void irq02(CPU::State *state);
-__attribute__((interrupt)) void irq03(CPU::State *state);
-__attribute__((interrupt)) void irq04(CPU::State *state);
-__attribute__((interrupt)) void irq05(CPU::State *state);
-__attribute__((interrupt)) void irq06(CPU::State *state);
-__attribute__((interrupt)) void irq07(CPU::State *state);
-__attribute__((interrupt)) void irq08(CPU::State *state);
-__attribute__((interrupt)) void irq09(CPU::State *state);
-__attribute__((interrupt)) void irq10(CPU::State *state);
-__attribute__((interrupt)) void irq11(CPU::State *state);
-__attribute__((interrupt)) void irq12(CPU::State *state);
-__attribute__((interrupt)) void irq13(CPU::State *state);
-__attribute__((interrupt)) void irq14(CPU::State *state);
-__attribute__((interrupt)) void irq15(CPU::State *state);
-__attribute__((interrupt)) void irq16(CPU::State *state);
-__attribute__((interrupt)) void irq17(CPU::State *state);
-__attribute__((interrupt)) void irq18(CPU::State *state);
-__attribute__((interrupt)) void irq19(CPU::State *state);
-__attribute__((interrupt)) void irq20(CPU::State *state);
-__attribute__((interrupt)) void irq21(CPU::State *state);
-__attribute__((interrupt)) void irq22(CPU::State *state);
-__attribute__((interrupt)) void irq23(CPU::State *state);
+__attribute__((interrupt)) void Irq00(CPU::State *state);
+__attribute__((interrupt)) void Irq01(CPU::State *state);
+__attribute__((interrupt)) void Irq02(CPU::State *state);
+__attribute__((interrupt)) void Irq03(CPU::State *state);
+__attribute__((interrupt)) void Irq04(CPU::State *state);
+__attribute__((interrupt)) void Irq05(CPU::State *state);
+__attribute__((interrupt)) void Irq06(CPU::State *state);
+__attribute__((interrupt)) void Irq07(CPU::State *state);
+__attribute__((interrupt)) void Irq08(CPU::State *state);
+__attribute__((interrupt)) void Irq09(CPU::State *state);
+__attribute__((interrupt)) void Irq10(CPU::State *state);
+__attribute__((interrupt)) void Irq11(CPU::State *state);
+__attribute__((interrupt)) void Irq12(CPU::State *state);
+__attribute__((interrupt)) void Irq13(CPU::State *state);
+__attribute__((interrupt)) void Irq14(CPU::State *state);
+__attribute__((interrupt)) void Irq15(CPU::State *state);
+__attribute__((interrupt)) void Irq16(CPU::State *state);
+__attribute__((interrupt)) void Irq17(CPU::State *state);
+__attribute__((interrupt)) void Irq18(CPU::State *state);
+__attribute__((interrupt)) void Irq19(CPU::State *state);
+__attribute__((interrupt)) void Irq20(CPU::State *state);
+__attribute__((interrupt)) void Irq21(CPU::State *state);
+__attribute__((interrupt)) void Irq22(CPU::State *state);
+__attribute__((interrupt)) void Irq23(CPU::State *state);
 
 //Syscalls:
-__attribute__((interrupt)) void syscall0(CPU::State *state);
+__attribute__((interrupt)) void Syscall0(CPU::State *state);
 
 
 //Special:
-__attribute__((interrupt)) void special(CPU::State *state);
-__attribute__((interrupt)) void lvt_timer(CPU::State *state);
-__attribute__((interrupt)) void lvt_error(CPU::State *state);
-__attribute__((interrupt)) void spurious(CPU::State *state);
+__attribute__((interrupt)) void Special(CPU::State *state);
+__attribute__((interrupt)) void LVT_Timer(CPU::State *state);
+__attribute__((interrupt)) void LVT_Error(CPU::State *state);
+__attribute__((interrupt)) void Spurious(CPU::State *state);
 
 
 #endif

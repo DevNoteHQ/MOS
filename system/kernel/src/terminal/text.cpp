@@ -19,7 +19,7 @@ namespace Text
 	uint16_t iBY = 0;
 	uint16_t iMoved = 0;
 
-	void init()
+	void Init()
 	{
 		iVideo = Paging::ToVMA_I(VIDEO_BUFFER);
 		ForegroundColor(Color::White);
