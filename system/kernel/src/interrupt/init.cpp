@@ -1,4 +1,5 @@
 
+#include "common.hpp"
 #include "init.hpp"
 
 #include <cpu/CPUID.hpp>
@@ -75,9 +76,6 @@
 
 namespace Interrupt
 {
-#define LVT_TIMER	0xFD
-#define LVT_ERROR	0xFE
-#define SPURIOUS	0xFF
 	namespace APIC
 	{
 		void Write(size_t reg, uint64_t val)
@@ -108,19 +106,22 @@ namespace Interrupt
 					msr_write(MSR_APIC_BASE, base);
 				}
 			}
-
 			//Set the Spurious Interrupt Vector Register
 			Write(APIC_SVR, SVR_ENABLED | SPURIOUS);
+			//Set the Task Priority Register
+			Write(APIC_TPR, 0);
 			//Clear Errors
 			Write(APIC_ESR, 0);
 			//Set the Local Vector Table Registers
-			Write(APIC_LVT_TIMER, LVT_MASKED);
+			Write(APIC_TIMER_DCR, 1);
+			Write(APIC_LVT_TIMER, LVT_TIMER);
+			Write(APIC_TIMER_ICR, 0xFFFFFF);
 			Write(APIC_LVT_ERROR, LVT_TYPE_FIXED | LVT_ERROR);
 			//Write(APIC_LVT_LINT0, WERT);
 			//Write(APIC_LVT_LINT1, WERT);
 
 			//Reset Priority
-			Write(APIC_TPR, 0);
+			
 
 			Write(APIC_EOI, 0);
 		}

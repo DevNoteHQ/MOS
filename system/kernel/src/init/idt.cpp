@@ -1,29 +1,12 @@
 
 #include <init/idt.hpp>
+#include <interrupt/common.hpp>
 #include <interrupt/handler/stubs.hpp>
 
 #define IDT_PRESENT		0x80
 #define IDT_USER		0x60
 #define IDT_INTERRUPT	0x0E
 #define IDT_TRAP		0x0F
-
-#define INTERRUPTS		256
-#define LASTFAULT		0x1F
-#define LASTIRQ			0x37
-#define LASTSYSCALL		0xF9
-
-#define NOT_INTR 0xFA
-
-/* IPIs */
-#define IPI_PANIC 0xFB
-#define IPI_TLB   0xFC
-
-/* LAPIC LVT interrupts */
-#define LVT_TIMER 0xFD
-#define LVT_ERROR 0xFE
-
-/* LAPIC spurious interrupt */
-#define SPURIOUS 0xFF
 
 namespace IDT
 {
