@@ -74,7 +74,26 @@
 #define DCR_64  0x9
 #define DCR_128 0xA
 
-#define FORCE_PIC
+#define PIC1			0x20
+#define PIC2			0xA0
+#define PIC1_COMMAND	PIC1
+#define PIC1_DATA		(PIC1+1)
+#define PIC2_COMMAND	PIC2
+#define PIC2_DATA		(PIC2+1)
+
+#define ICW1_ICW4		0x01		/* ICW4 (not) needed */
+#define ICW1_SINGLE		0x02		/* Single (cascade) mode */
+#define ICW1_INTERVAL4	0x04		/* Call address interval 4 (8) */
+#define ICW1_LEVEL		0x08		/* Level triggered (edge) mode */
+#define ICW1_INIT		0x10		/* Initialization - required! */
+
+#define ICW4_8086		0x01		/* 8086/88 (MCS-80/85) mode */
+#define ICW4_AUTO		0x02		/* Auto (normal) EOI */
+#define ICW4_BUF_SLAVE	0x08		/* Buffered mode/slave */
+#define ICW4_BUF_MASTER	0x0C		/* Buffered mode/master */
+#define ICW4_SFNM		0x10		/* Special fully nested (not) */
+
+//#define FORCE_PIC
 
 namespace Interrupt
 {
@@ -83,13 +102,17 @@ namespace Interrupt
 		if (!(CPUID::CPUID_0[1][3] & CPUID::EAX1::EDX_APIC))
 		{
 			PIC::Init();
+			PIC::Activate();
 		}
 		else
 		{
 #ifndef FORCE_PIC
+			PIC::Init();
+			PIC::Disable();
 			APIC::Init();
 #else
 			PIC::Init();
+			PIC::Activate();
 #endif
 		}
 	}
@@ -99,6 +122,35 @@ namespace Interrupt
 		void Init()
 		{
 			Text::WriteLine("Initialising PIC...");
+
+			//Master-PIC
+			Assembler::IO::outb(PIC1, ICW1_INIT);
+			Assembler::IO::outb(PIC1_DATA, IRQ00);
+			Assembler::IO::outb(PIC1_DATA, 0x4);
+			Assembler::IO::outb(PIC1_DATA, ICW1_ICW4);
+			//Slave-PIC
+			Assembler::IO::outb(PIC2, ICW1_INIT);
+			Assembler::IO::outb(PIC2_DATA, IRQ08);
+			Assembler::IO::outb(PIC2_DATA, 0x2);
+			Assembler::IO::outb(PIC2_DATA, ICW1_ICW4);
+		}
+
+		void Activate()
+		{
+			Text::WriteLine("Activating PIC...");
+
+			//Alle IRQs aktivieren
+			Assembler::IO::outb(PIC1_DATA, 0x0);
+			Assembler::IO::outb(PIC2_DATA, 0x0);
+		}
+
+		void Disable()
+		{
+			Text::WriteLine("Disabling PIC...");
+
+			//Alle IRQs aktivieren
+			Assembler::IO::outb(PIC1_DATA, 0xFF);
+			Assembler::IO::outb(PIC2_DATA, 0xFF);
 		}
 	}
 
@@ -140,7 +192,7 @@ namespace Interrupt
 			//Set the Local Vector Table Registers
 			Write(APIC_TIMER_DCR, 1);
 			Write(APIC_LVT_TIMER, LVT_TIMER);
-			Write(APIC_TIMER_ICR, 0xFFFFFF);
+			Write(APIC_TIMER_ICR, 0xFFFFFFF);
 			Write(APIC_LVT_ERROR, LVT_TYPE_FIXED | LVT_ERROR);
 			//Write(APIC_LVT_LINT0, WERT);
 			//Write(APIC_LVT_LINT1, WERT);

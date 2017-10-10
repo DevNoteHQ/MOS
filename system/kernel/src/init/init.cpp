@@ -52,17 +52,17 @@ namespace System
 
 			Text::Init();
 
-			CPUID::GetCPUInfo();
-			Interrupt::Init();
-			CPUID::GetCPUInfo();
-
 			Text::WriteLine("--------------------------------------------------------------------------------");
 			Text::WriteLine("----------------  Hello! This is MOS - Modern Operating System  ----------------");
 			Text::WriteLine("--------------------------------------------------------------------------------");
 			Text::WriteLine("");
 			Text::Write("Something> ");
 
-			//asm volatile("sti");
+			CPUID::GetCPUInfo();
+			Interrupt::Init();
+			CPUID::GetCPUInfo();
+
+			asm volatile("sti");
 
 			Kernel::Main();
 		}

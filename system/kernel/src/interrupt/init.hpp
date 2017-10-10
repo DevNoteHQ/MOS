@@ -9,6 +9,8 @@ namespace Interrupt
 	namespace PIC
 	{
 		void Init();
+		void Activate();
+		void Disable();
 	}
 	namespace APIC
 	{

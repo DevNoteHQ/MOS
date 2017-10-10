@@ -76,30 +76,30 @@ namespace IDT
 		Set (&descriptors[0x1F], &Fault0x1F,					IDT_PRESENT | IDT_INTERRUPT);
 
 		//IRQs:
-		Set (&descriptors[0x20], &Irq00,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x21], &Irq01,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x22], &Irq02,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x23], &Irq03,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x24], &Irq04,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x25], &Irq05,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x26], &Irq06,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x27], &Irq07,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x28], &Irq08,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x29], &Irq09,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x2A], &Irq00,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x2B], &Irq11,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x2C], &Irq12,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x2D], &Irq13,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x2E], &Irq14,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x2F], &Irq15,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x30], &Irq16,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x31], &Irq17,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x32], &Irq18,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x33], &Irq19,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x34], &Irq20,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x35], &Irq21,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x36], &Irq22,						IDT_PRESENT | IDT_INTERRUPT);
-		Set (&descriptors[0x37], &Irq23,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x20], &IRQ_00,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x21], &IRQ_01,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x22], &IRQ_02,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x23], &IRQ_03,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x24], &IRQ_04,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x25], &IRQ_05,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x26], &IRQ_06,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x27], &IRQ_07,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x28], &IRQ_08,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x29], &IRQ_09,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x2A], &IRQ_00,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x2B], &IRQ_11,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x2C], &IRQ_12,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x2D], &IRQ_13,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x2E], &IRQ_14,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x2F], &IRQ_15,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x30], &IRQ_16,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x31], &IRQ_17,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x32], &IRQ_18,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x33], &IRQ_19,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x34], &IRQ_20,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x35], &IRQ_21,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x36], &IRQ_22,						IDT_PRESENT | IDT_INTERRUPT);
+		Set (&descriptors[0x37], &IRQ_23,						IDT_PRESENT | IDT_INTERRUPT);
 
 		//Syscalls:
 		Set (&descriptors[0x38], &Syscall0,						IDT_PRESENT | IDT_INTERRUPT);
