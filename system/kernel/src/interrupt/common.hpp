@@ -6,8 +6,6 @@
 #define INTERRUPTS		256
 #define LASTFAULT		0x1F
 
-
-
 #define IRQ00	0x20
 #define IRQ01	0x21
 #define IRQ02	0x22

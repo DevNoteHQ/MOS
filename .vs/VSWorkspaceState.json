@@ -5,10 +5,12 @@
     "\\system",
     "\\system\\kernel",
     "\\system\\kernel\\src",
-    "\\system\\kernel\\src\\cpu",
+    "\\system\\kernel\\src\\driver",
+    "\\system\\kernel\\src\\driver\\keyboard",
+    "\\system\\kernel\\src\\interrupt",
     "\\system\\kernel\\src\\interrupt\\handler",
-    "\\system\\kernel\\src\\terminal"
+    "\\system\\kernel\\src\\interrupt\\handler\\irq"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\terminal\\text.cpp",
+  "SelectedNode": "\\system\\kernel\\src\\interrupt\\handler\\irq\\irq01_isr.cpp",
   "PreviewInSolutionExplorer": false
 }

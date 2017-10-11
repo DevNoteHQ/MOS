@@ -1,11 +1,5 @@
 
-FDIRS := $(shell find -maxdepth 1 -type d)
-DIRS := $(patsubst ./%,%,$(FDIRS))
-DIRSNBIN := $(patsubst .%,%,$(DIRS))
-DIRSNDEB := $(filter-out Debug,$(DIRSNBIN))
-DIRSNOBJ := $(filter-out obj,$(DIRSNDEB))
-DIRSNTRA := $(filter-out -,$(DIRSNOBJ))
-MODULES := $(filter-out bin,$(DIRSNTRA))
+MODULES := kernel
 
 .PHONY: all clean $(MODULES)
 

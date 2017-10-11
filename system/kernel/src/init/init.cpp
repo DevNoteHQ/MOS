@@ -11,34 +11,21 @@
 
 #include <cpu/msr.hpp>
 #include <cpu/CPUID.hpp>
+
+#include <driver/keyboard/ps2/keyboard.hpp>
+
 #include <libMOS/convert/convert.hpp>
+
 #include <mm/vmm.hpp>
+
 #include <multiboot.hpp>
 #include <interrupt/init.hpp>
-#include <scheduler/scheduler.hpp>
 #include <terminal/text.hpp>
 
 #define CPU_COUNT 8
 
 namespace System
 {
-	namespace Kernel
-	{
-		void Main()
-		{
-			scheduler CPUscheduler[CPU_COUNT];
-			for (int i = 0; i < CPU_COUNT; i++)
-			{
-				CPUscheduler[i].init();
-			}
-			while (true)
-			{
-
-			}
-			asm volatile("hlt");
-		}
-	}
-
 	extern "C"
 	{
 		void Init(uint32_t magic, multiboot_t *multiboot)
@@ -64,7 +51,14 @@ namespace System
 
 			asm volatile("sti");
 
-			Kernel::Main();
+			Driver::Keyboard::Init();
+
+			while (true)
+			{
+
+			}
+
+			asm volatile("hlt");
 		}
 	}
 }
