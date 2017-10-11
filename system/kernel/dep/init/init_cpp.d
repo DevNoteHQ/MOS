@@ -5,9 +5,9 @@ obj/init/init_cpp.o: src/init/init.cpp \
  ../../include/string.hpp ../../include/types.hpp \
  ../../include/assembler.hpp ../../include/abort.hpp src/common.hpp \
  src/init/idt.hpp src/init/gdt.hpp src/init/tss.hpp src/cpu/msr.hpp \
- src/cpu/CPUID.hpp src/libMOS/convert/convert.hpp src/mm/vmm.hpp \
- src/multiboot.hpp src/interrupt/init.hpp src/scheduler/scheduler.hpp \
- src/terminal/text.hpp
+ src/cpu/CPUID.hpp src/driver/keyboard/ps2/keyboard.hpp \
+ src/libMOS/convert/convert.hpp src/mm/vmm.hpp src/multiboot.hpp \
+ src/interrupt/init.hpp src/terminal/text.hpp
 
 /mnt/d/Coding/OSDev/cross/lib/gcc/x86_64-elf/7.1.0/include/stddef.h:
 
@@ -35,6 +35,8 @@ src/cpu/msr.hpp:
 
 src/cpu/CPUID.hpp:
 
+src/driver/keyboard/ps2/keyboard.hpp:
+
 src/libMOS/convert/convert.hpp:
 
 src/mm/vmm.hpp:
@@ -42,7 +44,5 @@ src/mm/vmm.hpp:
 src/multiboot.hpp:
 
 src/interrupt/init.hpp:
-
-src/scheduler/scheduler.hpp:
 
 src/terminal/text.hpp:
