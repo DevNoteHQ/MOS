@@ -4,6 +4,9 @@
 *.o
 *.obj
 
+# Dependencies
+*.d
+
 # Precompiled Headers
 *.gch
 *.pch
@@ -20,12 +23,12 @@
 # Compiled Static libraries
 *.lai
 *.la
-*.a
 *.lib
 
 # Executables
 *.exe
 *.out
 *.app
+*.elf
 
 .vs/*
