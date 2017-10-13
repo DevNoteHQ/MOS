@@ -1,6 +1,7 @@
 
 #include "keyboard.hpp"
 
+#include <keys/keys.hpp>
 #include <terminal/text.hpp>
 
 #include <libMOS/convert/convert.hpp>
@@ -23,6 +24,8 @@ namespace Driver
 			SendCommand(0);
 
 			SendCommand(0xF4);
+
+			Keys::Init();
 		}
 
 		static void SendCommand(uint8_t command)
@@ -59,7 +62,7 @@ namespace Driver
 				case 0x0B: return '0'; break;
 				case 0x0C: return '-'; break;
 				case 0x0F: return '='; break;
-				case 0x10: return 'Q'; break; //Edit needed
+				case 0x10: Keys::Q.IsPressed = true; Keys::UpdateFocusedElement(); Keys::Q.IsPressed = false; Keys::Q.IsHeld = true; Keys::UpdateFocusedElement(); break;
 				}
 			}
 			if (iTable = 2)

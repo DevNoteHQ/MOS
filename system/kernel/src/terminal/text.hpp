@@ -29,6 +29,11 @@ namespace Text
 	void Scroll();
 
 	void UpdateScreenColor();
+
+	namespace Keyboard
+	{
+		void GetKeys();
+	}
 }
 
 #endif

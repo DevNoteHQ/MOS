@@ -136,4 +136,12 @@ namespace Text
 			iVideo[i] |= iColor;
 		}
 	}
+
+	namespace Keyboard
+	{
+		void GetKeys()
+		{
+
+		}
+	}
 }
