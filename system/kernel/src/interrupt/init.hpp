@@ -88,8 +88,6 @@
 #define ICW4_BUF_MASTER	0x0C		/* Buffered mode/master */
 #define ICW4_SFNM		0x10		/* Special fully nested (not) */
 
-//#define FORCE_PIC
-
 namespace Interrupt
 {
 	void Init();

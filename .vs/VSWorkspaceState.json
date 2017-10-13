@@ -7,10 +7,9 @@
     "\\system\\kernel\\src",
     "\\system\\kernel\\src\\driver",
     "\\system\\kernel\\src\\driver\\keyboard",
-    "\\system\\kernel\\src\\interrupt",
-    "\\system\\kernel\\src\\interrupt\\handler",
-    "\\system\\kernel\\src\\interrupt\\handler\\irq"
+    "\\system\\kernel\\src\\driver\\keyboard\\ps2",
+    "\\system\\kernel\\src\\interrupt\\handler"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\interrupt\\handler\\irq\\irq01_isr.cpp",
+  "SelectedNode": "\\system\\kernel\\src\\driver\\keyboard\\ps2\\keyboard.hpp",
   "PreviewInSolutionExplorer": false
 }

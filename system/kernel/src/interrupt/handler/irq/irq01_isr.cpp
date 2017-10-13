@@ -23,14 +23,10 @@ __attribute__((interrupt)) void IRQ_01(CPU::State *state)
 		}
 	}
 	iScancode = IO::inb(0x60);
-	char cKey[3] = { '\0' };
+	char cKey[5] = { '\0' };
 	Convert::OldToString((uint64_t) iScancode, cKey);
 	Text::Write(cKey);
 	Text::Write(" - ");
 
-#ifndef FORCE_PIC
-	Interrupt::APIC::Write(APIC_EOI, 0);
-#else
 	IO::outb(0x20, 0x20);
-#endif
 }

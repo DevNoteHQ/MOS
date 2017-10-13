@@ -13,11 +13,8 @@ namespace Text
 {
 	uint16_t iColor = 0;
 	uint16_t *iVideo = 0;
-	uint16_t iVideo_Buff[VGA_HEIGHT][VGA_WIDTH];
 	uint16_t iX = 0;
 	uint16_t iY = 0;
-	uint16_t iBY = 0;
-	uint16_t iMoved = 0;
 
 	void Init()
 	{
@@ -27,7 +24,6 @@ namespace Text
 		iX = 0;
 		iY = 0;
 		Clear();
-		ClearBuffer();
 	}
 
 	void Clear()
@@ -36,15 +32,6 @@ namespace Text
 		for (uint32_t i = 0; i < (VGA_WIDTH * VGA_HEIGHT); i++)
 		{
 			iVideo[i] = (unsigned char)' ' | iColor;
-		}
-	}
-
-	void ClearBuffer()
-	{
-		for (uint16_t iYC = 0; iYC < VGA_HEIGHT; iYC++)
-		{
-			for (uint16_t iXC = 0; iXC < VGA_WIDTH; iXC++)
-				iVideo_Buff[iYC][iXC] = (unsigned char)' ' | iColor;
 		}
 	}
 
@@ -93,7 +80,14 @@ namespace Text
 		{
 		case '\n':
 			iX = 0;
-			iY++;
+			if (iY >= VGA_HEIGHT - 1)
+			{
+				Scroll();
+			}
+			else
+			{
+				iY++;
+			}
 			Cursor();
 			break;
 		default:
@@ -102,12 +96,6 @@ namespace Text
 				if (iX >= VGA_WIDTH)
 				{
 					iX = 0;
-					iMoved++;
-					iBY++;
-					if (iMoved >= VGA_HEIGHT)
-					{
-						iMoved = 0;
-					}
 					Scroll();
 				}
 			}
@@ -117,15 +105,9 @@ namespace Text
 				{
 					iX = 0;
 					iY++;
-					iBY++;
 				}
 			}
-			if (iBY >= VGA_HEIGHT)
-			{
-				iBY = 0;
-			}
 			iVideo[iX + VGA_WIDTH * iY] = (uint16_t)cC | iColor;
-			iVideo_Buff[iBY][iX] = (uint16_t)cC | iColor;
 			iX++;
 			Cursor();
 			break;
@@ -134,22 +116,16 @@ namespace Text
 
 	void Scroll()
 	{
-		uint16_t iYSC = iMoved;
 		uint16_t iYC = 0;
 		uint16_t iXC = 0;
-		for (iXC = 0; iXC < VGA_WIDTH; iXC++)
-		{
-			iVideo_Buff[iMoved - 1][iXC] = (unsigned char)' ' | iColor;
-		}
-		for (; (iYC < VGA_HEIGHT) && (iYSC < VGA_HEIGHT); iYC++, iYSC++)
-		{
-			for(iXC = 0; iXC < VGA_WIDTH; iXC++)
-				iVideo[iYC * VGA_WIDTH + iXC] = iVideo_Buff[iYSC][iXC];
-		}
-		for (iYSC = 0; (iYC < VGA_HEIGHT) && (iYSC < VGA_HEIGHT); iYC++, iYSC++)
+		for (; (iYC < (VGA_HEIGHT - 1)); iYC++)
 		{
 			for (iXC = 0; iXC < VGA_WIDTH; iXC++)
-				iVideo[iYC * VGA_WIDTH + iXC] = iVideo_Buff[iYSC][iXC];
+				iVideo[iYC * VGA_WIDTH + iXC] = iVideo[(iYC + 1) * VGA_WIDTH + iXC];
+		}
+		for (iXC = 0; iXC < VGA_WIDTH; iXC++)
+		{
+			iVideo[(VGA_HEIGHT - 1) * VGA_WIDTH + iXC] = (unsigned char)' ' | iColor;
 		}
 	}
 
@@ -158,12 +134,6 @@ namespace Text
 		for (uint32_t i = 0; i < (VGA_WIDTH * VGA_HEIGHT); i++)
 		{
 			iVideo[i] |= iColor;
-		}
-
-		for (uint16_t iYC = 0; iYC < VGA_HEIGHT; iYC++)
-		{
-			for (uint16_t iXC = 0; iXC < VGA_WIDTH; iXC++)
-				iVideo_Buff[iYC][iXC] |= iColor;
 		}
 	}
 }

@@ -8,4 +8,6 @@ __attribute__((interrupt)) void IRQ_11(CPU::State *state)
 {
 	//Text::Clear();
 	Text::WriteLine("IRQ_11!");
+
+	Interrupt::APIC::Write(APIC_EOI, 0);
 }

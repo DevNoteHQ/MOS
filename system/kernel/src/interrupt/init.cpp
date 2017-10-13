@@ -18,14 +18,10 @@ namespace Interrupt
 		}
 		else
 		{
-#ifndef FORCE_PIC
-			PIC::Init();
-			PIC::Disable();
-			APIC::Init();
-#else
 			PIC::Init();
 			PIC::Activate();
-#endif
+			//PIC::Disable();
+			APIC::Init();
 		}
 	}
 
@@ -47,7 +43,7 @@ namespace Interrupt
 			IO::outb(PIC2_DATA, ICW1_ICW4);
 
 			//Set PIT in One-Shot Mode
-			//IO::outb(0x43, 0x30);
+			IO::outb(0x43, 0x30);
 		}
 
 		void Activate()
@@ -109,8 +105,6 @@ namespace Interrupt
 			Write(APIC_LVT_TIMER, LVT_TIMER | LVT_TIMER_PERIODIC);
 			Write(APIC_TIMER_ICR, 0xFFFFFF);
 			Write(APIC_LVT_ERROR, LVT_TYPE_FIXED | LVT_ERROR);
-			//Write(APIC_LVT_LINT0, WERT);
-			//Write(APIC_LVT_LINT1, WERT);
 
 			//Send EOI
 			Write(APIC_EOI, 0);
