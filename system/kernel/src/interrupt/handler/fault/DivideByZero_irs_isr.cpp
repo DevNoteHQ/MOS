@@ -1,10 +1,10 @@
 
-#include <terminal/text.hpp>
+#include <terminal/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 
 
 __attribute__((interrupt)) void DivideByZero(CPU::State *state)
 {
-	//Text::Clear();
-	Text::WriteLine("FAULT: Divide By Zero!");
+	Console::Write("\nFAULT: Divide By Zero!");
+	asm volatile("hlt");
 }

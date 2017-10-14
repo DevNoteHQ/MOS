@@ -1,7 +1,7 @@
 
 #include <mm/vmm.hpp>
-#include <assembler.hpp>
 
+#include "console.hpp"
 #include "text.hpp"
 
 #define VIDEO_BUFFER 0xB8000
@@ -13,16 +13,14 @@ namespace Text
 {
 	uint16_t iColor = 0;
 	uint16_t *iVideo = 0;
-	uint16_t iX = 0;
-	uint16_t iY = 0;
 
 	void Init()
 	{
 		iVideo = Paging::ToVMA_I(VIDEO_BUFFER);
 		ForegroundColor(Color::White);
 		BackgroundColor(Color::Blue);
-		iX = 0;
-		iY = 0;
+		Console::iX = 0;
+		Console::iY = 0;
 		Clear();
 	}
 
@@ -38,7 +36,7 @@ namespace Text
 	void Cursor()
 	{
 		// The screen is 80 characters wide...
-		uint16_t iCursor = iY * 80 + iX;
+		uint16_t iCursor = Console::iY * 80 + Console::iX;
 		IO::outb(0x3D4, 14);					// Tell the VGA board we are setting the high cursor byte.
 		IO::outb(0x3D5, iCursor >> 8);		// Send the high cursor byte.
 		IO::outb(0x3D4, 15);					// Tell the VGA board we are setting the low cursor byte.
@@ -54,6 +52,11 @@ namespace Text
 		}
 	}
 
+	void Write(char cC)
+	{
+		Putc(cC);
+	}
+
 	void WriteLine(const char* s)
 	{
 		// Für jedes einzelne Zeichen wird put() aufgerufen
@@ -61,6 +64,12 @@ namespace Text
 		{
 			Putc(*s++);
 		}
+		Putc('\n');
+	}
+
+	void WriteLine(char cC)
+	{
+		Putc(cC);
 		Putc('\n');
 	}
 
@@ -78,37 +87,46 @@ namespace Text
 	{
 		switch (cC)
 		{
+		case '\?':
+			if (Console::iX == 0) break;
+			Console::iX--;
+			Putc(' ');
+			Console::iX--;
+			Cursor();
+			break;
 		case '\n':
-			iX = 0;
-			if (iY >= VGA_HEIGHT - 1)
+			Console::iX = 0;
+			if (Console::iY >= VGA_HEIGHT - 1)
 			{
 				Scroll();
 			}
 			else
 			{
-				iY++;
+				Console::iY++;
 			}
 			Cursor();
 			break;
+		case '\0':
+			break;
 		default:
-			if (iY >= VGA_HEIGHT - 1)
+			if (Console::iY >= VGA_HEIGHT - 1)
 			{
-				if (iX >= VGA_WIDTH)
+				if (Console::iX >= VGA_WIDTH)
 				{
-					iX = 0;
+					Console::iX = 0;
 					Scroll();
 				}
 			}
 			else
 			{
-				if (iX >= VGA_WIDTH)
+				if (Console::iX >= VGA_WIDTH)
 				{
-					iX = 0;
-					iY++;
+					Console::iX = 0;
+					Console::iY++;
 				}
 			}
-			iVideo[iX + VGA_WIDTH * iY] = (uint16_t)cC | iColor;
-			iX++;
+			iVideo[Console::iX + VGA_WIDTH * Console::iY] = (uint16_t)cC | iColor;
+			Console::iX++;
 			Cursor();
 			break;
 		}
@@ -134,14 +152,6 @@ namespace Text
 		for (uint32_t i = 0; i < (VGA_WIDTH * VGA_HEIGHT); i++)
 		{
 			iVideo[i] |= iColor;
-		}
-	}
-
-	namespace Keyboard
-	{
-		void GetKeys()
-		{
-
 		}
 	}
 }

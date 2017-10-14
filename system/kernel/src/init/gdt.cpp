@@ -60,6 +60,7 @@ namespace GDT
 {
 	uint64_t GDT64 = 0;
 	uint64_t *gdt = &GDT64;
+
 	void Set(int i, uint32_t base, uint32_t limit, uint16_t flag)
 	{
 		// Create the high 32 bit segment

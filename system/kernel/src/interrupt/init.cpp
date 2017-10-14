@@ -5,7 +5,6 @@
 #include <cpu/CPUID.hpp>
 #include <cpu/msr.hpp>
 #include <libMOS/convert/convert.hpp>
-#include <terminal/text.hpp>
 
 namespace Interrupt
 {
@@ -20,7 +19,6 @@ namespace Interrupt
 		{
 			PIC::Init();
 			PIC::Activate();
-			//PIC::Disable();
 			APIC::Init();
 		}
 	}
@@ -29,8 +27,6 @@ namespace Interrupt
 	{
 		void Init()
 		{
-			Text::WriteLine("Initialising PIC...");
-
 			//Master-PIC
 			IO::outb(PIC1, ICW1_INIT);
 			IO::outb(PIC1_DATA, IRQ00);
@@ -48,8 +44,6 @@ namespace Interrupt
 
 		void Activate()
 		{
-			Text::WriteLine("Activating PIC...");
-
 			//Alle IRQs aktivieren
 			IO::outb(PIC1_DATA, 0x0);
 			IO::outb(PIC2_DATA, 0x0);
@@ -57,8 +51,6 @@ namespace Interrupt
 
 		void Disable()
 		{
-			Text::WriteLine("Disabling PIC...");
-
 			//Alle IRQs aktivieren
 			IO::outb(PIC1_DATA, 0xFF);
 			IO::outb(PIC2_DATA, 0xFF);
@@ -81,11 +73,9 @@ namespace Interrupt
 
 		void Init()
 		{
-			Text::WriteLine("Initialising APIC...");
 			if (!(CPUID::CPUID_0[1][2] & CPUID::EAX1::ECX_x2APIC))
 			{
 				bX2APIC = false;
-				Text::WriteLine("Your CPU doesn't support x2APIC! None-x2APIC-Mode currently not supported!");
 				abort();
 			}
 			else
@@ -114,7 +104,7 @@ namespace Interrupt
 	{
 		void Init()
 		{
-			Text::WriteLine("Initialising IO-APIC...");
+			PIC::Disable();
 		}
 	}
 }

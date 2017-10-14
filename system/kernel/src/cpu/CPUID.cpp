@@ -1,7 +1,7 @@
 
 #include "CPUID.hpp"
 #include <libMOS/convert/convert.hpp>
-#include <terminal/text.hpp>
+#include <terminal/console.hpp>
 
 namespace CPUID
 {
@@ -33,8 +33,8 @@ namespace CPUID
 	}
 	void PasteCPUVendor()
 	{
-		Text::WriteLine("CPU Vendor String:");
-		Text::WriteLine(cVendor);
-		Text::WriteLine("");
+		Console::WriteLine("\nCPU Vendor String:");
+		Console::WriteLine(cVendor);
+		Console::WriteLine("");
 	}
 }

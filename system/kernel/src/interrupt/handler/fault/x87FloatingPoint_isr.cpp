@@ -1,10 +1,10 @@
 
-#include <terminal/text.hpp>
+#include <terminal/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 
 
 __attribute__((interrupt)) void X87FloatingPoint(CPU::State *state)
 {
-	//Text::Clear();
-	Text::WriteLine("FAULT: x87 Floating Point!");
+	Console::Write("\nFAULT: x87 Floating Point!");
+	asm volatile("hlt");
 }

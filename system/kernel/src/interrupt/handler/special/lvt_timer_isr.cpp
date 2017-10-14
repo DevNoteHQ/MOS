@@ -6,6 +6,5 @@
 
 __attribute__((interrupt)) void LVT_Timer(CPU::State *state)
 {
-	Text::WriteLine("TIMER!");
 	Interrupt::APIC::Write(APIC_EOI, 0);
 }

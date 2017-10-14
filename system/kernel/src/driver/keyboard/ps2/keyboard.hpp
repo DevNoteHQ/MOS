@@ -6,9 +6,9 @@ namespace Driver
 {
 	namespace Keyboard
 	{
+		extern uint8_t iTable;
 		void Init();
-		static void SendCommand(uint8_t command);
-		char ScanCode(uint8_t iCode, uint8_t iTable);
+		void SendCommand(uint8_t iCommand);
 	}
 }
 

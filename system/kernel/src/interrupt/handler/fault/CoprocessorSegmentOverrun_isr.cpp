@@ -1,10 +1,10 @@
 
-#include <terminal/text.hpp>
+#include <terminal/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 
 
 __attribute__((interrupt)) void CoprocessorSegmentOverrun(CPU::State *state)
 {
-	//Text::Clear();
-	Text::WriteLine("FAULT: Coporcessor Segment Overrun!");
+	Console::Write("\nFAULT: Coporcessor Segment Overrun!");
+	asm volatile("hlt");
 }

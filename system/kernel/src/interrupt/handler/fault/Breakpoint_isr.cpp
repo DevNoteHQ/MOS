@@ -1,10 +1,10 @@
 
-#include <terminal/text.hpp>
+#include <terminal/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 
 
 __attribute__((interrupt)) void Breakpoint(CPU::State *state)
 {
-	//Text::Clear();
-	Text::WriteLine("FAULT: Breakpoint!");
+	Console::Write("\nFAULT: Breakpoint!");
+	asm volatile("hlt");
 }

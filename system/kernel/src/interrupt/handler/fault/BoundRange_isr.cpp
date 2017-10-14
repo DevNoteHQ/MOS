@@ -1,10 +1,10 @@
 
-#include <terminal/text.hpp>
+#include <terminal/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 
 
 __attribute__((interrupt)) void BoundRange(CPU::State *state)
 {
-	//Text::Clear();
-	Text::WriteLine("FAULT: Bound Range!");
+	Console::Write("\nFAULT: Bound Range!");
+	asm volatile("hlt");
 }

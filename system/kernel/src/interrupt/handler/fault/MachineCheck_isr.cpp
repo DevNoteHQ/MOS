@@ -1,10 +1,10 @@
 
-#include <terminal/text.hpp>
+#include <terminal/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 
 
 __attribute__((interrupt)) void MachineCheck(CPU::State *state)
 {
-	//Text::Clear();
-	Text::WriteLine("FAULT: Machine Check!");
+	Console::Write("\nFAULT: Machine Check!");
+	asm volatile("hlt");
 }

@@ -1,10 +1,10 @@
 
-#include <terminal/text.hpp>
+#include <terminal/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 
 
 __attribute__((interrupt)) void NonMaskableInterrupt(CPU::State *state)
 {
-	//Text::Clear();
-	Text::WriteLine("FAULT: Non Maskable Interrupt!");
+	Console::Write("\nFAULT: Non Maskable Interrupt!");
+	asm volatile("hlt");
 }

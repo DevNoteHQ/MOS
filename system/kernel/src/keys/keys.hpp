@@ -5,17 +5,7 @@
 namespace Keys
 {
 	void Init();
-	class Key
-	{
-	public:
-		bool IsPressed;
-		bool IsHeld;
-		bool IsReleased;
-	};
-
-	extern void(*UpdateFocusedElement)();
-
-	extern Key A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z;
+	extern void (*UpdateFocusedElement)(uint8_t, uint32_t, uint8_t);
 }
 
 #endif

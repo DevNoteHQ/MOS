@@ -1,10 +1,10 @@
 
-#include <terminal/text.hpp>
+#include <terminal/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 
 
 __attribute__((interrupt)) void DeviceNotAvailable(CPU::State *state)
 {
-	//Text::Clear();
-	Text::WriteLine("FAULT: Device Not Available!");
+	Console::Write("\nFAULT: Device Not Available!");
+	asm volatile("hlt");
 }

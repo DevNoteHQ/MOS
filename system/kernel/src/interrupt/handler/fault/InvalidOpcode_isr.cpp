@@ -1,10 +1,10 @@
 
-#include <terminal/text.hpp>
+#include <terminal/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 
 
 __attribute__((interrupt)) void InvalidOpcode(CPU::State *state)
 {
-	//Text::Clear();
-	Text::WriteLine("FAULT: Invalid Opcode!");
+	Console::Write("\nFAULT: Invalid Opcode!");
+	asm volatile("hlt");
 }

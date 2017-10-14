@@ -1,10 +1,10 @@
 
-#include <terminal/text.hpp>
+#include <terminal/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 
 
 __attribute__((interrupt)) void Fault0x16(CPU::State *state)
 {
-	//Text::Clear();
-	Text::WriteLine("FAULT: Fault0x16!");
+	Console::Write("\nFAULT: Fault0x16!");
+	asm volatile("hlt");
 }

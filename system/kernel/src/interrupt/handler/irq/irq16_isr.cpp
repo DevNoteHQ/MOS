@@ -1,13 +1,12 @@
 
-#include <terminal/text.hpp>
+#include <terminal/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 #include <interrupt/init.hpp>
 
 
 __attribute__((interrupt)) void IRQ_16(CPU::State *state)
 {
-	//Text::Clear();
-	Text::WriteLine("IRQ_16!");
+	Console::Write("\nIRQ_16!");
 
-	Interrupt::APIC::Write(APIC_EOI, 0);
+	IO::outb(0x20, 0x20);
 }

@@ -1,10 +1,10 @@
 
-#include <terminal/text.hpp>
+#include <terminal/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 
 
 __attribute__((interrupt)) void AlignmentCheck(CPU::State *state, uint64_t error)
 {
-	//Text::Clear();
-	Text::WriteLine("FAULT Alignment Check!");
+	Console::Write("\nFAULT Alignment Check!");
+	asm volatile("hlt");
 }

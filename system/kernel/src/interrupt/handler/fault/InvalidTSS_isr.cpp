@@ -1,10 +1,10 @@
 
-#include <terminal/text.hpp>
+#include <terminal/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 
 
 __attribute__((interrupt)) void InvalidTSS(CPU::State *state, uint64_t error)
 {
-	//Text::Clear();
-	Text::WriteLine("FAULT: Invalid TSS!");
+	Console::Write("\nFAULT: Invalid TSS!");
+	asm volatile("hlt");
 }
