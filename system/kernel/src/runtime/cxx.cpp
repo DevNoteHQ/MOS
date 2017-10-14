@@ -73,14 +73,19 @@ void* operator new(size_t len)
 	return (void*)kmalloc(len);
 }
 
+void* operator new(size_t len, uint16_t align)
+{
+	return (void*)kmalloc(len, align);
+}
+
 void operator delete[](void *ptr) 
 {
 	::operator delete(ptr);
 }
 
-void* operator new[](size_t len) 
+void* operator new[](size_t len, uint16_t align) 
 {
-	return ::operator new(len);
+	return ::operator new(len, align);
 }
 
 #else
@@ -91,6 +96,11 @@ void* operator new(size_t len)
 	return (void*)kmalloc(len);
 }
 
+void* operator new(size_t len, uint16_t align)
+{
+	return (void*)kmalloc(len, align);
+}
+
 void operator delete[](void *ptr) 
 {
 	::operator delete(ptr);
@@ -99,6 +109,11 @@ void operator delete[](void *ptr)
 void* operator new[](size_t len) 
 {
 	return ::operator new(len);
+}
+
+void* operator new[](size_t len, uint16_t align)
+{
+	return ::operator new(len, align);
 }
 #endif
 

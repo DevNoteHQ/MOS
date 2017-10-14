@@ -5,11 +5,8 @@
     "\\system",
     "\\system\\kernel",
     "\\system\\kernel\\src",
-    "\\system\\kernel\\src\\driver",
-    "\\system\\kernel\\src\\driver\\keyboard",
-    "\\system\\kernel\\src\\driver\\keyboard\\ps2",
-    "\\system\\kernel\\src\\interrupt\\handler"
+    "\\system\\kernel\\src\\runtime"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\driver\\keyboard\\ps2\\keyboard.hpp",
+  "SelectedNode": "\\system\\kernel\\src\\runtime\\cxx.cpp",
   "PreviewInSolutionExplorer": false
 }
