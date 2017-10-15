@@ -35,7 +35,7 @@ namespace Keys
 #ifndef QWERTZ
 				case 0x15: return 'Y'; break;
 #else
-				case 0x15: return 'T'; break;
+				case 0x15: return 'Z'; break;
 #endif
 				case 0x16: return 'U'; break;
 				case 0x17: return 'I'; break;
@@ -58,9 +58,9 @@ namespace Keys
 				case 0x29: return '~'; break;
 				case 0x2B: return '|'; break;
 #ifndef QWERTZ
-				case 0x2C: return 'Y'; break;
-#else
 				case 0x2C: return 'Z'; break;
+#else
+				case 0x2C: return 'Y'; break;
 #endif
 				case 0x2D: return 'X'; break;
 				case 0x2E: return 'C'; break;
