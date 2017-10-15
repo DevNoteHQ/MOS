@@ -87,7 +87,7 @@ namespace Text
 	{
 		switch (cC)
 		{
-		case '\?':
+		case 0x7F:
 			if (Console::iX == 0) break;
 			Console::iX--;
 			Putc(' ');

@@ -25,7 +25,7 @@ namespace Keys
 				case 0x0B: return ')'; break;
 				case 0x0C: return '_'; break;
 				case 0x0D: return '+'; break;
-				case 0x0E: return '\?'; break;
+				case 0x0E: return 0x7F; break;
 				case 0x0F: return '\t'; break;
 				case 0x10: return 'Q'; break;
 				case 0x11: return 'W'; break;
@@ -107,7 +107,7 @@ namespace Keys
 				case 0x0B: return '0'; break;
 				case 0x0C: return '-'; break;
 				case 0x0D: return '='; break;
-				case 0x0E: return '\?'; break;
+				case 0x0E: return 0x7F; break;
 				case 0x0F: return '\t'; break;
 				case 0x10: return 'q'; break;
 				case 0x11: return 'w'; break;
