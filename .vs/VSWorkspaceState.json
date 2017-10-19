@@ -4,15 +4,8 @@
     "\\system",
     "\\system\\kernel",
     "\\system\\kernel\\src",
-    "\\system\\kernel\\src\\driver",
-    "\\system\\kernel\\src\\driver\\keyboard",
-    "\\system\\kernel\\src\\driver\\keyboard\\ps2",
-    "\\system\\kernel\\src\\interrupt",
-    "\\system\\kernel\\src\\interrupt\\handler",
-    "\\system\\kernel\\src\\interrupt\\handler\\special",
-    "\\system\\kernel\\src\\terminal",
-    "\\system\\kernel\\src\\terminal\\table"
+    "\\system\\kernel\\src\\init"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\interrupt\\handler\\special\\lvt_timer_isr.cpp",
+  "SelectedNode": "\\system\\kernel\\src\\init\\gdt.hpp",
   "PreviewInSolutionExplorer": false
 }

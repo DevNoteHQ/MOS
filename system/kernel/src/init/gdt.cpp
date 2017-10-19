@@ -50,11 +50,11 @@
 
 #define GDT_ENTRIES 5
 #define TSS_ENTRIES 1 //Temporary until i can get CPU-Count and Set a Entry for each CPU
-#define ENTRIES 6 //Temporary until i can get CPU-Count and Set a Entry for each CPU
+#define ENTRIES (GDT_ENTRIES + 2 * TSS_ENTRIES)
 
 #define TSS_FLAG 0x89
 
-#define TSS_LIMIT 0x67 //Temporary until TSS has a Size
+//#define TSS_LIMIT 0x67
 
 namespace GDT
 {
@@ -77,19 +77,26 @@ namespace GDT
 		gdt[i] |= limit & 0x0000FFFF;               // Set limit bits 15:0
 	}
 
+	void SetTSS(int i, uint64_t base, uint32_t limit, uint16_t flag)
+	{
+		gdt[i] = limit & 0x000F0000;         // Set limit bits 19:16
+		gdt[i] |= (base >> 16) & 0x000000FF;         // Set base bits 23:16
+		gdt[i] |= base & 0xFF000000;         // Set base bits 31:24
+	}
+
 	void Remake(void)
 	{
 		memset(gdt, 0, ENTRIES);
 
 		uint64_t tss_base = (uint64_t)TSS::tss;
-		uint64_t tss_limit = sizeof(*TSS::tss);
+		uint32_t tss_limit = sizeof(*TSS::tss);
 
 		Set(0, 0, 0, 0);
 		Set(1, 0, 0xFFFFFFFF, (GDT_CODE_PL0));
 		Set(2, 0, 0xFFFFFFFF, (GDT_DATA_PL0));
 		Set(3, 0, 0xFFFFFFFF, (GDT_CODE_PL3));
 		Set(4, 0, 0xFFFFFFFF, (GDT_DATA_PL3));
-		Set(5, (uint32_t)tss_base, TSS_LIMIT, TSS_FLAG);
+		SetTSS(5, tss_base, tss_limit, TSS_FLAG);
 
 		uint64_t gs_base = msr_read(MSR_GS_BASE);
 
