@@ -24,7 +24,7 @@ namespace Paging
 {
 	uint64_t *PL4 = PL4P;
 	uint64_t *PL3 = PL4P + ALIGN;
-	void Init(void)
+	void Init()
 	{
 		PL4[PL4E - 1] = (((uint64_t) PL4) | PG_WRITABLE | PG_PRESENT);
 		PL4[PL4E - 2] = (((uint64_t) PL3) | PG_WRITABLE | PG_PRESENT);

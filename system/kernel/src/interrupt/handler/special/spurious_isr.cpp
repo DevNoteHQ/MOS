@@ -1,5 +1,5 @@
 
-#include <terminal/text.hpp>
+#include <terminal/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 #include <interrupt/init.hpp>
 

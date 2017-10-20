@@ -20,6 +20,8 @@
 #include <terminal/console.hpp>
 #include <terminal/shell.hpp>
 
+#include <common.hpp>
+
 namespace System
 {
 	extern "C"
@@ -43,6 +45,10 @@ namespace System
 			Keys::Init();
 
 			Shell::Init();
+
+			char cAddress[70];
+			Convert::ToString(&_end, cAddress, 2);
+			Shell::WriteLine(cAddress);
 
 			asm volatile("sti");
 
