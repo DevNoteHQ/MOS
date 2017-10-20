@@ -1,6 +1,6 @@
 
-[global reload]
-reload:
+[global gdtr_install]
+gdtr_install:
 	push rbp
 	mov rbp, rsp
 	lgdt [rdi]

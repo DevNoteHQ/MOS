@@ -1,6 +1,6 @@
 
-#ifndef INIT_IDT_H
-#define INIT_IDT_H
+#ifndef INIT_IDT_HPP
+#define INIT_IDT_HPP
 
 namespace IDT
 {

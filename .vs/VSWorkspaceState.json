@@ -4,6 +4,7 @@
     "\\system",
     "\\system\\kernel",
     "\\system\\kernel\\src",
+    "\\system\\kernel\\src\\cpu",
     "\\system\\kernel\\src\\init"
   ],
   "SelectedNode": "\\system\\kernel\\src\\init\\gdt.hpp",

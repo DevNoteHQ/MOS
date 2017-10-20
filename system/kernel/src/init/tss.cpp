@@ -14,15 +14,17 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <init/tss.hpp>
+#include "tss.hpp"
+#include "gdt.hpp"
 
-#define SLTR_TSS	0x0028
+//#define SLTR_TSS	0x0028
 
 namespace TSS
 {
 	TSS_t Default;
 	TSS_t *tss = &Default;
-	void Init(void)
+
+	void Init()
 	{
 		/* reset all the fields */
 		memset(tss, 0, sizeof(*tss));
@@ -32,7 +34,7 @@ namespace TSS
 		tss_install(SLTR_TSS);
 	}
 
-	void Set_rsp0(uint64_t rsp0)
+	void SetRsp0(uint64_t rsp0)
 	{
 		tss->rsp0 = rsp0;
 	}

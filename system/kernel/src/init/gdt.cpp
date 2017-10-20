@@ -1,7 +1,7 @@
 // Used for creating GDT segment descriptors in 64-bit integer form.
 
-#include <init/gdt.hpp>
-#include <init/tss.hpp>
+#include "gdt.hpp"
+#include "tss.hpp"
 #include <cpu/msr.hpp>
 
 // Each define here is for a specific flag in the descriptor.
@@ -49,12 +49,10 @@
 
 
 #define GDT_ENTRIES 5
-#define TSS_ENTRIES 1 //Temporary until i can get CPU-Count and Set a Entry for each CPU
+#define TSS_ENTRIES 1
 #define ENTRIES (GDT_ENTRIES + 2 * TSS_ENTRIES)
 
 #define TSS_FLAG 0x89
-
-//#define TSS_LIMIT 0x67
 
 namespace GDT
 {
@@ -69,8 +67,7 @@ namespace GDT
 		gdt[i] |= (base >> 16) & 0x000000FF;         // Set base bits 23:16
 		gdt[i] |= base & 0xFF000000;         // Set base bits 31:24
 
-												 // Shift by 32 to allow for low part of segment
-		gdt[i] <<= 32;
+		gdt[i] <<= 32;					// Shift by 32 to allow for low part of segment
 
 		// Create the low 32 bit segment
 		gdt[i] |= base << 16;                       // Set base bits 15:0
@@ -79,12 +76,21 @@ namespace GDT
 
 	void SetTSS(int i, uint64_t base, uint32_t limit, uint16_t flag)
 	{
-		gdt[i] = limit & 0x000F0000;         // Set limit bits 19:16
-		gdt[i] |= (base >> 16) & 0x000000FF;         // Set base bits 23:16
-		gdt[i] |= base & 0xFF000000;         // Set base bits 31:24
+		gdt[i] = limit & 0x000F0000;			// Set limit bits 19:16
+		gdt[i] |= (flag << 8) & 0x00F0FF00;		// Set type, p, dpl, s, g, d/b, l and avl fields
+		gdt[i] |= (base >> 16) & 0x000000FF;	// Set base bits 23:16
+		gdt[i] |= base & 0xFF000000;			// Set base bits 31:24
+
+		gdt[i] <<= 32;
+
+		gdt[i] |= base << 16;			// Set base bits 15:0
+		gdt[i] |= limit & 0x0000FFFF;	// Set limit bits 15:0
+
+		gdt[i + 1] |= (base >> 32) & 0xFFFFFFFF;
+		gdt[i + 1] = 0x00000000;
 	}
 
-	void Remake(void)
+	void Init()
 	{
 		memset(gdt, 0, ENTRIES);
 
@@ -104,7 +110,7 @@ namespace GDT
 		gdtr.limit = ENTRIES * 8 - 1;
 		gdtr.pointer = gdt;
 
-		reload(&gdtr, 0x0008, 0x0010);
+		gdtr_install(&gdtr, SLTR_KERNEL_CODE, SLTR_KERNEL_DATA);
 
 		msr_write(MSR_GS_BASE, gs_base);
 		msr_write(MSR_GS_KERNEL_BASE, gs_base);

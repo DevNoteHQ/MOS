@@ -14,8 +14,8 @@
 * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
-#ifndef INIT_GDT_H
-#define INIT_GDT_H
+#ifndef INIT_GDT_HPP
+#define INIT_GDT_HPP
 
 #define SLTR_NULL        0x0000
 #define SLTR_KERNEL_CODE 0x0008
@@ -29,8 +29,6 @@
 #define RPL2 0x2
 #define RPL3 0x3
 
-#define GDT_DESCRIPTORS 7
-
 namespace GDT
 {
 	typedef struct
@@ -39,9 +37,8 @@ namespace GDT
 		uint64_t pointer;
 	} __attribute__((__packed__)) GDTR_t;
 
-	void Remake(void);
-	extern uint64_t GDT64;
-	extern "C" void reload(uint64_t gdtr, uint16_t cs, uint16_t ds);
+	void Init();
+	extern "C" void gdtr_install(uint64_t gdtr, uint16_t cs, uint16_t ds);
 }
 
 #endif

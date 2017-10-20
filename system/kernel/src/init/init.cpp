@@ -29,13 +29,13 @@ namespace System
 			Paging::Init();
 			multiboot = Paging::ToVMA_V(multiboot);
 
-			GDT::Remake();
-			IDT::Init();
-			//TSS::Init();
-
+			CPUID::GetCPUInfo();
 			Console::Init();
 
-			CPUID::GetCPUInfo();
+			IDT::Init();
+			GDT::Init();
+			TSS::Init();
+
 			Interrupt::Init();
 			CPUID::GetCPUInfo();
 

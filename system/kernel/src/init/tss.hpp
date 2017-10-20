@@ -14,8 +14,8 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef INIT_TSS_H
-#define INIT_TSS_H
+#ifndef INIT_TSS_HPP
+#define INIT_TSS_HPP
 
 namespace TSS
 {
@@ -38,11 +38,9 @@ namespace TSS
 		uint16_t iomap_base;
 	} __attribute__((__packed__)) TSS_t;
 
-
-	extern TSS_t Default;
 	extern TSS_t *tss;
-	void Init(void);
-	void Set_rsp0(uint64_t rsp0);
+	void Init();
+	void SetRsp0(uint64_t rsp0);
 	extern "C" void tss_install(uint16_t selector);
 }
 
