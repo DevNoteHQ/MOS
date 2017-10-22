@@ -21,11 +21,23 @@ namespace Convert
 
 	void ToString(uint64_t iC, char sString[], uint8_t iBase)
 	{
-		char sBuffer[70];
+		if (iBase > 16) return;
+		char sBuffer[65];
 		int iX = 0;
+		int iV = 0;
 		for (iX = 0; iC > 0; iX++)
 		{
-			sBuffer[iX] = iC % iBase + '0';
+			iV = iC % iBase;
+			switch (iV)
+			{
+			case 10: sBuffer[iX] = 'A'; break;
+			case 11: sBuffer[iX] = 'B'; break;
+			case 12: sBuffer[iX] = 'C'; break;
+			case 13: sBuffer[iX] = 'D'; break;
+			case 14: sBuffer[iX] = 'E'; break;
+			case 15: sBuffer[iX] = 'F'; break;
+			default: sBuffer[iX] = iV + '0'; break;
+			}
 			iC /= iBase;
 		}
 		iX--;

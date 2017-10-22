@@ -17,12 +17,13 @@
 #ifndef INIT_GDT_HPP
 #define INIT_GDT_HPP
 
-#define SLTR_NULL        0x0000
-#define SLTR_KERNEL_CODE 0x0008
-#define SLTR_KERNEL_DATA 0x0010
-#define SLTR_USER_DATA   0x0018
-#define SLTR_USER_CODE   0x0020
-#define SLTR_TSS         0x0028 /* occupies two GDT descriptors */
+#define SLTR_NULL			0x0000
+#define SLTR_KERNEL_CODE	0x0008
+#define SLTR_KERNEL_DATA	0x0010
+#define SLTR_USER_CODE_32	0x0018
+#define SLTR_USER_DATA		0x0020
+#define SLTR_USER_CODE_64	0x0028
+#define SLTR_TSS			0x0030 /* occupies two GDT descriptors */
 
 #define RPL0 0x0
 #define RPL1 0x1

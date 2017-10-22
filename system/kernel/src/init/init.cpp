@@ -17,6 +17,7 @@
 #include <libMOS/convert/convert.hpp>
 #include <mm/vmm.hpp>
 #include <multiboot.hpp>
+#include <syscall/syscall.hpp>
 #include <terminal/console.hpp>
 #include <terminal/shell.hpp>
 
@@ -43,11 +44,12 @@ namespace System
 
 			Driver::Keyboard::Init();
 			Keys::Init();
+			Syscall::Init();
 
 			Shell::Init();
 
-			char cAddress[70];
-			Convert::ToString(&_end, cAddress, 2);
+			char cAddress[64];
+			Convert::ToString(&Syscall::Handler, cAddress, 16);
 			Shell::WriteLine(cAddress);
 
 			asm volatile("sti");

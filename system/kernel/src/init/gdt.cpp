@@ -31,24 +31,28 @@
 #define SEG_CODE_EXRDC     0x0E // Execute/Read, conforming
 #define SEG_CODE_EXRDCA    0x0F // Execute/Read, conforming, accessed
 
-#define GDT_CODE_PL0 SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
-                     SEG_LONG(1)     | SEG_SIZE(0) | SEG_GRAN(1) | \
-                     SEG_PRIV(0)     | SEG_CODE_EXRD
+#define GDT_CODE_PL0		SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
+							SEG_LONG(1)     | SEG_SIZE(0) | SEG_GRAN(1) | \
+							SEG_PRIV(0)     | SEG_CODE_EXRD
 
-#define GDT_DATA_PL0 SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
-                     SEG_LONG(0)     | SEG_SIZE(0) | SEG_GRAN(1) | \
-                     SEG_PRIV(0)     | SEG_DATA_RDWR
+#define GDT_DATA_PL0		SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
+							SEG_LONG(0)     | SEG_SIZE(0) | SEG_GRAN(1) | \
+							SEG_PRIV(0)     | SEG_DATA_RDWR
 
-#define GDT_CODE_PL3 SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
-                     SEG_LONG(1)     | SEG_SIZE(0) | SEG_GRAN(1) | \
-                     SEG_PRIV(3)     | SEG_CODE_EXRD
+#define GDT_CODE_PL3_32		SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
+							SEG_LONG(0)     | SEG_SIZE(0) | SEG_GRAN(1) | \
+							SEG_PRIV(3)     | SEG_CODE_EXRD
 
-#define GDT_DATA_PL3 SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
-                     SEG_LONG(0)     | SEG_SIZE(0) | SEG_GRAN(1) | \
-                     SEG_PRIV(3)     | SEG_DATA_RDWR
+#define GDT_DATA_PL3		SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
+							SEG_LONG(0)     | SEG_SIZE(0) | SEG_GRAN(1) | \
+							SEG_PRIV(3)     | SEG_DATA_RDWR
+
+#define GDT_CODE_PL3_64		SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
+							SEG_LONG(1)     | SEG_SIZE(0) | SEG_GRAN(1) | \
+							SEG_PRIV(3)     | SEG_CODE_EXRD
 
 
-#define GDT_ENTRIES 5
+#define GDT_ENTRIES 6
 #define TSS_ENTRIES 1
 #define ENTRIES (GDT_ENTRIES + 2 * TSS_ENTRIES)
 
@@ -100,9 +104,10 @@ namespace GDT
 		Set(0, 0, 0, 0);
 		Set(1, 0, 0xFFFFFFFF, (GDT_CODE_PL0));
 		Set(2, 0, 0xFFFFFFFF, (GDT_DATA_PL0));
-		Set(3, 0, 0xFFFFFFFF, (GDT_CODE_PL3));
+		Set(3, 0, 0xFFFFFFFF, (GDT_CODE_PL3_32));
 		Set(4, 0, 0xFFFFFFFF, (GDT_DATA_PL3));
-		SetTSS(5, tss_base, tss_limit, TSS_FLAG);
+		Set(5, 0, 0xFFFFFFFF, (GDT_CODE_PL3_64));
+		SetTSS(6, tss_base, tss_limit, TSS_FLAG);
 
 		uint64_t gs_base = msr_read(MSR_GS_BASE);
 

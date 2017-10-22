@@ -6,7 +6,6 @@
 namespace CPU
 {
 	typedef struct{
-		// Von Hand gesicherte Register
 		uint64_t r15;
 		uint64_t r14;
 		uint64_t r13;
@@ -23,7 +22,6 @@ namespace CPU
 		uint64_t rbx;
 		uint64_t rax;
 
-		// Von der CPU gesichert
 		uint64_t   rip;
 		uint64_t   cs;
 		uint64_t   rflags;

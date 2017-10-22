@@ -17,8 +17,6 @@
 #include "tss.hpp"
 #include "gdt.hpp"
 
-//#define SLTR_TSS	0x0028
-
 namespace TSS
 {
 	TSS_t Default;

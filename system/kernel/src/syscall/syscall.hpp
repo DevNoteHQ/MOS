@@ -5,7 +5,7 @@
 namespace Syscall
 {
 	void Init();
-	void Handler();
+	void Handler(uint64_t iCall, void* OtherArguments);
 }
 
 #endif
