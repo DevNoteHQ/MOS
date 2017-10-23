@@ -21,8 +21,7 @@ namespace IDT
 	} __attribute__((packed)) IDTR_t;
 
 	void Init(void);
-	void Set(Descriptor *descriptor, void(*handler)(struct cpu_state *state), uint8_t flags);
-	void Sete(Descriptor *descriptor, void(*handler)(struct cpu_state *state, uint64_t error), uint8_t flags);
+	void Set(Descriptor *descriptor, void(*handler)(), uint8_t flags);
 	
 	extern "C" void idtr_install(IDTR_t *idtr);
 }

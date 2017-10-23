@@ -4,8 +4,9 @@
     "\\system",
     "\\system\\kernel",
     "\\system\\kernel\\src",
-    "\\system\\kernel\\src\\keys"
+    "\\system\\kernel\\src\\interrupt",
+    "\\system\\kernel\\src\\interrupt\\handler"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\keys\\keys.cpp",
+  "SelectedNode": "\\system\\kernel\\src\\interrupt\\handler\\handler.hpp",
   "PreviewInSolutionExplorer": false
 }
