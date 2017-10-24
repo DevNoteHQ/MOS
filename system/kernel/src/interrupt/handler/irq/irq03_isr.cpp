@@ -3,10 +3,12 @@
 #include <interrupt/handler/stubs.hpp>
 #include <interrupt/init.hpp>
 
-
-__attribute__((interrupt)) void IRQ_03(CPU::State *state)
+namespace Interrupt::Handler
 {
-	Console::Write("\nIRQ_03!");
+	void IRQ_03(CPU::State *state)
+	{
+		Console::Write("\nIRQ_03!");
 
-	IO::outb(0x20, 0x20);
+		IO::outb(0x20, 0x20);
+	}
 }

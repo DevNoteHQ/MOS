@@ -1,6 +1,7 @@
 
 #include "init.hpp"
 #include "common.hpp"
+#include "handler/handler.hpp"
 
 #include <cpu/CPUID.hpp>
 #include <cpu/msr.hpp>
@@ -10,6 +11,8 @@ namespace Interrupt
 {
 	void Init()
 	{
+		Handler::SetDefault();
+
 		if (!(CPUID::CPUID_0[1][3] & CPUID::EAX1::EDX_APIC))
 		{
 			PIC::Init();

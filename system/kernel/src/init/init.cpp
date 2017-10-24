@@ -35,11 +35,12 @@ namespace System
 			CPUID::GetCPUInfo();
 			Console::Init();
 
+			Interrupt::Init();
+
 			IDT::Init();
 			GDT::Init();
 			TSS::Init();
 
-			Interrupt::Init();
 			CPUID::GetCPUInfo();
 
 			Driver::Keyboard::Init();
@@ -47,10 +48,6 @@ namespace System
 			Syscall::Init();
 
 			Shell::Init();
-
-			char cAddress[64];
-			Convert::ToString(&Syscall::Handler, cAddress, 16);
-			Shell::WriteLine(cAddress);
 
 			asm volatile("sti");
 

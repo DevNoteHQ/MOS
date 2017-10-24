@@ -2,9 +2,11 @@
 #include <terminal/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 
-
-__attribute__((interrupt)) void AlignmentCheck(CPU::State *state, uint64_t error)
+namespace Interrupt::Handler
 {
-	Console::Write("\nFAULT Alignment Check!");
-	asm volatile("hlt");
+	void AlignmentCheck(CPU::State *state)
+	{
+		Console::Write("\nFAULT Alignment Check!");
+		asm volatile("hlt");
+	}
 }

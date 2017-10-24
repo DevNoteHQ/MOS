@@ -4,9 +4,10 @@
     "\\system",
     "\\system\\kernel",
     "\\system\\kernel\\src",
+    "\\system\\kernel\\src\\cpu",
     "\\system\\kernel\\src\\interrupt",
     "\\system\\kernel\\src\\interrupt\\handler"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\interrupt\\handler\\handler.hpp",
+  "SelectedNode": "\\system\\kernel\\src\\cpu\\cpu.hpp",
   "PreviewInSolutionExplorer": false
 }

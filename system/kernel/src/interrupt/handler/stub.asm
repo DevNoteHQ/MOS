@@ -5,134 +5,134 @@
 %macro fault 1
 [global fault%1]
 fault%1:
-  push 0
-  push %1
-  jmp intr_stub
+	push 0
+	push %1
+	jmp intr_stub
 %endmacro
 
 ; fault with error entry code
 %macro fault_err 1
 [global fault%1]
 fault%1:
-  push %1
-  jmp intr_stub
+	push %1
+	jmp intr_stub
 %endmacro
 
 ; irq entry code
 %macro irq 2
 [global irq%1]
 irq%1:
-  push 0
-  push %2
-  jmp intr_stub
+	push 0
+	push %2
+	jmp intr_stub
 %endmacro
 
 ; panic IPI entry code
 [global ipi_panic]
 ipi_panic:
-  push 0
-  push 0xFB
-  jmp intr_stub
+	push 0
+	push 0xFB
+	jmp intr_stub
 
 ; TLB shootdown IPI entry code
 [global ipi_tlb]
 ipi_tlb:
-  push 0
-  push 0xFC
-  jmp intr_stub
+	push 0
+	push 0xFC
+	jmp intr_stub
 
 ; lvt timer entry code
 [global lvt_timer]
 lvt_timer:
-  push 0
-  push 0xFD
-  jmp intr_stub
+	push 0
+	push 0xFD
+	jmp intr_stub
 
 ; lvt error entry code
 [global lvt_error]
 lvt_error:
-  push 0
-  push 0xFE
-  jmp intr_stub
+	push 0
+	push 0xFE
+	jmp intr_stub
 
 ; spurious entry code
 [global spurious]
 spurious:
-  push 0
-  push 0xFF
-  jmp intr_stub
+	push 0
+	push 0xFF
+	jmp intr_stub
 
 intr_stub:
-  ; save the register file
-  push r15
-  push r14
-  push r13
-  push r12
-  push r11
-  push r10
-  push r9
-  push r8
-  push rbp
-  push rdi
-  push rsi
-  push rdx
-  push rcx
-  push rbx
-  push rax
+	; save the register file
+	push r15
+	push r14
+	push r13
+	push r12
+	push r11
+	push r10
+	push r9
+	push r8
+	push rbp
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push rbx
+	push rax
 
-  ; check if we are switching from user mode to supervisor mode
-  mov rax, [rsp + 152]
-  and rax, 0x3000
-  jz .supervisor_enter
+	; check if we are switching from user mode to supervisor mode
+	mov rax, [rsp + 152]
+	and rax, 0x3000
+	jz .supervisor_enter
 
-  ; restore the kernel's GS base if we are going from user to supervisor mode
-  swapgs
+	; restore the kernel's GS base if we are going from user to supervisor mode
+	swapgs
 
 .supervisor_enter:
-  ; increment mask count as we configure all interrupts to mask IF
-  ; automatically in the IDT
-  inc qword [gs:8]
+	; increment mask count as we configure all interrupts to mask IF
+	; automatically in the IDT
+	inc qword [gs:8]
 
-  ; call the C routine for dispatching an interrupt
-  cld          ; amd64 SysV ABI states the DF must be cleared by the caller
-  mov rdi, rsp ; first argument points to the processor state
-  mov rbp, 0   ; terminate stack traces here
-  call Interrupt_Handler
+	; call the C routine for dispatching an interrupt
+	cld          ; amd64 SysV ABI states the DF must be cleared by the caller
+	mov rdi, rsp ; first argument points to the processor state
+	mov rbp, 0   ; terminate stack traces here
+	call Interrupt_Handler
 
-  ; decrement mask count
-  dec qword [gs:8]
+	; decrement mask count
+	dec qword [gs:8]
 
-  ; check if we are switching from supervisor to user mode
-  mov rax, [rsp + 152]
-  and rax, 0x3000
-  jz .supervisor_exit
+	; check if we are switching from supervisor to user mode
+	mov rax, [rsp + 152]
+	and rax, 0x3000
+	jz .supervisor_exit
 
-  ; switch back to the user's GS base if we are going from supervisor to user mode
-  swapgs
+	; switch back to the user's GS base if we are going from supervisor to user mode
+	swapgs
 
 .supervisor_exit:
-  ; restore the register file
-  pop rax
-  pop rbx
-  pop rcx
-  pop rdx
-  pop rsi
-  pop rdi
-  pop rbp
-  pop r8
-  pop r9
-  pop r10
-  pop r11
-  pop r12
-  pop r13
-  pop r14
-  pop r15
+	; restore the register file
+	pop rax
+	pop rbx
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	pop rbp
+	pop r8
+	pop r9
+	pop r10
+	pop r11
+	pop r12
+	pop r13
+	pop r14
+	pop r15
 
-  ; pop the error code and interrupt id
-  add rsp, 16
+	; pop the error code and interrupt id
+	add rsp, 16
 
-  ; return
-  iretq
+	; return
+	iretq
 
 ; the fault and irq stubs are actually made here
 fault     0

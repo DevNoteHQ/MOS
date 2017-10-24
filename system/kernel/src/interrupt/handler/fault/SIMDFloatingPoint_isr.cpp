@@ -2,9 +2,11 @@
 #include <terminal/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 
-
-__attribute__((interrupt)) void SIMDFloatingPoint(CPU::State *state)
+namespace Interrupt::Handler
 {
-	Console::Write("\nFAULT: SIMD Floating Point!");
-	asm volatile("hlt");
+	void SIMDFloatingPoint(CPU::State *state)
+	{
+		Console::Write("\nFAULT: SIMD Floating Point!");
+		asm volatile("hlt");
+	}
 }

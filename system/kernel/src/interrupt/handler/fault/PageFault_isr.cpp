@@ -2,9 +2,11 @@
 #include <terminal/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 
-
-__attribute__((interrupt)) void PageFault(CPU::State *state, uint64_t error)
+namespace Interrupt::Handler
 {
-	Console::Write("\nFAULT: Page Fault!");
-	asm volatile("hlt");
+	void PageFault(CPU::State *state)
+	{
+		Console::Write("\nFAULT: Page Fault!");
+		asm volatile("hlt");
+	}
 }

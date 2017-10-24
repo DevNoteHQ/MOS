@@ -2,9 +2,11 @@
 #include <terminal/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 
-
-__attribute__((interrupt)) void SegmentNotPresent(CPU::State *state, uint64_t error)
+namespace Interrupt::Handler
 {
-	Console::Write("\nFAULT: Segment Not Present!");
-	asm volatile("hlt");
+	void SegmentNotPresent(CPU::State *state)
+	{
+		Console::Write("\nFAULT: Segment Not Present!");
+		asm volatile("hlt");
+	}
 }

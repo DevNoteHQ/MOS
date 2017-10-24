@@ -2,9 +2,11 @@
 #include <terminal/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 
-
-__attribute__((interrupt)) void GeneralProtection(CPU::State *state, uint64_t error)
+namespace Interrupt::Handler
 {
-	Console::Write("\nFAULT: General Protection!");
-	asm volatile("hlt");
+	void GeneralProtection(CPU::State *state)
+	{
+		Console::Write("\nFAULT: General Protection!");
+		asm volatile("hlt");
+	}
 }
