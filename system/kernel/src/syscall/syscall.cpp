@@ -11,6 +11,8 @@
 
 namespace Syscall
 {
+	void(*Handlers[400])(uint64_t, void*);
+
 	void Init()
 	{
 		msr_write(IA32_EFER, msr_read(IA32_EFER) | 0x1);
@@ -22,9 +24,9 @@ namespace Syscall
 	void Handler(uint64_t iCall, void* OtherArguments)
 	{
 		//asm volatile("push %rcx");
+		//asm volatile("swapgs");
 		//(*Handlers[iCall])(OtherArguments);
 		//asm volatile("pop %rax");
-		//asm volatile("sysret");
-		//return (*Handlers[iCall])(OtherArguments);
+		//asm volatile("sysret" : : "a"(retval));
 	}
 }

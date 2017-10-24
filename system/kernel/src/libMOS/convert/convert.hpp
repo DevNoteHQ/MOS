@@ -1,6 +1,6 @@
 
-#ifndef CONVERT_HPP
-#define CONVERT_HPP
+#ifndef LIBMOS_CONVERT_CONVERT_HPP
+#define LIBMOS_CONVERT_CONVERT_HPP
 
 namespace Convert
 {

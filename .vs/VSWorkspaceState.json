@@ -5,9 +5,10 @@
     "\\system\\kernel",
     "\\system\\kernel\\src",
     "\\system\\kernel\\src\\cpu",
-    "\\system\\kernel\\src\\interrupt",
-    "\\system\\kernel\\src\\interrupt\\handler"
+    "\\system\\kernel\\src\\libMOS",
+    "\\system\\kernel\\src\\libMOS\\system",
+    "\\system\\kernel\\src\\libMOS\\system\\syscalls"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\cpu\\cpu.hpp",
+  "SelectedNode": "\\Doku",
   "PreviewInSolutionExplorer": false
 }
