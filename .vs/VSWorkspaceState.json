@@ -4,11 +4,9 @@
     "\\system",
     "\\system\\kernel",
     "\\system\\kernel\\src",
-    "\\system\\kernel\\src\\cpu",
-    "\\system\\kernel\\src\\libMOS",
-    "\\system\\kernel\\src\\libMOS\\system",
-    "\\system\\kernel\\src\\libMOS\\system\\syscalls"
+    "\\system\\kernel\\src\\keys",
+    "\\system\\kernel\\src\\terminal"
   ],
-  "SelectedNode": "\\Doku",
+  "SelectedNode": "\\system\\kernel\\src\\terminal\\keys.hpp",
   "PreviewInSolutionExplorer": false
 }
