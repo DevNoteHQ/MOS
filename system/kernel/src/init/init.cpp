@@ -9,8 +9,9 @@
 #include "gdt.hpp"
 #include "tss.hpp"
 
-#include <cpu/msr.hpp>
+#include <cpu/cpu.hpp>
 #include <cpu/CPUID.hpp>
+#include <cpu/msr.hpp>
 #include <driver/keyboard/ps2/keyboard.hpp>
 #include <interrupt/init.hpp>
 #include <keys/keys.hpp>
@@ -32,6 +33,8 @@ namespace System
 			Paging::Init();
 			multiboot = Paging::ToVMA_V(multiboot);
 
+			CPU::InitBSP();
+
 			CPUID::GetCPUInfo();
 			Console::Init();
 
@@ -47,9 +50,9 @@ namespace System
 			Keys::Init();
 			Syscall::Init();
 
-			Shell::Init();
-
 			asm volatile("sti");
+
+			Shell::Init();
 
 			while (true)
 			{

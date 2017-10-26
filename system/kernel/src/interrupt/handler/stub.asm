@@ -89,18 +89,11 @@ intr_stub:
 	swapgs
 
 .supervisor_enter:
-	; increment mask count as we configure all interrupts to mask IF
-	; automatically in the IDT
-	inc qword [gs:8]
-
 	; call the C routine for dispatching an interrupt
 	cld          ; amd64 SysV ABI states the DF must be cleared by the caller
 	mov rdi, rsp ; first argument points to the processor state
 	mov rbp, 0   ; terminate stack traces here
 	call Interrupt_Handler
-
-	; decrement mask count
-	dec qword [gs:8]
 
 	; check if we are switching from supervisor to user mode
 	mov rax, [rsp + 152]

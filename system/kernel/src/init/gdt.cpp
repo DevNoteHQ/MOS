@@ -2,6 +2,7 @@
 
 #include "gdt.hpp"
 #include "tss.hpp"
+#include <cpu/cpu.hpp>
 #include <cpu/msr.hpp>
 
 // Each define here is for a specific flag in the descriptor.
@@ -51,19 +52,13 @@
 							SEG_LONG(1)     | SEG_SIZE(0) | SEG_GRAN(1) | \
 							SEG_PRIV(3)     | SEG_CODE_EXRD
 
-
-#define GDT_ENTRIES 6
-#define TSS_ENTRIES 1
-#define ENTRIES (GDT_ENTRIES + 2 * TSS_ENTRIES)
-
 #define TSS_FLAG 0x89
 
 namespace GDT
 {
-	uint64_t GDT64 = 0;
-	uint64_t *gdt = &GDT64;
+	int i = 0;
 
-	void Set(int i, uint32_t base, uint32_t limit, uint16_t flag)
+	void Set(uint64_t *gdt, uint32_t base, uint32_t limit, uint16_t flag)
 	{
 		// Create the high 32 bit segment
 		gdt[i] = limit & 0x000F0000;         // Set limit bits 19:16
@@ -76,9 +71,10 @@ namespace GDT
 		// Create the low 32 bit segment
 		gdt[i] |= base << 16;                       // Set base bits 15:0
 		gdt[i] |= limit & 0x0000FFFF;               // Set limit bits 15:0
+		i++;
 	}
 
-	void SetTSS(int i, uint64_t base, uint32_t limit, uint16_t flag)
+	void SetTSS(uint64_t *gdt, uint64_t base, uint32_t limit, uint16_t flag)
 	{
 		gdt[i] = limit & 0x000F0000;			// Set limit bits 19:16
 		gdt[i] |= (flag << 8) & 0x00F0FF00;		// Set type, p, dpl, s, g, d/b, l and avl fields
@@ -90,32 +86,40 @@ namespace GDT
 		gdt[i] |= base << 16;			// Set base bits 15:0
 		gdt[i] |= limit & 0x0000FFFF;	// Set limit bits 15:0
 
-		gdt[i + 1] |= (base >> 32) & 0xFFFFFFFF;
-		gdt[i + 1] = 0x00000000;
+		i++;
+
+		gdt[i] |= (base >> 32) & 0xFFFFFFFF;
+		gdt[i] = 0x00000000;
+
+		i++;
 	}
 
 	void Init()
 	{
+		CPU::CPU *ThisCPU = cpu_get();
+		uint64_t *gdt = ThisCPU->gdt;
+		GDTR *gdtr = &ThisCPU->gdtr;
+
+		TSS::TSS *tss = &ThisCPU->tss;
+		uint64_t tss_base = (uint64_t) tss;
+		uint32_t tss_limit = sizeof(*tss);
+
 		memset(gdt, 0, ENTRIES);
 
-		uint64_t tss_base = (uint64_t)TSS::tss;
-		uint32_t tss_limit = sizeof(*TSS::tss);
-
-		Set(0, 0, 0, 0);
-		Set(1, 0, 0xFFFFFFFF, (GDT_CODE_PL0));
-		Set(2, 0, 0xFFFFFFFF, (GDT_DATA_PL0));
-		Set(3, 0, 0xFFFFFFFF, (GDT_CODE_PL3_32));
-		Set(4, 0, 0xFFFFFFFF, (GDT_DATA_PL3));
-		Set(5, 0, 0xFFFFFFFF, (GDT_CODE_PL3_64));
-		SetTSS(6, tss_base, tss_limit, TSS_FLAG);
+		Set(gdt, 0, 0, 0);
+		Set(gdt, 0, 0xFFFFFFFF, (GDT_CODE_PL0));
+		Set(gdt, 0, 0xFFFFFFFF, (GDT_DATA_PL0));
+		Set(gdt, 0, 0xFFFFFFFF, (GDT_CODE_PL3_32));
+		Set(gdt, 0, 0xFFFFFFFF, (GDT_DATA_PL3));
+		Set(gdt, 0, 0xFFFFFFFF, (GDT_CODE_PL3_64));
+		SetTSS(gdt, tss_base, tss_limit, TSS_FLAG);
 
 		uint64_t gs_base = msr_read(MSR_GS_BASE);
 
-		GDTR_t gdtr;
-		gdtr.limit = ENTRIES * 8 - 1;
-		gdtr.pointer = gdt;
+		gdtr->limit = ENTRIES * 8 - 1;
+		gdtr->pointer = gdt;
 
-		gdtr_install(&gdtr, SLTR_KERNEL_CODE, SLTR_KERNEL_DATA);
+		gdtr_install(gdtr, SLTR_KERNEL_CODE, SLTR_KERNEL_DATA);
 
 		msr_write(MSR_GS_BASE, gs_base);
 		msr_write(MSR_GS_KERNEL_BASE, gs_base);

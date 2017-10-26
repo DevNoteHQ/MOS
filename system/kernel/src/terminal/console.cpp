@@ -2,6 +2,7 @@
 #include <mm/vmm.hpp>
 
 #include "console.hpp"
+#include "keys.hpp"
 #include "text.hpp"
 
 namespace Console
@@ -206,5 +207,10 @@ namespace Console
 		default:
 			break;
 		}
+	}
+
+	void GetKeys(uint8_t iTable, uint32_t iFlags, uint8_t iCode)
+	{
+		Write(Keys::ScanCode(iTable, iFlags, iCode));
 	}
 }

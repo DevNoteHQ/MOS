@@ -11,6 +11,7 @@ namespace Shell
 
 	void Init()
 	{
+		Keys::UpdateFocusedElement = &Shell::GetKeys;
 		Console::WriteLine("--------------------------------------------------------------------------------");
 		Console::WriteLine("----------------  Hello! This is MOS - Modern Operating System  ----------------");
 		Console::WriteLine("--------------------------------------------------------------------------------");
@@ -45,12 +46,14 @@ namespace Shell
 	{
 		if (Console::iX == 0) Banner();
 		Console::WriteLine(s);
+		Banner();
 	}
 
 	void WriteLine(char cC)
 	{
 		if (Console::iX == 0) Banner();
 		Console::WriteLine(cC);
+		Banner();
 	}
 
 	void Putc(char cC)

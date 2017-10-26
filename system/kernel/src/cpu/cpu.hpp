@@ -2,6 +2,8 @@
 #ifndef CPU_CPU_H
 #define CPU_CPU_H
 
+#include <init/gdt.hpp>
+#include <init/tss.hpp>
 
 namespace CPU
 {
@@ -31,6 +33,23 @@ namespace CPU
 		uint64_t   rsp;
 		uint64_t   ss;
 	} __attribute__((__packed__)) State;
+
+	typedef struct CPU_t {
+		struct CPU_t *self;
+
+		bool IsBSP;
+
+		GDT::GDTR gdtr;
+		uint64_t gdt[ENTRIES];
+
+		TSS::TSS tss;
+
+		uint64_t iTest;
+	} CPU;
+
+	void InitBSP();
 }
+
+extern "C" CPU::CPU *cpu_get();
 
 #endif

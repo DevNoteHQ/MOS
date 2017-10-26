@@ -30,13 +30,17 @@
 #define RPL2 0x2
 #define RPL3 0x3
 
+#define GDT_ENTRIES 6
+#define TSS_ENTRIES 1
+#define ENTRIES (GDT_ENTRIES + 2 * TSS_ENTRIES)
+
 namespace GDT
 {
 	typedef struct
 	{
 		uint16_t limit;
 		uint64_t pointer;
-	} __attribute__((__packed__)) GDTR_t;
+	} __attribute__((__packed__)) GDTR;
 
 	void Init();
 	extern "C" void gdtr_install(uint64_t gdtr, uint16_t cs, uint16_t ds);

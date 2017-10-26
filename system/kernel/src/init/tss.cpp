@@ -17,13 +17,15 @@
 #include "tss.hpp"
 #include "gdt.hpp"
 
+#include <cpu/cpu.hpp>
+
 namespace TSS
 {
-	TSS_t Default;
-	TSS_t *tss = &Default;
-
 	void Init()
 	{
+		CPU::CPU *ThisCPU = cpu_get();
+		TSS *tss = &ThisCPU->tss;
+
 		/* reset all the fields */
 		memset(tss, 0, sizeof(*tss));
 		tss->iomap_base = sizeof(*tss);
@@ -34,6 +36,9 @@ namespace TSS
 
 	void SetRsp0(uint64_t rsp0)
 	{
+		CPU::CPU *ThisCPU = cpu_get();
+		TSS *tss = &ThisCPU->tss;
+
 		tss->rsp0 = rsp0;
 	}
 }

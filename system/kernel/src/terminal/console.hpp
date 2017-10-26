@@ -34,6 +34,8 @@ namespace Console
 	void Putc(char cC);
 
 	void UpdateScreenColor();
+
+	void GetKeys(uint8_t iTable, uint32_t iFlags, uint8_t iCode);
 }
 
 #endif

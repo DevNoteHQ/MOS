@@ -36,9 +36,8 @@ namespace TSS
 		uint64_t reserved2;
 		uint16_t reserved3;
 		uint16_t iomap_base;
-	} __attribute__((__packed__)) TSS_t;
+	} __attribute__((__packed__)) TSS;
 
-	extern TSS_t *tss;
 	void Init();
 	void SetRsp0(uint64_t rsp0);
 	extern "C" void tss_install(uint16_t selector);
