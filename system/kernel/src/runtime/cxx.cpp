@@ -1,5 +1,5 @@
 
-#include <mm/kmalloc.hpp>
+#include <mm/heap/heap.hpp>
 
 extern "C"
 {
@@ -64,18 +64,18 @@ void __attribute__((noreturn)) __stack_chk_fail()
 
 void operator delete(void *ptr) 
 {
-	kfree(ptr);
+	Heap::Free(ptr);
 }
 
 #ifndef __arm__
 void* operator new(size_t len) 
 {
-	return (void*)kmalloc(len);
+	return (void*)Heap::Alloc(len);
 }
 
 void* operator new(size_t len, uint16_t align)
 {
-	return (void*)kmalloc(len, align);
+	return (void*)Heap::Alloc(len, align);
 }
 
 void operator delete[](void *ptr) 
@@ -93,12 +93,12 @@ void* operator new[](size_t len, uint16_t align)
 	
 void* operator new(size_t len) 
 {
-	return (void*)kmalloc(len);
+	return (void*)Heap::Alloc(len);
 }
 
 void* operator new(size_t len, uint16_t align)
 {
-	return (void*)kmalloc(len, align);
+	return (void*)Heap::Alloc(len, align);
 }
 
 void operator delete[](void *ptr) 

@@ -11,7 +11,7 @@
 
 namespace Syscall
 {
-	void(*Handlers[400])(uint64_t, void*);
+	void(*Handlers[400])(void*);
 
 	void Init()
 	{

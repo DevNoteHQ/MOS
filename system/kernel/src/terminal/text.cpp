@@ -1,5 +1,5 @@
 
-#include <mm/vmm.hpp>
+#include <mm/vmm/conv.hpp>
 
 #include "console.hpp"
 #include "text.hpp"
@@ -16,7 +16,7 @@ namespace Text
 
 	void Init()
 	{
-		iVideo = Paging::ToVMA_I(VIDEO_BUFFER);
+		iVideo = VMM::ToVMA_I(VIDEO_BUFFER);
 		ForegroundColor(Color::White);
 		BackgroundColor(Color::Blue);
 		Console::iX = 0;

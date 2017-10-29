@@ -16,7 +16,8 @@
 #include <interrupt/init.hpp>
 #include <keys/keys.hpp>
 #include <libMOS/convert/convert.hpp>
-#include <mm/vmm.hpp>
+#include <mm/vmm/init.hpp>
+#include <mm/vmm/conv.hpp>
 #include <multiboot.hpp>
 #include <syscall/syscall.hpp>
 #include <terminal/console.hpp>
@@ -30,8 +31,8 @@ namespace System
 	{
 		void Init(uint32_t magic, multiboot_t *multiboot)
 		{
-			Paging::Init();
-			multiboot = Paging::ToVMA_V(multiboot);
+			multiboot = VMM::ToVMA_V(multiboot);
+			VMM::Init();
 
 			CPU::InitBSP();
 

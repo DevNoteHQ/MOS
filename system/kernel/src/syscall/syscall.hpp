@@ -4,7 +4,7 @@
 
 namespace Syscall
 {
-	extern void(*Handlers[400])(uint64_t, void*);
+	extern void(*Handlers[400])(void*);
 
 	void Init();
 	void Handler(uint64_t iCall, void* OtherArguments);
