@@ -25,7 +25,7 @@ namespace Syscall
 	{
 		//asm volatile("push %rcx");
 		//asm volatile("swapgs");
-		//(*Handlers[iCall])(OtherArguments);
+		//Handlers[iCall](OtherArguments);
 		//asm volatile("pop %rax");
 		//asm volatile("sysret" : : "a"(retval));
 	}

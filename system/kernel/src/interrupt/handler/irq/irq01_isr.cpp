@@ -25,7 +25,7 @@ namespace Interrupt::Handler
 		case 0xB8: iFlags = (iFlags & (~LALT)); break;
 		}
 
-		(*Keys::UpdateFocusedElement)(1, iFlags, iScancode);
+		Keys::UpdateFocusedElement(1, iFlags, iScancode);
 
 		IO::outb(0x20, 0x20);
 	}

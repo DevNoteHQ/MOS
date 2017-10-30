@@ -45,7 +45,7 @@ namespace CPU
 		TSS::TSS tss;
 
 		uint64_t iTest;
-	} CPU;
+	} __attribute__((__packed__)) CPU;
 
 	void InitBSP();
 }
