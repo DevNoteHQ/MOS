@@ -7,6 +7,5 @@
     "\\system\\kernel\\src\\mm",
     "\\system\\kernel\\src\\terminal"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\syscall",
   "PreviewInSolutionExplorer": false
 }
