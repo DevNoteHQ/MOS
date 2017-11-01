@@ -5,8 +5,8 @@ namespace PMM
 {
 	void *Alloc(uint64_t size)
 	{
-		void *addr;
-		return addr;
+
+		return 0;
 	}
 
 	void Free(void *addr)

@@ -16,8 +16,11 @@
 #include <interrupt/init.hpp>
 #include <keys/keys.hpp>
 #include <libMOS/convert/convert.hpp>
+#include <libMOS/base/string.hpp>
 #include <mm/vmm/init.hpp>
 #include <mm/vmm/conv.hpp>
+#include <mm/heap/init.hpp>
+#include <mm/heap/heap.hpp>
 #include <multiboot.hpp>
 #include <syscall/syscall.hpp>
 #include <terminal/console.hpp>
@@ -33,6 +36,7 @@ namespace System
 		{
 			multiboot = VMM::ToVMA_V(multiboot);
 			VMM::Init();
+			Heap::Init();
 
 			CPU::InitBSP();
 

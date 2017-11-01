@@ -4,7 +4,7 @@
 
 namespace Heap
 {
-
+	void Init();
 }
 
 #endif

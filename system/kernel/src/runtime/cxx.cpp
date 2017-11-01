@@ -83,6 +83,11 @@ void operator delete[](void *ptr)
 	::operator delete(ptr);
 }
 
+void* operator new[](size_t len)
+{
+	return ::operator new(len);
+}
+
 void* operator new[](size_t len, uint16_t align) 
 {
 	return ::operator new(len, align);

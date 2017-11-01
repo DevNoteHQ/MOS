@@ -1,11 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\system",
-    "\\system\\kernel",
-    "\\system\\kernel\\src",
-    "\\system\\kernel\\src\\mm",
-    "\\system\\kernel\\src\\terminal"
+    "\\system"
   ],
+  "SelectedNode": "\\system\\kernel",
   "PreviewInSolutionExplorer": false
 }

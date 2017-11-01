@@ -1,7 +1,6 @@
 
 #include "string.hpp"
 
-/*
 string::string()
 {
 	cstr = 0;
@@ -57,4 +56,12 @@ string string::operator =(const string &q)
 	}
 	return *this;
 }
-*/
+
+string string::operator =(const char *q)
+{
+	if (cstr)
+		delete[] cstr;
+	cstr = new char[strlen(q) + 1];
+	strcpy(cstr, q);
+	return *this;
+}
