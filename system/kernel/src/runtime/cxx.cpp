@@ -67,20 +67,44 @@ void operator delete(void *ptr)
 	Heap::Free(ptr);
 }
 
-#ifndef __arm__
+void operator delete(void *ptr, Heap::HeapDynHeader *Header)
+{
+	Heap::Free(ptr, Header);
+}
+
+void operator delete(void *ptr, Heap::HeapStaHeader *Header)
+{
+	Heap::Free(ptr, Header);
+}
+
 void* operator new(size_t len) 
 {
 	return (void*)Heap::Alloc(len);
 }
 
-void* operator new(size_t len, uint16_t align)
+void* operator new(size_t len, Heap::HeapDynHeader *Header)
 {
-	return (void*)Heap::Alloc(len, align);
+	return (void*)Heap::Alloc(len, Header);
+}
+
+void* operator new(size_t len, Heap::HeapStaHeader *Header)
+{
+	return (void*)Heap::Alloc(len, Header);
 }
 
 void operator delete[](void *ptr) 
 {
 	::operator delete(ptr);
+}
+
+void operator delete[](void *ptr, Heap::HeapDynHeader *Header)
+{
+	::operator delete(ptr, Header);
+}
+
+void operator delete[](void *ptr, Heap::HeapStaHeader *Header)
+{
+	::operator delete(ptr, Header);
 }
 
 void* operator new[](size_t len)
@@ -88,38 +112,14 @@ void* operator new[](size_t len)
 	return ::operator new(len);
 }
 
-void* operator new[](size_t len, uint16_t align) 
+void* operator new[](size_t len, Heap::HeapDynHeader *Header) 
 {
-	return ::operator new(len, align);
+	return ::operator new(len, Header);
 }
 
-#else
-
-	
-void* operator new(size_t len) 
+void* operator new[](size_t len, Heap::HeapStaHeader *Header)
 {
-	return (void*)Heap::Alloc(len);
+	return ::operator new(len, Header);
 }
-
-void* operator new(size_t len, uint16_t align)
-{
-	return (void*)Heap::Alloc(len, align);
-}
-
-void operator delete[](void *ptr) 
-{
-	::operator delete(ptr);
-}
-
-void* operator new[](size_t len) 
-{
-	return ::operator new(len);
-}
-
-void* operator new[](size_t len, uint16_t align)
-{
-	return ::operator new(len, align);
-}
-#endif
 
 void *__gxx_personality_v0=(void*)0xDEADBEAF;

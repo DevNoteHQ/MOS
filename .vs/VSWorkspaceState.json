@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\system"
+    "\\system",
+    "\\system\\kernel",
+    "\\system\\kernel\\src"
   ],
-  "SelectedNode": "\\system\\kernel",
+  "SelectedNode": "\\system\\kernel\\src\\runtime",
   "PreviewInSolutionExplorer": false
 }

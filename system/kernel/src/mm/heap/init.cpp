@@ -7,7 +7,8 @@ namespace Heap
 	void Init()
 	{
 		InitHeap = (HeapDynHeader *) &_end; //Reserves Memory for Heap.
-		HeapStackPointer *Stack = (HeapStackPointer *)(InitHeap + 1); //Reserves Memory for pseudo-stack.
+		InitHeap->Next = 0;
+		HeapStackPointer *Stack = InitHeap->Stack; //Reserves Memory for pseudo-stack.
 		uint64_t HeapEnd = ((uint64_t) InitHeap) + HEAP_SIZE * 8;
 		uint64_t Rest = HeapEnd % (HEAP_SIZE * 8);
 		HeapEnd += (HEAP_SIZE * 8) - Rest - 1;

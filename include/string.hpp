@@ -1,6 +1,6 @@
 
-#ifndef C_STRING_H
-#define	C_STRING_H
+#ifndef C_STRING_HPP
+#define	C_STRING_HPP
 
 //#include <sys/feature_tests.h>
 

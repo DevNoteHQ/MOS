@@ -9,8 +9,8 @@ namespace Heap
 {
 	typedef struct HeapElement
 	{
-		struct HeapElement *next; //Only for free Elements
-		uint64_t size;
+		struct HeapElement *Next; //Only for free Elements
+		uint64_t Size;
 	} HeapElement;
 
 	typedef struct
@@ -19,14 +19,16 @@ namespace Heap
 		HeapElement *Last;
 	} HeapStackPointer;
 
-	typedef struct
+	typedef struct HeapDynHeader
 	{
+		struct HeapDynHeader *Next;
 		uint64_t *End;
 		HeapStackPointer *Stack; //General Purpose
 	} HeapDynHeader;
 
 	typedef struct
 	{
+		uint64_t *Next;
 		uint64_t *End;
 		uint64_t *Bitmap;
 	} HeapStaHeader;
@@ -37,7 +39,10 @@ namespace Heap
 
 	void *Alloc(uint64_t size);
 	void *Alloc(uint64_t size, HeapDynHeader *Header);
+	void *Alloc(uint64_t size, HeapStaHeader *Header);
 	void Free(void *addr);
+	void Free(void *addr, HeapDynHeader *Header);
+	void Free(void *addr, HeapStaHeader *Header);
 }
 
 #endif
