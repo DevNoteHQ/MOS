@@ -59,6 +59,19 @@ namespace System
 
 			Shell::Init();
 
+			string sTest;
+			sTest = "Hallo";
+			Shell::WriteLine(sTest);
+			sTest += " Welt!";
+			Shell::WriteLine(sTest);
+			string sTest2 = " Das ist mein OS!";
+			sTest = sTest + sTest2;
+			Shell::WriteLine(sTest);
+			sTest += " Dieser Text wurde mit Strings erstellt!";
+			Shell::WriteLine(sTest);
+			sTest += " Das bedeutet, dass malloc funktioniert!";
+			Shell::WriteLine(sTest);
+			
 			while (true)
 			{
 				asm volatile("hlt");

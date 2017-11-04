@@ -79,7 +79,7 @@ namespace Interrupt
 			if (!(CPUID::CPUID_0[1][2] & CPUID::EAX1::ECX_x2APIC))
 			{
 				bX2APIC = false;
-				abort();
+				//abort();
 			}
 			else
 			{

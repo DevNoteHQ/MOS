@@ -15,8 +15,8 @@ public:
 	operator char*();
 	operator const char*();
 	string operator+(const string& q)const;
+	string operator+=(const string& q);
 	string operator=(const string& q);
-	string operator=(const char* q);
 };
 
 #endif

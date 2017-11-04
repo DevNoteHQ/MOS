@@ -45,6 +45,16 @@ string string::operator +(const string &q) const
 	return s;
 }
 
+string string::operator +=(const string &q)
+{
+	string s;
+	s.cstr = new char[strlen(cstr) + strlen(q.cstr) + 1];
+	strcpy(s.cstr, cstr);
+	strcat(s.cstr, q.cstr);
+	strcpy(cstr, s.cstr);
+	return *this;
+}
+
 string string::operator =(const string &q)
 {
 	if (this != &q)
@@ -54,14 +64,5 @@ string string::operator =(const string &q)
 		cstr = new char[strlen(q.cstr) + 1];
 		strcpy(cstr, q.cstr);
 	}
-	return *this;
-}
-
-string string::operator =(const char *q)
-{
-	if (cstr)
-		delete[] cstr;
-	cstr = new char[strlen(q) + 1];
-	strcpy(cstr, q);
 	return *this;
 }

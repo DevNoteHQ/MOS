@@ -7,10 +7,17 @@
 
 namespace Heap
 {
-	typedef struct HeapElement
+	typedef struct HeapDynHeader
 	{
-		struct HeapElement *Next; //Only for free Elements
-		uint64_t Size;
+		struct HeapDynHeader *Next;
+		uint64_t *End;
+		uint64_t Stack[STACK_SIZE];
+	} HeapDynHeader;
+
+	typedef struct
+	{
+		int Next; //Only for free Elements
+		uint32_t Size;
 	} HeapElement;
 
 	typedef struct
@@ -19,23 +26,17 @@ namespace Heap
 		HeapElement *Last;
 	} HeapStackPointer;
 
-	typedef struct HeapDynHeader
-	{
-		struct HeapDynHeader *Next;
-		uint64_t *End;
-		HeapStackPointer *Stack; //General Purpose
-	} HeapDynHeader;
-
 	typedef struct
 	{
 		uint64_t *Next;
 		uint64_t *End;
-		uint64_t *Bitmap;
+		uint64_t Bitmap;
 	} HeapStaHeader;
 
 	extern HeapDynHeader *InitHeap;
 
-	HeapDynHeader *KernelCreate(uint64_t size);
+	void KernelCreate(uint32_t size, HeapDynHeader *Header);
+	void KernelCreate(uint32_t size, HeapStaHeader *Header);
 
 	void *Alloc(uint64_t size);
 	void *Alloc(uint64_t size, HeapDynHeader *Header);

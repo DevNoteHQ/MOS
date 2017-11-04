@@ -3,8 +3,11 @@
     "",
     "\\system",
     "\\system\\kernel",
-    "\\system\\kernel\\src"
+    "\\system\\kernel\\src",
+    "\\system\\kernel\\src\\interrupt",
+    "\\system\\kernel\\src\\libMOS",
+    "\\system\\kernel\\src\\libMOS\\base"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\runtime",
+  "SelectedNode": "\\system\\kernel\\src\\interrupt\\init.cpp",
   "PreviewInSolutionExplorer": false
 }
