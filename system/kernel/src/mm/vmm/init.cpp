@@ -19,17 +19,18 @@
 
 namespace VMM
 {
-	uint64_t *PL4 = PL4P;
-	uint64_t *PL3 = PL4P + ALIGN;
+	uint64_t PL4[PLE] __attribute__((aligned(ALIGN)));
+	uint64_t PL3[PLE] __attribute__((aligned(ALIGN)));
 	void Init()
 	{
-		PL4[PLE - 1] = (((uint64_t) PL4) | PG_WRITABLE | PG_PRESENT);
-		PL4[PLE - 2] = (((uint64_t) PL3) | PG_WRITABLE | PG_PRESENT);
-		PL4[0] = (((uint64_t) PL3) | PG_WRITABLE | PG_PRESENT);
-		for (uint64_t i = 0; i < 512; i++)
+		PL4[PLE - 1] = (((uint64_t) &PL4[0] - HVMA) | PG_WRITABLE | PG_PRESENT);
+		PL4[PLE - 2] = (((uint64_t) &PL3[0] - HVMA) | PG_WRITABLE | PG_PRESENT);
+		PL4[0] = (((uint64_t) &PL3[0] - HVMA) | PG_WRITABLE | PG_PRESENT);
+		for (uint64_t i = 0; i < PLE; i++)
 		{
 			PL3[i] = (((uint64_t) i * SIZE1G) | PG_WRITABLE | PG_PRESENT | PG_BIG);
 		}
-		setCR3((uint64_t) PL4);
+		setCR3((uint64_t) &PL4[0] - HVMA);
+		memset(PL4P, 0, ALIGN * 2);
 	}
 }

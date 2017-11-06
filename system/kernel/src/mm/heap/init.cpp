@@ -14,7 +14,7 @@ namespace Heap
 		HeapEnd += (HEAP_SIZE * 8) - Rest - 1;
 		uint64_t Size = HeapEnd - ((uint64_t) InitHeap) + 1;
 		memset(InitHeap, 0, Size);
-		InitHeap->End = (uint64_t *) HeapEnd; //Points to the end of the Heap.
+		InitHeap->End = (uint8_t *) HeapEnd; //Points to the end of the Heap.
 
 		Stack[0].First = (HeapElement *)(&Stack[STACK_SIZE / 2]); //Always points to the highest, not allocated Memory Address.
 	}

@@ -116,7 +116,7 @@ start:
 	add edi, 0x1000					; Add 0x1000 to the destination index.
 	mov DWORD [edi], ebx			; Set the uint32_t at the destination index to the B-register.
 
-	mov edi, 0x7E00FF0				; Set the destination index to 0x1000.
+	mov edi, 0x7E00FF0				; Set the destination index to 0x7E00FF0.
 	mov DWORD [edi], 0x7E01003		; Set the uint32_t at the destination index to 0x7E01003. This is for HVMA
     add edi, 0x8					; Add 0x8 to the destination index.
 	mov DWORD [edi], 0x7E00003		; Set the uint32_t at the destination index to 0x7E00003. This is for recrusive mapping

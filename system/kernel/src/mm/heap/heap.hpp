@@ -10,7 +10,7 @@ namespace Heap
 	typedef struct HeapDynHeader
 	{
 		struct HeapDynHeader *Next;
-		uint64_t *End;
+		uint8_t *End;
 		uint64_t Stack[STACK_SIZE];
 	} HeapDynHeader;
 

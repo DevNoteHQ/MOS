@@ -45,7 +45,7 @@ extern char *strtok(char *, const char *);
 	    (_POSIX_C_SOURCE - 0 >= 199506L)
 extern char *strtok_r(char *, const char *, char **);
 #endif	/* defined(__EXTENSIONS__) || defined(_REENTRANT) .. */
-extern void *memset(void *, int, size_t);
+extern void *memset(void *, uint8_t, size_t);
 extern char *strerror(int);
 extern size_t strlen(const char *);
 
