@@ -68,17 +68,11 @@ namespace System
 			Shell::WriteLine(sTest);
 			sTest += " Dieser Text wurde mit Strings erstellt!";
 			Shell::WriteLine(sTest);
-			sTest += " ==> malloc funkt!-------------";
+			sTest += " Das bedeutet, dass malloc funkt!";
 			Shell::WriteLine(sTest);
-			char cTest[64];
-			Convert::ToString((uint64_t)&_end, cTest, 16);
-			Shell::WriteLine(cTest);
-			char *cTest2 = sTest;
-			Convert::ToString(((uint64_t)cTest2) + strlen(sTest) - 1, cTest, 16);
-			Shell::WriteLine(cTest);
-			cTest2 += strlen(sTest) - 1;
-			Shell::Write(cTest2);
-			
+			sTest += " Juhu!!!";
+			Shell::WriteLine(sTest);
+
 			while (true)
 			{
 				asm volatile("hlt");

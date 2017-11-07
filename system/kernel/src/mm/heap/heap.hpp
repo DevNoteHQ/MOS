@@ -38,9 +38,9 @@ namespace Heap
 	void KernelCreate(uint32_t size, HeapDynHeader *Header);
 	void KernelCreate(uint32_t size, HeapStaHeader *Header);
 
-	void *Alloc(uint64_t size);
-	void *Alloc(uint64_t size, HeapDynHeader *Header);
-	void *Alloc(uint64_t size, HeapStaHeader *Header);
+	void *Alloc(uint32_t size);
+	void *Alloc(uint32_t size, HeapDynHeader *Header);
+	void *Alloc(uint32_t size, HeapStaHeader *Header);
 	void Free(void *addr);
 	void Free(void *addr, HeapDynHeader *Header);
 	void Free(void *addr, HeapStaHeader *Header);

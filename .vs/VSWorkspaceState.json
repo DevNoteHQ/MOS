@@ -3,8 +3,9 @@
     "",
     "\\system",
     "\\system\\kernel",
-    "\\system\\kernel\\src"
+    "\\system\\kernel\\src",
+    "\\system\\kernel\\src\\runtime"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\interrupt",
+  "SelectedNode": "\\system\\kernel\\src\\runtime\\cxx.cpp",
   "PreviewInSolutionExplorer": false
 }

@@ -6,16 +6,14 @@ string::string()
 	cstr = 0;
 }
 
-string::string(char *str)
+string::string(const char *str)
 {
 	cstr = new char[strlen(str) + 1];
 	strcpy(cstr, str);
 }
 
-string::string(string& q)
+string::string(const string& q)
 {
-	if (this == &q)
-		return;
 	cstr = new char[strlen(q.cstr) + 1];
 	strcpy(cstr, q.cstr);
 }
@@ -36,33 +34,49 @@ string::operator const char* ()
 	return cstr;
 }
 
-string string::operator +(const string &q) const
+string& string::operator= (const string& rhs)
 {
-	string s;
-	s.cstr = new char[strlen(cstr) + strlen(q.cstr) + 1];
-	strcpy(s.cstr, cstr);
-	strcat(s.cstr, q.cstr);
-	return s;
-}
+	if (this == &rhs) return *this;
 
-string string::operator +=(const string &q)
-{
-	string s;
-	s.cstr = new char[strlen(cstr) + strlen(q.cstr) + 1];
-	strcpy(s.cstr, cstr);
-	strcat(s.cstr, q.cstr);
-	strcpy(cstr, s.cstr);
+	if (cstr)
+		delete[] cstr;
+	cstr = new char[strlen(rhs.cstr) + 1];
+	strcpy(cstr, rhs.cstr);
 	return *this;
 }
 
-string string::operator =(const string &q)
+string& string::operator+= (const string& rhs)
 {
-	if (this != &q)
-	{
-		if (cstr)
-			delete[] cstr;
-		cstr = new char[strlen(q.cstr) + 1];
-		strcpy(cstr, q.cstr);
-	}
+	uint32_t size = strlen(cstr) + strlen(rhs.cstr) + 1;
+	char *tmp = new char[size];
+	strcpy(tmp, cstr);
+	strcat(tmp, rhs.cstr);
+	delete[] cstr;
+	cstr = tmp;
 	return *this;
+}
+
+string operator+ (const string& lhs, const string& rhs)
+{
+	return string(lhs) += rhs;
+}
+
+string operator+ (const string& lhs, char rhs)
+{
+	return string(lhs) += string(rhs);
+}
+
+string operator+ (const string& lhs, const char* rhs)
+{
+	return string(lhs) += string(rhs);
+}
+
+string operator+ (char lhs, const string& rhs)
+{
+	return string(lhs) += rhs;
+}
+
+string operator+ (const char* lhs, const string& rhs)
+{
+	return string(lhs) += rhs;
 }

@@ -5,7 +5,7 @@ namespace Heap
 {
 	HeapDynHeader *InitHeap;
 
-	void *Alloc(uint64_t size)
+	void *Alloc(uint32_t size)
 	{
 		if (size > 262144)
 		{
@@ -14,7 +14,10 @@ namespace Heap
 		void *addr = 0; //Address that'll get returned.
 		int iOffset = 1; //Offset in the "Stack".
 		int iSize = 16; //Size in Bytes, 16 is minimum.
-		for (; iSize < size; iSize *= 2, iOffset++); //Get a valid size and Offset in the "Stack".
+		for (; iSize < size; iOffset++) //Get a valid size and Offset in the "Stack".
+		{
+			iSize *= 2;
+		}
 		int iOrgOffset = iOffset; //Save the Offset for the optimal size.
 		HeapStackPointer *Stack = (HeapStackPointer *) &InitHeap->Stack[0]; //Points to the pseudo-stack.
 		HeapElement *Element = 0; //Will point to the Header of the entry that'll get returned.
@@ -65,7 +68,7 @@ namespace Heap
 		return 0;
 	}
 
-	void *Alloc(uint64_t size, HeapDynHeader *Header)
+	void *Alloc(uint32_t size, HeapDynHeader *Header)
 	{
 		if (size > 262144)
 		{
@@ -125,7 +128,7 @@ namespace Heap
 		return 0;
 	}
 
-	void *Alloc(uint64_t size, HeapStaHeader *Header)
+	void *Alloc(uint32_t size, HeapStaHeader *Header)
 	{
 		void *addr = 0;
 		return addr;
@@ -133,7 +136,7 @@ namespace Heap
 
 	void Free(void *addr)
 	{
-		if (addr == NULL)
+		if (addr == 0)
 		{
 			return;
 		}
@@ -157,7 +160,7 @@ namespace Heap
 
 	void Free(void *addr, HeapDynHeader *Header)
 	{
-		if (addr == NULL)
+		if (addr == 0)
 		{
 			return;
 		}

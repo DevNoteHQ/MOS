@@ -5,7 +5,7 @@ extern "C"
 {
 	#include <string.hpp>
 	
-	size_t strlen(const char *s)
+	uint32_t strlen(const char *s)
 	{
 		int i = 0;
 		while (*s++)
@@ -13,7 +13,7 @@ extern "C"
 		return i;
 	}
 
-	char *strncpy(char *destString, const char *sourceString,size_t maxLength)
+	char *strncpy(char *destString, const char *sourceString,uint32_t maxLength)
 	{
 		unsigned count;
 
@@ -71,7 +71,7 @@ extern "C"
 		memcpy((char*)((int)dest+(int)strlen((char*)dest)),(char*)src,strlen((char*)src));
 	}
 
-	int strncmp( const char* s1, const char* s2, size_t c ) {
+	int strncmp( const char* s1, const char* s2, uint32_t c ) {
 		int result = 0;
 
 		while ( c ) {
