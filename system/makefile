@@ -1,5 +1,8 @@
 
-MODULES := kernel
+FDIRS = $(shell find -maxdepth 1 -type d)
+DIRS = $(patsubst ./%,%,$(FDIRS))
+RDIRS = $(patsubst .%,%,$(DIRS))
+MODULES = $(filter-out bin,$(RDIRS))
 
 .PHONY: all clean $(MODULES)
 

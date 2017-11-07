@@ -9,6 +9,8 @@ MODULES := $(filter-out bin,$(RDIRS))
 all: $(MODULES)
 
 $(MODULES):
+	rm -r -f Debug
+	rm -r -f obj
 	$(MAKE) -C $@
 	@cp -R $(MODULES)/bin ./
 

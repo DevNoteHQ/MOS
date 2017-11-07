@@ -1,20 +1,77 @@
 
-SYSDIR := system
-USRDIR := userland
+#Build mode. m=d => Debug | m=t => Test | m=r => release | default => release
+ifeq ($(m), d)
+	NASBUILD = $(NASDEBUG)
+	GASBUILD = $(GASDEBUG)
+	CPPBUILD = $(CPPDEBUG)
+	CBUILD = $(CDEBUG)
+	export NASBUILD
+	export GASBUILD
+	export CPPBUILD
+	export CBUILD
+else ifeq ($(m), t)
+	NASBUILD = $(NASTEST)
+	GASBUILD = $(GASTEST)
+	CPPBUILD = $(CPPTEST)
+	CBUILD = $(CTEST)
+	export NASBUILD
+	export GASBUILD
+	export CPPBUILD
+	export CBUILD
+else ifeq ($(m), r)
+	NASBUILD = $(NASRELEASE)
+	GASBUILD = $(GASRELEASE)
+	CPPBUILD = $(CPPRELEASE)
+	CBUILD = $(CRELEASE)
+	export NASBUILD
+	export GASBUILD
+	export CPPBUILD
+	export CBUILD
+else
+	NASBUILD = $(NASRELEASE)
+	GASBUILD = $(GASRELEASE)
+	CPPBUILD = $(CPPRELEASE)
+	CBUILD = $(CRELEASE)
+	export NASBUILD
+	export GASBUILD
+	export CPPBUILD
+	export CBUILD
+endif
 
-SYSBINDIR := $(SYSDIR)/bin
-USRBINDIR := $(USRDIR)/bin
+SYSDIR = system
+USRDIR = userland
 
-SYSMODULE := kernel
-USRMODULE := 
+SYSBINDIR = $(SYSDIR)/bin
+USRBINDIR = $(USRDIR)/bin
 
-SYSBINS := $(patsubst %,%.elf,$(SYSMODULE))
-USRBINS := $(patsubst %,%.elf,$(USRMODULE))
+FSYSMODULES = $(shell find $(SYSDIR)/ -maxdepth 1 -type d)
+FUSRMODULES = $(shell find $(USRDIR)/ -maxdepth 1 -type d)
 
-SYSMODULES := $(SYSDIR)/$(SYSMODULES)
-USRMODULES := $(USRDIR)/$(USRMODULES)
+RSYSMODULES = $(patsubst $(SYSDIR)/%,%,$(FSYSMODULES))
+RUSRMODULES = $(patsubst $(USRDIR)/%,%,$(FUSRMODULES))
 
-MODULES := libs $(SYSDIR) $(USRDIR)
+SYSMODULES = $(filter-out bin,$(RSYSMODULES))
+USRMODULES = $(filter-out bin,$(RUSRMODULES))
+
+SYSBINS = $(patsubst %,%.elf,$(SYSMODULES))
+USRBINS = $(patsubst %,%.elf,$(USRMODULES))
+
+NASDEBUG = -F dwarf -g
+GASDEBUG = 
+CPPDEBUG = -gdwarf -Og
+CDEBUG = -gdwarf -Og
+
+NASTEST = -F dwarf -g
+GASTEST = 
+CPPTEST = -gdwarf -O2
+CTEST = -gdwarf -O2
+
+NASRELEASE = 
+GASRELEASE = 
+CPPRELEASE = -O3
+CRELEASE = -O3
+
+MODULES = libs $(SYSDIR) $(USRDIR)
 
 .PHONY: all clean mount run $(MODULES) $(SYSMODULES) $(USRMODULES)
 
@@ -26,11 +83,13 @@ $(MODULES):
 	
 $(SYSMODULES):
 	rm -r -f Debug
-	$(MAKE) -C $@
+	$(MAKE) -C $(SYSDIR)/$@
+	@cp -R $(SYSDIR)/$@/bin $(SYSDIR)
 	
 $(USRMODULES):
 	rm -r -f Debug
-	$(MAKE) -C $@
+	$(MAKE) -C $(USRDIR)/$@
+	@cp -R $(USRDIR)/$@/bin $(USRDIR)
 
 clean:
 	$(foreach module,$(MODULES),$(MAKE) -C $(module) clean;)

@@ -36,11 +36,11 @@ CPPWFLAGS = -Wall -Wextra -Wno-unused-parameter
 
 INTRFLAGS = -mgeneral-regs-only
 
-NASFLAGS = -f elf64 -F dwarf -g
-GASFLAGS = 
-CPPFLAGS = -m64 $(CPP64FLAGS) $(CPPINCFLAGS) $(CPPFFLAGS) $(CPPWFLAGS) $(LIBDIR) $(LIBS) -gdwarf -std=gnu++1z -O2 -nostdlib -nostartfiles
-CFLAGS = -m64 $(C64FLAGS) $(CINCFLAGS) $(CFFLAGS) $(CWFLAGS) $(LIBDIR) $(LIBS) -gdwarf -std=gnu11 -O2 -nostdlib -nostartfiles
-LDFLAGS = -m elf_x86_64 -T linker.ld -O2 -z max-page-size=0x1000 $(LIBDIR) $(LIBS)
+NASFLAGS = -f elf64 $(NASBUILD)
+GASFLAGS = $(GASBUILD)
+CPPFLAGS = -m64 $(CPPBUILD) $(CPP64FLAGS) $(CPPINCFLAGS) $(CPPFFLAGS) $(CPPWFLAGS) $(LIBDIR) $(LIBS) -std=gnu++1z -nostdlib -nostartfiles
+CFLAGS = -m64 $(CBUILD) $(C64FLAGS) $(CINCFLAGS) $(CFFLAGS) $(CWFLAGS) $(LIBDIR) $(LIBS) -std=gnu11 -nostdlib -nostartfiles
+LDFLAGS = -m elf_x86_64 -T linker.ld -z max-page-size=0x1000 $(LIBDIR) $(LIBS)
 
 SRCS_c = $(shell find $(SRCDIR)/* -name '*.c')
 SRCS_cpp = $(shell find $(SRCDIR)/* -name '*.cpp')
