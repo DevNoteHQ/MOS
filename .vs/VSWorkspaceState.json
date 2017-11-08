@@ -3,9 +3,8 @@
     "",
     "\\system",
     "\\system\\kernel",
-    "\\system\\kernel\\src",
-    "\\system\\kernel\\src\\runtime"
+    "\\system\\kernel\\src"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\runtime\\cxx.cpp",
+  "SelectedNode": "\\system\\kernel\\src\\runtime",
   "PreviewInSolutionExplorer": false
 }

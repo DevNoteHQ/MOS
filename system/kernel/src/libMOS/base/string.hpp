@@ -6,11 +6,15 @@ class string
 {
 private:
 	char* cstr;
+	unsigned size;
 public:
 	string();
+	string(char str);
 	string(const char* str);
 	string(const string& str);
 	~string();
+
+	unsigned Length();
 
 	operator char*();
 	operator const char*();

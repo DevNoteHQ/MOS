@@ -72,6 +72,9 @@ namespace System
 			Shell::WriteLine(sTest);
 			sTest += " Juhu!!!";
 			Shell::WriteLine(sTest);
+			char cTest[64];
+			Convert::ToString((uint64_t) sTest.Length(), cTest);
+			Shell::WriteLine(cTest);
 
 			while (true)
 			{
