@@ -13,7 +13,7 @@ AR = $(ARCH)-ar
 
 SRCDIR = src
 OBJDIR = obj
-BINDIR = ../../include
+BINDIR = bin
 DEPDIR = dep
 
 INCPATHSNP = $(SRCDIR) ../../include
@@ -25,15 +25,14 @@ INCLUDE = $(addprefix -include ,$(INCLUDES))
 
 INCFLAGS = $(INCPATHS) $(INCLUDE)
 
-FFLAGS = -ffreestanding -fno-exceptions -fno-rtti 
-64FLAGS = -mcmodel=kernel -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -mno-sse3 -mno-3dnow
+FFLAGS = -ffreestanding -fno-exceptions -fno-rtti -fPIC
+64FLAGS = -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -mno-sse3 -mno-3dnow
 WFLAGS = -pedantic -Wall -Wextra -Wno-unused-parameter
 
-NASFLAGS = -f elf64
-GASFLAGS = 
-CPPFLAGS = $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu++1z -O2 -nostdlib -nostartfiles -lgcc
-CFLAGS = $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu11 -O2 -nostdlib -nostartfiles -lgcc
-LDFLAGS = -T linker.ld -O2 -z max-page-size=0x1000
+NASFLAGS = -f elf64 $(NASBUILD)
+GASFLAGS = $(GASBUILD)
+CPPFLAGS = $(CPPBUILD) $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu++1z -nostdlib -nostartfiles -lgcc
+CFLAGS = $(CBUILD) $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu11 -nostdlib -nostartfiles -lgcc
 
 SRCS_c = $(shell find $(SRCDIR)/* -name '*.c')
 SRCS_cpp = $(shell find $(SRCDIR)/* -name '*.cpp')
@@ -57,31 +56,33 @@ rm = rm -f -r
 mk = mkdir -p
 
 $(BINDIR)/$(TARGET): $(OBJS)
+	$(mk) $(@D)
 	$(AR) rcs $@ $(OBJS)
+	cp $(BINDIR)/$(TARGET) ../../include/$(TARGET)
 
 include $(OLDDEPS)
 
 $(OBJDIR)/%_c.o : $(SRCDIR)/%.c
-	@mkdir -p $(@D)
+	$(mk)$(@D)
 	$(mk) $(subst obj,dep,$(@D))
 	$(CC) $(CFLAGS) $(DEPS) -c $< -o $@
 	
 $(OBJDIR)/%_cpp.o : $(SRCDIR)/%.cpp
-	@mkdir -p $(@D)
+	$(mk)$(@D)
 	$(mk) $(subst obj,dep,$(@D))
 	$(CPP) $(CPPFLAGS) $(DEPS) -c $< -o $@
 	
 $(OBJDIR)/%_cc.o : $(SRCDIR)/%.cc
-	@mkdir -p $(@D)
+	$(mk)$(@D)
 	$(mk) $(subst obj,dep,$(@D))
 	$(CPP) $(CPPFLAGS) $(DEPS) -c $< -o $@
 
 $(OBJDIR)/%_S.o : $(SRCDIR)/%.S
-	@mkdir -p $(@D)
+	$(mk)$(@D)
 	$(AS) $(GASFLAGS) -c $< -o $@
 	
 $(OBJDIR)/%_asm.o : $(SRCDIR)/%.asm
-	@mkdir -p $(@D)
+	$(mk)$(@D)
 	$(ASM) $(NASFLAGS) $< -o $@
 
 .PHONY: clean

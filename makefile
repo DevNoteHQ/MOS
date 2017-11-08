@@ -5,53 +5,47 @@ ifeq ($(m), d)
 	GASBUILD = $(GASDEBUG)
 	CPPBUILD = $(CPPDEBUG)
 	CBUILD = $(CDEBUG)
-	export NASBUILD
-	export GASBUILD
-	export CPPBUILD
-	export CBUILD
 else ifeq ($(m), t)
 	NASBUILD = $(NASTEST)
 	GASBUILD = $(GASTEST)
 	CPPBUILD = $(CPPTEST)
 	CBUILD = $(CTEST)
-	export NASBUILD
-	export GASBUILD
-	export CPPBUILD
-	export CBUILD
 else ifeq ($(m), r)
 	NASBUILD = $(NASRELEASE)
 	GASBUILD = $(GASRELEASE)
 	CPPBUILD = $(CPPRELEASE)
 	CBUILD = $(CRELEASE)
-	export NASBUILD
-	export GASBUILD
-	export CPPBUILD
-	export CBUILD
 else
 	NASBUILD = $(NASRELEASE)
 	GASBUILD = $(GASRELEASE)
 	CPPBUILD = $(CPPRELEASE)
 	CBUILD = $(CRELEASE)
-	export NASBUILD
-	export GASBUILD
-	export CPPBUILD
-	export CBUILD
 endif
+
+export NASBUILD
+export GASBUILD
+export CPPBUILD
+export CBUILD
 
 SYSDIR = system
 USRDIR = userland
+LIBDIR = libs
 
 SYSBINDIR = $(SYSDIR)/bin
 USRBINDIR = $(USRDIR)/bin
+LIBBINDIR = $(LIBDIR)/bin
 
 FSYSMODULES = $(shell find $(SYSDIR)/ -maxdepth 1 -type d)
 FUSRMODULES = $(shell find $(USRDIR)/ -maxdepth 1 -type d)
+FLIBMODULES = $(shell find $(LIBDIR)/ -maxdepth 1 -type d)
 
 RSYSMODULES = $(patsubst $(SYSDIR)/%,%,$(FSYSMODULES))
 RUSRMODULES = $(patsubst $(USRDIR)/%,%,$(FUSRMODULES))
+RLIBMODULES = $(patsubst $(LIBDIR)/%,%,$(FLIBMODULES))
 
 SYSMODULES = $(filter-out bin,$(RSYSMODULES))
 USRMODULES = $(filter-out bin,$(RUSRMODULES))
+LIBMODULES = $(filter-out bin,$(RLIBMODULES))
 
 SYSBINS = $(patsubst %,%.elf,$(SYSMODULES))
 USRBINS = $(patsubst %,%.elf,$(USRMODULES))
@@ -71,9 +65,9 @@ GASRELEASE =
 CPPRELEASE = -O3
 CRELEASE = -O3
 
-MODULES = libs $(SYSDIR) $(USRDIR)
+MODULES = $(SYSDIR) $(USRDIR) $(LIBDIR)
 
-.PHONY: all clean mount run $(MODULES) $(SYSMODULES) $(USRMODULES)
+.PHONY: all clean mount run $(MODULES) $(SYSMODULES) $(USRMODULES) $(LIBMODULES)
 
 all: $(MODULES)
 
@@ -90,6 +84,11 @@ $(USRMODULES):
 	rm -r -f Debug
 	$(MAKE) -C $(USRDIR)/$@
 	@cp -R $(USRDIR)/$@/bin $(USRDIR)
+	
+$(LIBMODULES):
+	rm -r -f Debug
+	$(MAKE) -C $(LIBDIR)/$@
+	@cp -R $(LIBDIR)/$@/bin $(LIBDIR)
 
 clean:
 	$(foreach module,$(MODULES),$(MAKE) -C $(module) clean;)

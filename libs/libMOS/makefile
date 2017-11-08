@@ -13,7 +13,7 @@ AR = $(ARCH)-ar
 
 SRCDIR = src
 OBJDIR = obj
-BINDIR = ar
+BINDIR = bin
 DEPDIR = dep
 
 INCPATHSNP = $(SRCDIR) ../../include
@@ -29,10 +29,10 @@ FFLAGS = -ffreestanding -fno-exceptions -fno-rtti -fPIC
 64FLAGS = -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -mno-sse3 -mno-3dnow
 WFLAGS = -pedantic -Wall -Wextra -Wno-unused-parameter
 
-NASFLAGS = -f elf64
-GASFLAGS = 
-CPPFLAGS = $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu++1z -O2 -nostdlib -nostartfiles -lgcc
-CFLAGS = $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu11 -O2 -nostdlib -nostartfiles -lgcc
+NASFLAGS = -f elf64 $(NASBUILD)
+GASFLAGS = $(GASBUILD)
+CPPFLAGS = $(CPPBUILD) $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu++1z -nostdlib -nostartfiles -lgcc
+CFLAGS = $(CBUILD) $(64FLAGS) $(INCFLAGS) $(FFLAGS) $(WFLAGS) -std=gnu11 -nostdlib -nostartfiles -lgcc
 
 SRCS_c = $(shell find $(SRCDIR)/* -name '*.c')
 SRCS_cpp = $(shell find $(SRCDIR)/* -name '*.cpp')
@@ -63,26 +63,26 @@ $(BINDIR)/$(TARGET): $(OBJS)
 include $(OLDDEPS)
 
 $(OBJDIR)/%_c.o : $(SRCDIR)/%.c
-	$(mk)$(@D)
+	$(mk) $(@D)
 	$(mk) $(subst obj,dep,$(@D))
 	$(CC) $(CFLAGS) $(DEPS) -c $< -o $@
 	
 $(OBJDIR)/%_cpp.o : $(SRCDIR)/%.cpp
-	$(mk)$(@D)
+	$(mk) $(@D)
 	$(mk) $(subst obj,dep,$(@D))
 	$(CPP) $(CPPFLAGS) $(DEPS) -c $< -o $@
 	
 $(OBJDIR)/%_cc.o : $(SRCDIR)/%.cc
-	$(mk)$(@D)
+	$(mk) $(@D)
 	$(mk) $(subst obj,dep,$(@D))
 	$(CPP) $(CPPFLAGS) $(DEPS) -c $< -o $@
 
 $(OBJDIR)/%_S.o : $(SRCDIR)/%.S
-	$(mk)$(@D)
+	$(mk) $(@D)
 	$(AS) $(GASFLAGS) -c $< -o $@
 	
 $(OBJDIR)/%_asm.o : $(SRCDIR)/%.asm
-	$(mk)$(@D)
+	$(mk) $(@D)
 	$(ASM) $(NASFLAGS) $< -o $@
 
 .PHONY: clean
