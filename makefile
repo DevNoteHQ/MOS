@@ -30,6 +30,7 @@ export CBUILD
 SYSDIR = system
 USRDIR = userland
 LIBDIR = libs
+IGNDIR = bin obj
 
 SYSBINDIR = $(SYSDIR)/bin
 USRBINDIR = $(USRDIR)/bin
@@ -43,9 +44,9 @@ RSYSMODULES = $(patsubst $(SYSDIR)/%,%,$(FSYSMODULES))
 RUSRMODULES = $(patsubst $(USRDIR)/%,%,$(FUSRMODULES))
 RLIBMODULES = $(patsubst $(LIBDIR)/%,%,$(FLIBMODULES))
 
-SYSMODULES = $(filter-out bin,$(RSYSMODULES))
-USRMODULES = $(filter-out bin,$(RUSRMODULES))
-LIBMODULES = $(filter-out bin,$(RLIBMODULES))
+SYSMODULES = $(filter-out $(IGNDIR),$(RSYSMODULES))
+USRMODULES = $(filter-out $(IGNDIR),$(RUSRMODULES))
+LIBMODULES = $(filter-out $(IGNDIR),$(RLIBMODULES))
 
 SYSBINS = $(patsubst %,%.elf,$(SYSMODULES))
 USRBINS = $(patsubst %,%.elf,$(USRMODULES))
@@ -77,16 +78,19 @@ $(MODULES):
 	
 $(SYSMODULES):
 	rm -r -f Debug
+	rm -r -f $(SYSDIR)/obj
 	$(MAKE) -C $(SYSDIR)/$@
 	@cp -R $(SYSDIR)/$@/bin $(SYSDIR)
 	
 $(USRMODULES):
 	rm -r -f Debug
+	rm -r -f $(USRDIR)/obj
 	$(MAKE) -C $(USRDIR)/$@
 	@cp -R $(USRDIR)/$@/bin $(USRDIR)
 	
 $(LIBMODULES):
 	rm -r -f Debug
+	rm -r -f $(LIBDIR)/obj
 	$(MAKE) -C $(LIBDIR)/$@
 	@cp -R $(LIBDIR)/$@/bin $(LIBDIR)
 

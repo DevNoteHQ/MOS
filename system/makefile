@@ -1,8 +1,9 @@
 
+IGNDIR = bin obj
 FDIRS = $(shell find -maxdepth 1 -type d)
 DIRS = $(patsubst ./%,%,$(FDIRS))
 RDIRS = $(patsubst .%,%,$(DIRS))
-MODULES = $(filter-out bin,$(RDIRS))
+MODULES = $(filter-out $(IGNDIR),$(RDIRS))
 
 .PHONY: all clean $(MODULES)
 
@@ -16,5 +17,6 @@ $(MODULES):
 
 clean:
 	$(foreach module,$(MODULES),$(MAKE) -C $(module) clean;)
-	rm -f -r bin
+	rm -r -f bin
+	rm -r -f obj
 	mkdir bin
