@@ -13,7 +13,7 @@ namespace Heap
 		}
 		void *addr = 0; //Address that'll get returned.
 		int iOffset = 1; //Offset in the "Stack".
-		int iSize = 16; //Size in Bytes, 16 is minimum.
+		int iSize = 8; //Size in Bytes, 8 is minimum.
 		for (; iSize < size; iOffset++) //Get a valid size and Offset in the "Stack".
 		{
 			iSize *= 2;
@@ -36,7 +36,7 @@ namespace Heap
 					iFirstNew += sizeof(*Element) + iSize;
 					Stack[0].First = (HeapElement *)iFirstNew; //Set the new-element-indicator to the first address after the new element.
 					Element->Size = iSize; //Put the size of the new element into the Element Header.
-					addr = Element + 1; //Set the address to the address of the Element + 16B (which is sizeof(*Element)).
+					addr = Element + 1; //Set the address to the address of the Element + 8B (which is sizeof(*Element)).
 					return addr;
 				}
 			}
@@ -60,7 +60,7 @@ namespace Heap
 						Stack[iOffset].First = (HeapElement *)(Element + Element->Next); //Set the first freed element entry to the next element.
 					}
 					Element->Next = 0; //Set the next-entry to 0.
-					addr = Element + 1; //Set the address to the address of the Element + 16B (which is sizeof(*Element)).
+					addr = Element + 1; //Set the address to the address of the Element + 8B (which is sizeof(*Element)).
 					return addr;
 				}
 			}
@@ -76,7 +76,7 @@ namespace Heap
 		}
 		void *addr = 0; //Address that'll get returned.
 		int iOffset = 1; //Offset in the "Stack".
-		int iSize = 16; //Size in Bytes, 16 is minimum.
+		int iSize = 8; //Size in Bytes, 8 is minimum.
 		for (; iSize < size; iSize *= 2, iOffset++); //Get a valid size and Offset in the "Stack".
 		int iOrgOffset = iOffset; //Save the Offset for the optimal size.
 		HeapStackPointer *Stack = (HeapStackPointer *)&Header->Stack[0]; //Points to the pseudo-stack.
@@ -96,7 +96,7 @@ namespace Heap
 					iFirstNew += sizeof(*Element) + iSize;
 					Stack[0].First = (HeapElement *)iFirstNew; //Set the new-element-indicator to the first address after the new element.
 					Element->Size = iSize; //Put the size of the new element into the Element Header.
-					addr = Element + 1; //Set the address to the address of the Element + 16B (which is sizeof(*Element)).
+					addr = Element + 1; //Set the address to the address of the Element + 8B (which is sizeof(*Element)).
 					return addr;
 				}
 			}
@@ -120,7 +120,7 @@ namespace Heap
 						Stack[iOffset].First = (HeapElement *)(Element + Element->Next); //Set the first freed element entry to the next element.
 					}
 					Element->Next = 0; //Set the next-entry to 0.
-					addr = Element + 1; //Set the address to the address of the Element + 16B (which is sizeof(*Element)).
+					addr = Element + 1; //Set the address to the address of the Element + 8B (which is sizeof(*Element)).
 					return addr;
 				}
 			}
@@ -142,7 +142,7 @@ namespace Heap
 		}
 		HeapElement *Element = ((HeapElement *)addr) - 1;
 		int iOffset = 1;
-		for (uint64_t i = 16; i < Element->Size; i *= 2, iOffset++);
+		for (uint64_t i = 8; i < Element->Size; i *= 2, iOffset++);
 		HeapStackPointer *Stack = (HeapStackPointer *) &InitHeap->Stack[0];
 
 		memset(addr, 0, Element->Size);
@@ -166,7 +166,7 @@ namespace Heap
 		}
 		HeapElement *Element = ((HeapElement *)addr) - 1;
 		int iOffset = 1;
-		for (uint64_t i = 16; i < Element->Size; i *= 2, iOffset++);
+		for (uint64_t i = 8; i < Element->Size; i *= 2, iOffset++);
 		HeapStackPointer *Stack = (HeapStackPointer *)&Header->Stack[0];
 
 		memset(addr, 0, Element->Size);
