@@ -104,11 +104,11 @@ start:
 	jz .NoLongMode         ; They aren't, there is no long mode.
 
 	mov edi, 0x7E00000		; Set the destination index to 0x7E00000.
-    mov cr3, edi			; Set control register 3 to the destination index.
-    xor eax, eax			; Nullify the A-register.
-    mov ecx, 4096			; Set the C-register to 4096.
-    rep stosd				; Clear the memory.
-    mov edi, cr3			; Set the destination index to control register 3.
+	mov cr3, edi			; Set control register 3 to the destination index.
+	xor eax, eax			; Nullify the A-register.
+	mov ecx, 4096			; Set the C-register to 4096.
+	rep stosd				; Clear the memory.
+	mov edi, cr3			; Set the destination index to control register 3.
 
 	mov DWORD [edi], 0x7E01003		; Set the uint32_t at the destination index to 0x7E01003.
 
@@ -118,7 +118,7 @@ start:
 
 	mov edi, 0x7E00FF0				; Set the destination index to 0x7E00FF0.
 	mov DWORD [edi], 0x7E01003		; Set the uint32_t at the destination index to 0x7E01003. This is for HVMA
-    add edi, 0x8					; Add 0x8 to the destination index.
+	add edi, 0x8					; Add 0x8 to the destination index.
 	mov DWORD [edi], 0x7E00003		; Set the uint32_t at the destination index to 0x7E00003. This is for recrusive mapping
 
 	mov eax, cr4				; Set the A-register to control register 4.
