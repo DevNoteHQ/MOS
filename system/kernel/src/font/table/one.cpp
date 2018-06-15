@@ -32,11 +32,7 @@ namespace Keys
 				case 0x12: return 'E'; break;
 				case 0x13: return 'R'; break;
 				case 0x14: return 'T'; break;
-#ifndef QWERTZ
-				case 0x15: return 'Y'; break;
-#else
 				case 0x15: return 'Z'; break;
-#endif
 				case 0x16: return 'U'; break;
 				case 0x17: return 'I'; break;
 				case 0x18: return 'O'; break;
@@ -57,11 +53,7 @@ namespace Keys
 				case 0x28: return '/"'; break;
 				case 0x29: return '~'; break;
 				case 0x2B: return '|'; break;
-#ifndef QWERTZ
-				case 0x2C: return 'Z'; break;
-#else
 				case 0x2C: return 'Y'; break;
-#endif
 				case 0x2D: return 'X'; break;
 				case 0x2E: return 'C'; break;
 				case 0x2F: return 'V'; break;

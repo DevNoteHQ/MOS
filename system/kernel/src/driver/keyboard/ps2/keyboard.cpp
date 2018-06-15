@@ -1,6 +1,8 @@
 
 #include "keyboard.hpp"
 
+#include <font/keys.hpp>
+
 namespace Driver
 {
 	namespace Keyboard
@@ -23,6 +25,8 @@ namespace Driver
 			SendCommand(0x01);
 
 			SendCommand(0xF4);
+			
+			Keys::Init();
 		}
 
 		void SendCommand(uint8_t iCommand)

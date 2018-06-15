@@ -43,7 +43,7 @@ namespace GDT
 	} __attribute__((__packed__)) GDTR;
 
 	void Init();
-	extern "C" void gdtr_install(uint64_t gdtr, uint16_t cs, uint16_t ds);
 }
+extern "C" void gdtr_install(uint64_t gdtr, uint16_t cs, uint16_t ds);
 
 #endif

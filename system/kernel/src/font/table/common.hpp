@@ -2,8 +2,6 @@
 #ifndef KEYS_COMMON_HPP
 #define KEYS_COMMON_HPP
 
-#define QWERTZ
-
 #define LCONTR	0x01
 #define RCONTR	0x02
 #define LSHIFT	0x04

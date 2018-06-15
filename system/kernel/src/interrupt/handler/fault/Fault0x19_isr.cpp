@@ -1,5 +1,5 @@
 
-#include <terminal/console.hpp>
+#include <video/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 
 namespace Interrupt::Handler

@@ -1,13 +1,12 @@
 
 #include "console.hpp"
-#include "keys.hpp"
 #include "text.hpp"
+
+#include <font/keys.hpp>
 
 namespace Console
 {
 	Mode VideoMode;
-	uint16_t iX = 0;
-	uint16_t iY = 0;
 
 	void Init()
 	{

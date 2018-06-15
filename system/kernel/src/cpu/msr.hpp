@@ -31,7 +31,9 @@
 #define APIC_BASE_X2_MODE 0x400
 #define APIC_BASE_BSP     0x100
 
+
 extern "C" uint64_t msr_read(uint32_t msr);
 extern "C" void msr_write(uint32_t msr, uint64_t value);
+
 
 #endif

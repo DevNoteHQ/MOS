@@ -13,14 +13,17 @@ namespace Text
 {
 	uint16_t iColor = 0;
 	uint16_t *iVideo = 0;
+	
+	uint16_t iX = 0;
+	uint16_t iY = 0;
 
 	void Init()
 	{
 		iVideo = VMM::ToVMA_I(VIDEO_BUFFER);
 		ForegroundColor(Color::White);
 		BackgroundColor(Color::Blue);
-		Console::iX = 0;
-		Console::iY = 0;
+		iX = 0;
+		iY = 0;
 		Clear();
 	}
 
@@ -36,7 +39,7 @@ namespace Text
 	void Cursor()
 	{
 		// The screen is 80 characters wide...
-		uint16_t iCursor = Console::iY * 80 + Console::iX;
+		uint16_t iCursor = iY * 80 + iX;
 		IO::outb(0x3D4, 14);					// Tell the VGA board we are setting the high cursor byte.
 		IO::outb(0x3D5, iCursor >> 8);		// Send the high cursor byte.
 		IO::outb(0x3D4, 15);					// Tell the VGA board we are setting the low cursor byte.
@@ -88,45 +91,58 @@ namespace Text
 		switch (cC)
 		{
 		case 0x7F:
-			if (Console::iX == 0) break;
-			Console::iX--;
-			Putc(' ');
-			Console::iX--;
-			Cursor();
+			if (iX == 0) 
+			{
+				if(iY != 0)
+				{
+					iY--;
+					iX = VGA_WIDTH - 1;
+					Putc(' ');
+					iX = VGA_WIDTH - 1;
+					Cursor();
+				}
+			}
+			else
+			{
+				iX--;
+				Putc(' ');
+				iX--;
+				Cursor();
+			}
 			break;
 		case '\n':
-			Console::iX = 0;
-			if (Console::iY >= VGA_HEIGHT - 1)
+			iX = 0;
+			if (iY >= VGA_HEIGHT - 1)
 			{
 				Scroll();
 			}
 			else
 			{
-				Console::iY++;
+				iY++;
 			}
 			Cursor();
 			break;
 		case '\0':
 			break;
 		default:
-			if (Console::iY >= VGA_HEIGHT - 1)
+			if (iY >= VGA_HEIGHT - 1)
 			{
-				if (Console::iX >= VGA_WIDTH)
+				if (iX >= VGA_WIDTH)
 				{
-					Console::iX = 0;
+					iX = 0;
 					Scroll();
 				}
 			}
 			else
 			{
-				if (Console::iX >= VGA_WIDTH)
+				if (iX >= VGA_WIDTH)
 				{
-					Console::iX = 0;
-					Console::iY++;
+					iX = 0;
+					iY++;
 				}
 			}
-			iVideo[Console::iX + VGA_WIDTH * Console::iY] = (uint16_t)cC | iColor;
-			Console::iX++;
+			iVideo[iX + VGA_WIDTH * iY] = (uint16_t)cC | iColor;
+			iX++;
 			Cursor();
 			break;
 		}

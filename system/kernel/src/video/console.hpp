@@ -12,8 +12,6 @@ namespace Console
 		GUI
 	};
 	extern Mode VideoMode;
-	extern uint16_t iX;
-	extern uint16_t iY;
 
 	void Init();
 

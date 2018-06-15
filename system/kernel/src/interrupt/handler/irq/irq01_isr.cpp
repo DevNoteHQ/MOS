@@ -1,9 +1,9 @@
 
 #include <driver/keyboard/ps2/keyboard.hpp>
+#include <font/keys.hpp>
+#include <font/table/common.hpp>
 #include <interrupt/handler/stubs.hpp>
 #include <interrupt/init.hpp>
-#include <keys/keys.hpp>
-#include <terminal/table/common.hpp>
 
 namespace Interrupt::Handler
 {

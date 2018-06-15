@@ -1,5 +1,5 @@
 
-#include <terminal/console.hpp>
+#include <video/console.hpp>
 #include <interrupt/handler/stubs.hpp>
 #include <libMOS/convert/convert.hpp>
 

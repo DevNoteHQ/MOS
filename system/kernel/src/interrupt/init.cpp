@@ -3,8 +3,8 @@
 #include "common.hpp"
 #include "handler/handler.hpp"
 
-#include <cpu/CPUID.hpp>
 #include <cpu/msr.hpp>
+#include <cpuid/CPUID.hpp>
 #include <libMOS/convert/convert.hpp>
 
 namespace Interrupt
