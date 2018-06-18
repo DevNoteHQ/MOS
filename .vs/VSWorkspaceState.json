@@ -5,6 +5,6 @@
     "\\system\\kernel",
     "\\system\\kernel\\src"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\runtime",
+  "SelectedNode": "\\system\\kernel\\src\\assembler.cpp",
   "PreviewInSolutionExplorer": false
 }
