@@ -3,17 +3,11 @@
 #define MM_HEAP_HEAP_HPP
 
 #define HEAP_SIZE 262144 //8-Bytes
-#define STACK_SIZE 32 //8-Bytes
+#define FREE_SIZE 16 //16-Bytes
+#define ALIGN2M 2097152 //Bytes
 
 namespace Heap
 {
-	typedef struct HeapDynHeader
-	{
-		struct HeapDynHeader *Next;
-		uint8_t *End;
-		uint64_t Stack[STACK_SIZE];
-	} HeapDynHeader;
-
 	typedef struct
 	{
 		int Next; //Only for free Elements
@@ -24,14 +18,19 @@ namespace Heap
 	{
 		HeapElement *First;
 		HeapElement *Last;
-	} HeapStackPointer;
+	} HeapDynFreePointer;
 
 	typedef struct
 	{
 		uint64_t *Next;
 		uint64_t *End;
-		uint64_t Bitmap;
 	} HeapStaHeader;
+
+	typedef struct HeapDynHeader
+	{
+		uint8_t *End;
+		HeapDynFreePointer Free[FREE_SIZE];
+	} HeapDynHeader;
 
 	extern HeapDynHeader *InitHeap;
 

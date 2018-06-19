@@ -15,12 +15,12 @@
 
 #define PL4P	0x7E00000 //Position of the global PML4T in LVMA (PL4P = 0x7E00000 + HVMA for position in HVMA)
 
-#define ALIGN	4096 //Each entry has to be 4K aligned. Each entry is a uint64_t -> 8Bytes per Address -> PL4[1] = 8 + PL4[0] -> 8Bytes * 512 = 4096
+#define ALIGN4K	4096 //Each entry has to be 4K aligned. Each entry is a uint64_t -> 8Bytes per Address -> PL4[1] = 8 + PL4[0] -> 8Bytes * 512 = 4096
 
 namespace VMM
 {
-	uint64_t PL4[PLE] __attribute__((aligned(ALIGN)));
-	uint64_t PL3[PLE] __attribute__((aligned(ALIGN)));
+	uint64_t PL4[PLE] __attribute__((aligned(ALIGN4K)));
+	uint64_t PL3[PLE] __attribute__((aligned(ALIGN4K)));
 	void Init()
 	{
 		PL4[PLE - 1] = (((uint64_t) &PL4[0] - HVMA) | PG_WRITABLE | PG_PRESENT);
@@ -31,6 +31,6 @@ namespace VMM
 			PL3[i] = (((uint64_t) i * SIZE1G) | PG_WRITABLE | PG_PRESENT | PG_BIG);
 		}
 		setCR3((uint64_t) &PL4[0] - HVMA);
-		memset(PL4P, 0, ALIGN * 2);
+		memset(PL4P, 0, ALIGN4K * 2);
 	}
 }

@@ -3,21 +3,17 @@
 
 namespace Heap
 {
-	HeapDynHeader *InitHeap;
+	uint64_t InitHeapSpace[HEAP_SIZE] __attribute__((aligned(ALIGN2M)));
+	HeapDynHeader *InitHeap = (HeapDynHeader *) &InitHeapSpace;
 
 	void Init()
 	{
-		InitHeap = (HeapDynHeader *)&_end; //Reserves Memory for Heap.
-		InitHeap->Next = 0;
-		HeapStackPointer *Stack = (HeapStackPointer *)&InitHeap->Stack[0];
+		HeapDynFreePointer *Free = &InitHeap->Free[0];
 		uint64_t HeapEnd = ((uint64_t)InitHeap) + HEAP_SIZE * 8;
-		uint64_t Rest = HeapEnd % (HEAP_SIZE * 8);
-		HeapEnd += (HEAP_SIZE * 8) - Rest - 1;
-		uint64_t Size = HeapEnd - ((uint64_t)InitHeap) + 1;
-		memset(InitHeap, 0, Size);
+		memset(InitHeap, 0, HEAP_SIZE * 8);
 		InitHeap->End = (uint8_t *)HeapEnd; //Points to the end of the Heap.
 
-		Stack[0].First = (HeapElement *)(&Stack[STACK_SIZE / 2]); //Always points to the highest, not allocated Memory Address.
+		Free[0].First = (HeapElement *)(&Free[FREE_SIZE / 2]); //Always points to the highest, not allocated Memory Address.
 	}
 
 	void *Alloc(uint32_t size)
@@ -27,29 +23,29 @@ namespace Heap
 			return 0;
 		}
 		void *addr = 0; //Address that'll get returned.
-		int iOffset = 1; //Offset in the "Stack".
+		int iOffset = 1; //Offset in the "Free"-Area.
 		int iSize = 8; //Size in Bytes, 8 is minimum.
-		for (; iSize < size; iOffset++) //Get a valid size and Offset in the "Stack".
+		for (; iSize < size; iOffset++) //Get a valid size and Offset in the "Free"-Area.
 		{
 			iSize *= 2;
 		}
 		int iOrgOffset = iOffset; //Save the Offset for the optimal size.
-		HeapStackPointer *Stack = (HeapStackPointer *) &InitHeap->Stack[0]; //Points to the pseudo-stack.
+		HeapDynFreePointer *Free = (HeapDynFreePointer *) &InitHeap->Free[0]; //Points to the "Free"-Area.
 		HeapElement *Element = 0; //Will point to the Header of the entry that'll get returned.
 		while (Element == 0) //As long as no element was found, search for one.
 		{
-			if (Stack[iOffset].First == 0) //If there are no freed elements of the current size, create one.
+			if (Free[iOffset].First == 0) //If there are no freed elements of the current size, create one.
 			{
-				if (InitHeap->End < ((uint64_t *)Stack[0].First) + (iSize / 8) + 2) //If there is no space left, search for freed elements with larger sizes.
+				if (InitHeap->End < ((uint64_t *)Free[0].First) + (iSize / 8) + 2) //If there is no space left, search for freed elements with larger sizes.
 				{
 					iOffset++;
 				}
 				else //There is enough space, allocate a new element.
 				{
-					Element = Stack[0].First; //Create a new element.
-					uint64_t iFirstNew = (uint64_t)Stack[0].First;
+					Element = Free[0].First; //Create a new element.
+					uint64_t iFirstNew = (uint64_t)Free[0].First;
 					iFirstNew += sizeof(*Element) + iSize;
-					Stack[0].First = (HeapElement *)iFirstNew; //Set the new-element-indicator to the first address after the new element.
+					Free[0].First = (HeapElement *)iFirstNew; //Set the new-element-indicator to the first address after the new element.
 					Element->Size = iSize; //Put the size of the new element into the Element Header.
 					addr = Element + 1; //Set the address to the address of the Element + 8B (which is sizeof(*Element)).
 					return addr;
@@ -57,7 +53,7 @@ namespace Heap
 			}
 			else
 			{
-				if (Stack[iOffset].First->Size > 8 * size)
+				if (Free[iOffset].First->Size > 8 * size)
 				{
 					//Add Heap Space
 
@@ -65,14 +61,14 @@ namespace Heap
 				}
 				else
 				{
-					Element = Stack[iOffset].First; //Set the element to the first free element.
+					Element = Free[iOffset].First; //Set the element to the first free element.
 					if (Element->Next == 0)
 					{
-						Stack[iOffset].First = 0; //Set the first freed element entry to 0.
+						Free[iOffset].First = 0; //Set the first freed element entry to 0.
 					}
 					else
 					{
-						Stack[iOffset].First = (HeapElement *)(Element + Element->Next); //Set the first freed element entry to the next element.
+						Free[iOffset].First = (HeapElement *)(Element + Element->Next); //Set the first freed element entry to the next element.
 					}
 					Element->Next = 0; //Set the next-entry to 0.
 					addr = Element + 1; //Set the address to the address of the Element + 8B (which is sizeof(*Element)).
@@ -90,26 +86,26 @@ namespace Heap
 			return 0;
 		}
 		void *addr = 0; //Address that'll get returned.
-		int iOffset = 1; //Offset in the "Stack".
+		int iOffset = 1; //Offset in the "Free"-Area.
 		int iSize = 8; //Size in Bytes, 8 is minimum.
-		for (; iSize < size; iSize *= 2, iOffset++); //Get a valid size and Offset in the "Stack".
+		for (; iSize < size; iSize *= 2, iOffset++); //Get a valid size and Offset in the "Free"-Area.
 		int iOrgOffset = iOffset; //Save the Offset for the optimal size.
-		HeapStackPointer *Stack = (HeapStackPointer *)&Header->Stack[0]; //Points to the pseudo-stack.
+		HeapDynFreePointer *Free = (HeapDynFreePointer *)&Header->Free[0]; //Points to the "Free"-Area.
 		HeapElement *Element = 0; //Will point to the Header of the entry that'll get returned.
 		while (Element == 0) //As long as no element was found, search for one.
 		{
-			if (Stack[iOffset].First == 0) //If there are no freed elements of the current size, create one.
+			if (Free[iOffset].First == 0) //If there are no freed elements of the current size, create one.
 			{
-				if (Header->End < ((uint64_t *)Stack[0].First) + (iSize / 8) + 2) //If there is no space left, search for freed elements with larger sizes.
+				if (Header->End < ((uint64_t *)Free[0].First) + (iSize / 8) + 2) //If there is no space left, search for freed elements with larger sizes.
 				{
 					iOffset++;
 				}
 				else //There is enough space, allocate a new element.
 				{
-					Element = Stack[0].First; //Create a new element.
-					uint64_t iFirstNew = (uint64_t)Stack[0].First;
+					Element = Free[0].First; //Create a new element.
+					uint64_t iFirstNew = (uint64_t)Free[0].First;
 					iFirstNew += sizeof(*Element) + iSize;
-					Stack[0].First = (HeapElement *)iFirstNew; //Set the new-element-indicator to the first address after the new element.
+					Free[0].First = (HeapElement *)iFirstNew; //Set the new-element-indicator to the first address after the new element.
 					Element->Size = iSize; //Put the size of the new element into the Element Header.
 					addr = Element + 1; //Set the address to the address of the Element + 8B (which is sizeof(*Element)).
 					return addr;
@@ -117,7 +113,7 @@ namespace Heap
 			}
 			else
 			{
-				if (Stack[iOffset].First->Size > 8 * size)
+				if (Free[iOffset].First->Size > 8 * size)
 				{
 					//Add Heap Space
 
@@ -125,14 +121,14 @@ namespace Heap
 				}
 				else
 				{
-					Element = Stack[iOffset].First; //Set the element to the first free element.
+					Element = Free[iOffset].First; //Set the element to the first free element.
 					if (Element->Next == 0)
 					{
-						Stack[iOffset].First = 0; //Set the first freed element entry to 0.
+						Free[iOffset].First = 0; //Set the first freed element entry to 0.
 					}
 					else
 					{
-						Stack[iOffset].First = (HeapElement *)(Element + Element->Next); //Set the first freed element entry to the next element.
+						Free[iOffset].First = (HeapElement *)(Element + Element->Next); //Set the first freed element entry to the next element.
 					}
 					Element->Next = 0; //Set the next-entry to 0.
 					addr = Element + 1; //Set the address to the address of the Element + 8B (which is sizeof(*Element)).
@@ -158,19 +154,19 @@ namespace Heap
 		HeapElement *Element = ((HeapElement *)addr) - 1;
 		int iOffset = 1;
 		for (uint64_t i = 8; i < Element->Size; i *= 2, iOffset++);
-		HeapStackPointer *Stack = (HeapStackPointer *) &InitHeap->Stack[0];
+		HeapDynFreePointer *Free = (HeapDynFreePointer *) &InitHeap->Free[0];
 
 		memset(addr, 0, Element->Size);
 
-		if (Stack[iOffset].First == 0)
+		if (Free[iOffset].First == 0)
 		{
-			Stack[iOffset].First = Element;
+			Free[iOffset].First = Element;
 		}
 		else
 		{
-			Stack[iOffset].Last->Next = (int)(Element - Stack[iOffset].Last);
+			Free[iOffset].Last->Next = (int)(Element - Free[iOffset].Last);
 		}
-		Stack[iOffset].Last = Element;
+		Free[iOffset].Last = Element;
 	}
 
 	void Free(void *addr, HeapDynHeader *Header)
@@ -182,19 +178,19 @@ namespace Heap
 		HeapElement *Element = ((HeapElement *)addr) - 1;
 		int iOffset = 1;
 		for (uint64_t i = 8; i < Element->Size; i *= 2, iOffset++);
-		HeapStackPointer *Stack = (HeapStackPointer *)&Header->Stack[0];
+		HeapDynFreePointer *Free = (HeapDynFreePointer *)&Header->Free[0];
 
 		memset(addr, 0, Element->Size);
 
-		if (Stack[iOffset].First == 0)
+		if (Free[iOffset].First == 0)
 		{
-			Stack[iOffset].First = Element;
+			Free[iOffset].First = Element;
 		}
 		else
 		{
-			Stack[iOffset].Last->Next = (int)(Element - Stack[iOffset].Last);
+			Free[iOffset].Last->Next = (int)(Element - Free[iOffset].Last);
 		}
-		Stack[iOffset].Last = Element;
+		Free[iOffset].Last = Element;
 	}
 
 	void Free(void *addr, HeapStaHeader *Header)
