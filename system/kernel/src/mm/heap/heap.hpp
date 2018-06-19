@@ -35,6 +35,7 @@ namespace Heap
 
 	extern HeapDynHeader *InitHeap;
 
+	void Init();
 	void KernelCreate(uint32_t size, HeapDynHeader *Header);
 	void KernelCreate(uint32_t size, HeapStaHeader *Header);
 

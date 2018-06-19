@@ -1,7 +1,7 @@
 
 #include <video/console.hpp>
 #include <interrupt/handler/stubs.hpp>
-#include <libMOS/convert/convert.hpp>
+#include <utility/convert/convert.hpp>
 
 namespace Interrupt::Handler
 {

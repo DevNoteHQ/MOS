@@ -1,6 +1,5 @@
 
 #include "CPUID.hpp"
-#include <libMOS/convert/convert.hpp>
 #include <video/console.hpp>
 
 namespace CPUID

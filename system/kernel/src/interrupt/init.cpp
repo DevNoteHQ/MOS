@@ -5,7 +5,6 @@
 
 #include <cpu/msr.hpp>
 #include <cpuid/CPUID.hpp>
-#include <libMOS/convert/convert.hpp>
 
 namespace Interrupt
 {
