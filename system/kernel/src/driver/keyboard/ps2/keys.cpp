@@ -10,7 +10,7 @@ namespace Keys
 {
 	void Init()
 	{
-		UpdateFocusedElement = &Console::GetKeys;
+		UpdateFocusedElement = &GetKeys;
 	}
 	
 	char ScanCode(uint8_t iTable, uint32_t iFlags, uint8_t iCode)
@@ -22,6 +22,11 @@ namespace Keys
 		case 3:	 return Table::Three(iFlags, iCode); break;
 		default: return Table::One  (iFlags, iCode); break;
 		}
+	}
+	
+	void GetKeys(uint8_t iTable, uint32_t iFlags, uint8_t iCode)
+	{
+		Console::Write(Keys::ScanCode(iTable, iFlags, iCode));
 	}
 
 	void(*UpdateFocusedElement)(uint8_t, uint32_t, uint8_t);

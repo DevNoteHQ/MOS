@@ -1,7 +1,7 @@
 
 #include <driver/keyboard/ps2/keyboard.hpp>
-#include <font/keys.hpp>
-#include <font/table/common.hpp>
+#include <driver/keyboard/ps2/keys.hpp>
+#include <driver/keyboard/ps2/table/common.hpp>
 #include <interrupt/handler/stubs.hpp>
 #include <interrupt/init.hpp>
 

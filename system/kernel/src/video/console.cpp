@@ -2,8 +2,6 @@
 #include "console.hpp"
 #include "text.hpp"
 
-#include <font/keys.hpp>
-
 namespace Console
 {
 	Mode VideoMode;
@@ -204,10 +202,5 @@ namespace Console
 		default:
 			break;
 		}
-	}
-
-	void GetKeys(uint8_t iTable, uint32_t iFlags, uint8_t iCode)
-	{
-		Write(Keys::ScanCode(iTable, iFlags, iCode));
 	}
 }
