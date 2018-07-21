@@ -11,6 +11,6 @@
     "\\system\\kernel\\src\\mm\\pmm",
     "\\system\\kernel\\src\\runtime"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\driver",
+  "SelectedNode": "\\system\\kernel\\src\\mm\\pmm",
   "PreviewInSolutionExplorer": false
 }
