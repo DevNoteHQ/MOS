@@ -7,17 +7,30 @@ namespace PMM
 	class Allocator
 	{
 	private:
-		void *(Allocator::*NextAlloc)(void);
-		void *FreeFirst;
-		void *FreeLast;
-		void *FreeEnd;
-		uint8_t AllocSize;
+		uint8_t AllocIndex;
 	public:
-		Allocator(uint8_t AllocSize);
+		uint8_t *Pointer;
+		uint8_t *End;
+		uint8_t *FreeStart;
+		uint8_t **FreePointer;
+		uint8_t *FreeEnd;
+		uint32_t AllocSize;
+
+		void *(*NextAlloc)();
+
+		Allocator(uint8_t AllocIndex, uint32_t AllocSize, void (*NextAlloc)());
 		void *Alloc();
 		void Free(void *Address);
-		void InitFree();
 	};
+	
+	void Init();
+	void NextAllocator4K();
+	void NextAllocator2M();
+	void NextAllocator1G();
+
+	extern Allocator Alloc1G;
+	extern Allocator Alloc2M;
+	extern Allocator Alloc4K;
 }
 
 #endif
