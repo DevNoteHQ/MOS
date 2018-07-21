@@ -3,14 +3,27 @@
 
 namespace PMM
 {
-	void *Alloc(uint64_t size)
+	Allocator::Allocator(uint8_t AllocSize)
 	{
-
-		return 0;
+		this->AllocSize = AllocSize;
+		this->NextAlloc = &Allocator::Alloc;
 	}
 
-	void Free(void *addr)
+	void *Allocator::Alloc()
+	{
+		if (AllocSize != 3)
+		{
+			(this->*(this->NextAlloc))();
+		}
+	}
+
+	void Allocator::Free(void *Addrress)
 	{
 
+	}
+
+	void Allocator::InitFree()
+	{
+		
 	}
 }

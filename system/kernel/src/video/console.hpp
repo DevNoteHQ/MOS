@@ -2,6 +2,8 @@
 #ifndef TERMINAL_CONSOLE_HPP
 #define TERMINAL_CONSOLE_HPP
 
+#include "text.hpp"
+
 namespace Console
 {
 	enum Mode
@@ -25,9 +27,9 @@ namespace Console
 	void WriteLine(const char* s);
 	void WriteLine(char cC);
 
-	void ForegroundColor(Color color);
+	void ForegroundColor(Text::Color color);
 
-	void BackgroundColor(Color color);
+	void BackgroundColor(Text::Color color);
 
 	void Putc(char cC);
 

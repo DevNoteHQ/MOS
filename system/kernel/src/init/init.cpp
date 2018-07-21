@@ -10,6 +10,7 @@
 #include <interrupt/init.hpp>
 #include <utility/convert/convert.hpp>
 #include <utility/base/string.hpp>
+#include <mm/pmm/init.hpp>
 #include <mm/vmm/init.hpp>
 #include <mm/vmm/conv.hpp>
 #include <mm/heap/heap.hpp>
@@ -27,6 +28,7 @@ namespace System
 		{
 			multiboot = VMM::ToVMA_V(multiboot);
 			VMM::Init();
+			PMM::Init();
 			Heap::Init();
 
 			CPU::InitBSP();

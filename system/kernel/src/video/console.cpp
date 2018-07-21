@@ -1,6 +1,5 @@
 
 #include "console.hpp"
-#include "text.hpp"
 
 namespace Console
 {
@@ -132,7 +131,7 @@ namespace Console
 		}
 	}
 
-	void ForegroundColor(Color color)
+	void ForegroundColor(Text::Color color)
 	{
 		switch (VideoMode)
 		{
@@ -150,7 +149,7 @@ namespace Console
 		}
 	}
 
-	void BackgroundColor(Color color)
+	void BackgroundColor(Text::Color color)
 	{
 		switch (VideoMode)
 		{

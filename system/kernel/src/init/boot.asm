@@ -180,7 +180,7 @@ start:
 		jmp .test
 	.body:
 		call [rbx]
-		add rbx,4
+		add rbx,8
 	.test:
 		mov r8, end_ctors
 		cmp rbx, r8
@@ -193,7 +193,7 @@ start:
 		jmp .test
 	.body:
 		call [rbx]
-		add rbx,4
+		add rbx,8
 	.test:
 		mov r9, end_dtors
 		cmp rbx, r9

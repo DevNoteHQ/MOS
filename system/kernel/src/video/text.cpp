@@ -20,8 +20,8 @@ namespace Text
 	void Init()
 	{
 		iVideo = VMM::ToVMA_I(VIDEO_BUFFER);
-		ForegroundColor(Color::White);
-		BackgroundColor(Color::Blue);
+		ForegroundColor(Color::LightGray);
+		BackgroundColor(Color::Black);
 		iX = 0;
 		iY = 0;
 		Clear();
