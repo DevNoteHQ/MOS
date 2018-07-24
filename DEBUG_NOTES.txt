@@ -1,0 +1,13 @@
+VMware Player:
+-> boot to grub select screen
+-> objdump -D isodir/boot/kernel.elf | grep \<start.trampoline\>
+-> copy or note the address of start.trampoline
+-> gdb
+-> symbol-file
+-> target remote localhost:8832
+-> break *(address of start.trampoline in hex like 0x1010cb)   e.g. break *0x1010cb
+-> continue
+-> press enter in vmware
+-> Ctrl + C x2 in gdb
+-> target remote localhost:8864
+-> Debug what you want and close vmware first, then gdb

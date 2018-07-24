@@ -16,7 +16,7 @@ namespace PMM
 		uint8_t *FreeEnd;
 		uint32_t AllocSize;
 
-		void *(*NextAlloc)();
+		void (*NextAlloc)();
 
 		Allocator(uint8_t AllocIndex, uint32_t AllocSize, void (*NextAlloc)());
 		void *Alloc();

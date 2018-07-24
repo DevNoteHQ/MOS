@@ -47,6 +47,13 @@ namespace System
 			Driver::Keyboard::Init();
 			Syscall::Init();
 
+			char Test[17];
+			for (int i = 0; i <= 520; i++)
+			{
+				Convert::ToString((uint64_t)PMM::Alloc4K.Alloc(), Test);
+				Console::WriteLine(Test);
+			}
+
 			asm volatile("sti");
 
 			while (true)
