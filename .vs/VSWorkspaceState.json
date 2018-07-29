@@ -7,10 +7,8 @@
     "\\system\\kernel\\src\\cpu",
     "\\system\\kernel\\src\\cpuid",
     "\\system\\kernel\\src\\init",
-    "\\system\\kernel\\src\\utility",
-    "\\system\\kernel\\src\\utility\\convert",
     "\\system\\kernel\\src\\video"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\utility\\convert\\convert.cpp",
+  "SelectedNode": "\\system\\kernel\\src\\utility",
   "PreviewInSolutionExplorer": false
 }
