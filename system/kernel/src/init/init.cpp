@@ -28,7 +28,6 @@ namespace System
 		{
 			multiboot = VMM::ToVMA_V(multiboot);
 			VMM::Init();
-			PMM::Init();
 			Heap::Init();
 
 			CPU::InitBSP();

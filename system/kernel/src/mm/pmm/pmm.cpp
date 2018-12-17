@@ -55,11 +55,6 @@ namespace PMM
 			//this->FreeEnd = this->FreePointer + 4096;
 		}
 	}
-	
-	void Init()
-	{
-
-	}
 
 	void NextAllocator4K()
 	{

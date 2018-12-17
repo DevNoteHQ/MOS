@@ -8,12 +8,12 @@ namespace PMM
 	{
 	private:
 		uint8_t AllocIndex;
-	public:
-		uint8_t *Pointer;
-		uint8_t *End;
 		uint8_t *FreeStart;
 		uint8_t **FreePointer;
 		uint8_t *FreeEnd;
+	public:
+		uint8_t *Pointer;
+		uint8_t *End;
 		uint32_t AllocSize;
 
 		void (*NextAlloc)();
@@ -23,7 +23,6 @@ namespace PMM
 		void Free(void *Address);
 	};
 	
-	void Init();
 	void NextAllocator4K();
 	void NextAllocator2M();
 	void NextAllocator1G();
