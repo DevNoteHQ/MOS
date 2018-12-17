@@ -7,8 +7,10 @@
     "\\system\\kernel\\src\\cpu",
     "\\system\\kernel\\src\\cpuid",
     "\\system\\kernel\\src\\init",
-    "\\system\\kernel\\src\\video"
+    "\\system\\kernel\\src\\mm",
+    "\\system\\kernel\\src\\mm\\pmm",
+    "\\system\\kernel\\src\\mm\\vmm"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\utility",
+  "SelectedNode": "\\system\\kernel\\src\\mm\\vmm\\vmm.hpp",
   "PreviewInSolutionExplorer": false
 }
