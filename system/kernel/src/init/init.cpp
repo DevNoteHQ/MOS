@@ -46,6 +46,11 @@ namespace System
 			Driver::Keyboard::Init();
 			Syscall::Init();
 
+			//Put in Information File or something like that
+			uint64_t Start = (uint64_t)&_start;
+			uint64_t End = (uint64_t)&_end;
+			uint64_t KernelLengh = End - Start;
+
 			asm volatile("sti");
 
 			while (true)

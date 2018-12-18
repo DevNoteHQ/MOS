@@ -45,7 +45,7 @@ namespace PMM
 		this->FreePointer += 0x8;
 		if (this->FreeStart == 0x0)
 		{
-			//this->FreeStart = VMM::Alloc4K(Pool);
+			//this->FreeStart = VMM::Alloc4K();
 			//this->FreePointer = this->FreeStart;
 			//this->FreeEnd = this->FreePointer + 4096;
 		}

@@ -9,8 +9,8 @@
     "\\system\\kernel\\src\\init",
     "\\system\\kernel\\src\\mm",
     "\\system\\kernel\\src\\mm\\pmm",
-    "\\system\\kernel\\src\\mm\\vmm"
+    "\\system\\kernel\\src\\video"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\mm\\vmm\\vmm.hpp",
+  "SelectedNode": "\\system\\kernel\\src\\video\\console.cpp",
   "PreviewInSolutionExplorer": false
 }
