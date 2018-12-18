@@ -32,8 +32,8 @@ namespace VMM
 		while (AllocEnd < ((uint64_t) &_end & 0x7FFFFFFFFF) - 0x200000)
 		{
 			AllocEnd = PMM::Alloc2M.Alloc();
-			//Map it
 		}
+		//Map it
 
 		PL4[PLE - 1] = (((uint64_t) &PL4[0] - HVMA) | PG_WRITABLE | PG_PRESENT);
 		PL4[PLE - 2] = (((uint64_t) &PL3[0] - HVMA) | PG_WRITABLE | PG_PRESENT);
