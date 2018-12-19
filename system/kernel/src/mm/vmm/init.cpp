@@ -1,6 +1,5 @@
 
 #include "init.hpp"
-#include "vmm.hpp"
 
 #include <mm/pmm/pmm.hpp>
 
@@ -23,7 +22,8 @@ namespace VMM
 	//PMM::Alloc every Section
 	//VMM::Map everything allocated with required Flags
 	
-	char *AllocEnd = 0;
+	void *AllocEnd = 0;
+	Pool KernelDirectory;
 
 	uint64_t PL4[PLE] __attribute__((aligned(ALIGN4K)));
 	uint64_t PL3[PLE] __attribute__((aligned(ALIGN4K)));
@@ -32,8 +32,8 @@ namespace VMM
 		while (AllocEnd < ((uint64_t) &_end & 0x7FFFFFFFFF) - 0x200000)
 		{
 			AllocEnd = PMM::Alloc2M.Alloc();
-			//Map it
 		}
+
 
 		PL4[PLE - 1] = (((uint64_t) &PL4[0] - HVMA) | PG_WRITABLE | PG_PRESENT);
 		PL4[PLE - 2] = (((uint64_t) &PL3[0] - HVMA) | PG_WRITABLE | PG_PRESENT);

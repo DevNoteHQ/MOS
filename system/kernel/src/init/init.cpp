@@ -50,6 +50,9 @@ namespace System
 			uint64_t Start = (uint64_t)&_start;
 			uint64_t End = (uint64_t)&_end;
 			uint64_t KernelLengh = End - Start;
+			char Test[20];
+			Convert::ToString(KernelLengh, Test);
+			Console::WriteLine(Test);
 
 			asm volatile("sti");
 
