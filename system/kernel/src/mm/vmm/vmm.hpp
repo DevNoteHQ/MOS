@@ -8,6 +8,16 @@
 #define PG_BIG			0x80
 #define PG_NO_EXEC		0x8000000000000000
 
+#define Size4K8B	0x200
+#define Size4K		0x1000
+#define Size2M8B	0x40000
+#define Size2M		0x200000
+#define Size1G8B	0x8000000
+#define Size1G		0x40000000
+#define Size512G8B	0x1000000000
+#define Size512G	0x8000000000
+
+
 namespace VMM
 {
 	class Pool
@@ -28,7 +38,7 @@ namespace VMM
 		~Pool();
 
 		void *Alloc(uint64_t Size, uint64_t Bitmap);
-		void *Alloc(uint64_t Size, void *Address, uint64_t Bitmap);
+		void Alloc(uint64_t Size, void *Address, uint64_t Bitmap);
 		void Map(uint64_t Size, void *VirtAddress, void *PhysAddress, uint64_t Bitmap);
 		void *Alloc4K(uint64_t Bitmap);
 		void Alloc4K(void *Address, uint64_t Bitmap);
