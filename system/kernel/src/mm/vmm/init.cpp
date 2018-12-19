@@ -33,6 +33,7 @@ namespace VMM
 		{
 			AllocEnd = PMM::Alloc2M.Alloc();
 		}
+		//Map it
 
 
 		PL4[PLE - 1] = (((uint64_t) &PL4[0] - HVMA) | PG_WRITABLE | PG_PRESENT);
