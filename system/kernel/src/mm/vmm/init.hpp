@@ -6,8 +6,6 @@
 
 namespace VMM
 {
-	extern Pool KernelDirectory;
-
 	void Init();
 	extern "C" void setCR3(uint64_t PL4);
 	void *ToVMA_V(void *addr);

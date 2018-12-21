@@ -2,9 +2,14 @@
 #include "vmm.hpp"
 #include <mm/pmm/pmm.hpp>
 
+
+#include <utility/convert/convert.hpp>
+#include <video/console.hpp>
+
+//TODO: Add ReMap and FreeMap
+
 namespace VMM
 {
-	//Change the Bitmaps down below from ~0xFFF to the actual Bitmap also ignore the NX-Bit
 	Pool::Pool()
 	{
 		this->PML4T[511] = (uint64_t)&PML4T[0] | PG_PRESENT | PG_WRITABLE | PG_NO_EXEC;
@@ -13,6 +18,12 @@ namespace VMM
 	Pool::~Pool()
 	{
 		//Free all Tables
+	}
+
+	void Pool::MapKernel()
+	{
+		uint64_t *KernelEntry = GetAddress(511, 511, 511, 510);
+		this->PML4T[510] = *KernelEntry;
 	}
 
 	void *Pool::Alloc(uint64_t Size, uint64_t Bitmap)
@@ -77,29 +88,31 @@ namespace VMM
 		uint16_t PDI = (((uint64_t)VirtAddress) >> 21) & 0x1FF;
 		uint16_t PTI = (((uint64_t)VirtAddress) >> 12) & 0x1FF;
 
-		uint64_t *PDPT = (uint64_t *)(((uint64_t)PML4T[PML4I]) & ~0xFFF);
-		if ((PDPT == 0) || (((uint64_t)PML4T[PML4I] & 0x1) == 0))
+		uint64_t *PML4E = GetAddress(511, 511, 511, PML4I);
+
+		if ((*PML4E == 0) || (((*PML4E) & 0x1) == 0))
 		{
-			PDPT = PMM::Alloc4K.Alloc();
-			PML4T[PML4I] = (uint64_t)PDPT | Bitmap;
+			*PML4E = (uint64_t)PMM::Alloc4K.Alloc() | Bitmap;
 		}
-		uint64_t *PD = (uint64_t *)(((uint64_t)PDPT[PDPTI]) & ~0xFFF);
-		if ((PD == 0) || (((uint64_t)PDPT[PDPTI] & 0x1) == 0))
+
+		uint64_t *PDPTE = GetAddress(511, 511, PML4I, PDPTI);
+
+		if ((*PDPTE == 0) || (((*PDPTE) & 0x1) == 0))
 		{
-			PD = PMM::Alloc4K.Alloc();
-			PDPT[PDPTI] = (uint64_t)PD | Bitmap;
+			*PDPTE = (uint64_t)PMM::Alloc4K.Alloc() | Bitmap;
 		}
-		uint64_t *PT = (uint64_t *)(((uint64_t)PD[PDI]) & ~0XFFF);
-		if ((PT == 0) || (((uint64_t)PD[PDI] & 0x1) == 0))
+
+		uint64_t *PDE = GetAddress(511, PML4I, PDPTI, PDI);
+
+		if ((*PDE == 0) || (((*PDE) & 0x1) == 0))
 		{
-			PT = PMM::Alloc4K.Alloc();
-			PD[PDI] = (uint64_t)PT | Bitmap;
+			*PDE = (uint64_t)PhysAddress | Bitmap;
 		}
-		uint64_t *P = (uint64_t *)(((uint64_t)PT[PTI]) & ~0XFFF);
-		if ((P == 0) || (((uint64_t)PT[PTI] & 0x1) == 0))
+
+		uint64_t *PTE = GetAddress(PML4I, PDPTI, PDI, PTI);
+		if ((*PTE == 0) || (((*PTE) & 0x1) == 0))
 		{
-			P = PhysAddress;
-			PT[PTI] = (uint64_t)P | Bitmap;
+			*PTE = (uint64_t)PhysAddress | Bitmap;
 		}
 		else
 		{
@@ -146,23 +159,25 @@ namespace VMM
 		uint16_t PDPTI = (((uint64_t)VirtAddress) >> 30) & 0x1FF;
 		uint16_t PDI = (((uint64_t)VirtAddress) >> 21) & 0x1FF;
 
-		uint64_t *PDPT = (uint64_t *)(((uint64_t)PML4T[PML4I]) & ~0xFFF);
-		if ((PDPT == 0) || (((uint64_t)PML4T[PML4I] & 0x1) == 0))
+		uint64_t *PML4E = GetAddress(511, 511, 511, PML4I);
+
+		if ((*PML4E == 0) || (((*PML4E) & 0x1) == 0))
 		{
-			PDPT = PMM::Alloc4K.Alloc();
-			PML4T[PML4I] = (uint64_t)PDPT | Bitmap;
+			*PML4E = (uint64_t)PMM::Alloc4K.Alloc() | Bitmap;
 		}
-		uint64_t *PD = (uint64_t *)(((uint64_t)PDPT[PDPTI]) & ~0xFFF);
-		if ((PD == 0) || (((uint64_t)PDPT[PDPTI] & 0x1) == 0))
+
+		uint64_t *PDPTE = GetAddress(511, 511, PML4I, PDPTI);
+
+		if ((*PDPTE == 0) || (((*PDPTE) & 0x1) == 0))
 		{
-			PD = PMM::Alloc4K.Alloc();
-			PDPT[PDPTI] = (uint64_t)PD | Bitmap;
+			*PDPTE = (uint64_t)PMM::Alloc4K.Alloc() | Bitmap;
 		}
-		uint64_t *PT = (uint64_t *)(((uint64_t)PD[PDI]) & ~0xFFF);
-		if ((PT == 0) || (((uint64_t)PD[PDI] & 0x1) == 0))
+
+		uint64_t *PDE = GetAddress(511, PML4I, PDPTI, PDI);
+
+		if ((*PDE == 0) || (((*PDE) & 0x1) == 0))
 		{
-			PT = PhysAddress;
-			PD[PDI] = (uint64_t)PT | Bitmap | PG_BIG;
+			*PDE = (uint64_t)PhysAddress | Bitmap | PG_BIG;
 		}
 		else
 		{
@@ -199,24 +214,30 @@ namespace VMM
 
 	void Pool::Map1G(void *VirtAddress, void *PhysAddress, uint64_t Bitmap)
 	{
-		uint16_t PML4I = (((uint64_t)VirtAddress) >> 39) & 0x1FF;
-		uint16_t PDPTI = (((uint64_t)VirtAddress) >> 30) & 0x1FF;
-		
-		uint64_t *PDPT = (uint64_t *)(((uint64_t)PML4T[PML4I]) & ~0xFFF);
-		if ((PDPT == 0) || (((uint64_t)PML4T[PML4I] & 0x1) == 0))
+		uint16_t PML4I = (((uint64_t)VirtAddress) >> 39) & 511;
+		uint16_t PDPTI = (((uint64_t)VirtAddress) >> 30) & 511;
+
+		uint64_t *PML4E = GetAddress(511, 511, 511, PML4I);
+
+		if ((*PML4E == 0) || (((*PML4E) & 0x1) == 0))
 		{
-			PDPT = PMM::Alloc4K.Alloc();
-			PML4T[PML4I] = (uint64_t)PDPT | Bitmap;
+			*PML4E = (uint64_t)PMM::Alloc4K.Alloc() | Bitmap;
 		}
-		uint64_t *PD = (uint64_t *)(((uint64_t)PDPT[PDPTI]) & ~0xFFF);
-		if ((PD == 0) || (((uint64_t)PDPT[PDPTI] & 0x1) == 0))
+
+		uint64_t *PDPTE = GetAddress(511, 511, PML4I, PDPTI);
+
+		if ((*PDPTE == 0) || (((*PDPTE) & 0x1) == 0))
 		{
-			PD = PhysAddress;
-			PDPT[PDPTI] = (uint64_t)PD | Bitmap | PG_BIG;
+			*PDPTE = (uint64_t)PhysAddress | Bitmap | PG_BIG;
 		}
 		else
 		{
 			//Throw error
 		}
+	}
+
+	void *GetAddress(uint16_t PML4I, uint16_t PDPTI, uint16_t PDI, uint16_t PTI)
+	{
+		return (uint64_t *)(ADDRESS_ADDITIVE | (511 << 39) | (PML4I << 30) | (PDPTI << 21) | (PDI << 12) | (PTI << 3));
 	}
 }

@@ -2,11 +2,24 @@
 #ifndef MM_VMM_VMM_HPP
 #define MM_VMM_VMM_HPP
 
-#define PG_PRESENT		0x1
-#define PG_WRITABLE		0x2
-#define PG_USER			0x4
-#define PG_BIG			0x80
+#define PG_PRESENT		(1 << 0)	//Page Present
+#define PG_WRITABLE		(1 << 1)	//Page Read/Write (Write if 1)
+#define PG_USER			(1 << 2)	//Page User/Kernelmode (1 is Usermode, 0 is Kernelmode)
+#define PG_PWT			(1 << 3)	//Page Write Through
+#define PG_PCD			(1 << 4)	//Page Cache Disable
+#define PG_ACCESSED		(1 << 5)	//Page Accessed
+#define PG_DIRTY		(1 << 6)	//Page Written to
+#define PG_BIG			(1 << 7)	//Table entry refers to a Page for 2M and 1G Pages
+#define PG_PAT4K		(1 << 7)	//PAT for 4K Pages
+#define PG_GLOBAL		(1 << 8)	//Translation is global
+#define PG_PAT			(1 << 12)	//PAT for 2M and 1G Pages
+
 #define PG_NO_EXEC		0x8000000000000000
+
+#define PG_FILTER_TABLE	(~(PG_NO_EXEC | 0xFFF))		//Filter for Page Tables and 4K Page Entries
+#define PG_FILTER_PAGE	(~(PG_NO_EXEC | 0x1FFF))	//Filter for 2M and 1G Pages
+
+#define ADDRESS_ADDITIVE	0xFFFF000000000000 //For Addresses with Bit 47 = 1
 
 #define Size4K8B	0x200
 #define Size4K		0x1000
@@ -37,6 +50,7 @@ namespace VMM
 		Pool();
 		~Pool();
 
+		void MapKernel();
 		void *Alloc(uint64_t Size, uint64_t Bitmap);
 		void Alloc(uint64_t Size, void *Address, uint64_t Bitmap);
 		void Map(uint64_t Size, void *VirtAddress, void *PhysAddress, uint64_t Bitmap);
@@ -50,6 +64,8 @@ namespace VMM
 		void Alloc1G(void *Address, uint64_t Bitmap);
 		void Map1G(void *VirtAddress, void *PhysAddress, uint64_t Bitmap);
 	};
+
+	void *GetAddress(uint16_t PML4I, uint16_t PDPTI, uint16_t PDI, uint16_t PTI);
 }
 
 #endif

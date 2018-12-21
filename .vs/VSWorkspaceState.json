@@ -11,6 +11,6 @@
     "\\system\\kernel\\src\\mm\\pmm",
     "\\system\\kernel\\src\\video"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\video\\console.hpp",
+  "SelectedNode": "\\system\\kernel\\src\\init\\gdt.cpp",
   "PreviewInSolutionExplorer": false
 }
