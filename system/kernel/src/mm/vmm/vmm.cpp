@@ -8,6 +8,8 @@
 
 //TODO: Add ReMap and FreeMap
 
+//Idea: On loading new Process, switch to kernel, map the kernel, then switch to new Pool and VMM::Alloc the space required
+
 namespace VMM
 {
 	Pool::Pool()
