@@ -45,12 +45,11 @@ namespace VMM
 		uint64_t *Next512G;
 		uint64_t *End512G;
 	public:
-		uint64_t *PML4T[512];
+		uint64_t *PML4T;
 
 		Pool();
 		~Pool();
 
-		void MapKernel();
 		void *Alloc(uint64_t Size, uint64_t Bitmap);
 		void Alloc(uint64_t Size, void *Address, uint64_t Bitmap);
 		void Map(uint64_t Size, void *VirtAddress, void *PhysAddress, uint64_t Bitmap);

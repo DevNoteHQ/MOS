@@ -44,11 +44,6 @@ namespace VMM
 			PL2[i] = (((uint64_t)i * SIZE2M) | PG_WRITABLE | PG_PRESENT | PG_BIG);
 		}
 
-		/*
-		for (uint64_t i = 0; i < PLE; i++)
-		{
-			PL3[i] = (((uint64_t) i * SIZE1G) | PG_WRITABLE | PG_PRESENT | PG_BIG);
-		}*/
 		setCR3((uint64_t) &PL4[0] - HVMA);
 		memset(PL4P, 0, ALIGN4K * 2);
 	}

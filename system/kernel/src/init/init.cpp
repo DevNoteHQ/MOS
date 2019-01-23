@@ -53,7 +53,7 @@ namespace System
 			uint64_t End = (uint64_t)&_end;
 			uint64_t KernelLengh = End - Start + 0x100000;
 			char Test[70];
-			Convert::ToString((uint64_t) *PDE, Test, 16);
+			Convert::ToString((uint64_t) KernelLengh, Test, 16);
 			Console::WriteLine(Test);
 
 			asm volatile("sti");

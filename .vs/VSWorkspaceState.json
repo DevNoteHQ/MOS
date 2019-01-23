@@ -11,6 +11,6 @@
     "\\system\\kernel\\src\\mm\\pmm",
     "\\system\\kernel\\src\\video"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\init\\gdt.cpp",
+  "SelectedNode": "\\system\\kernel\\src\\init\\boot.asm",
   "PreviewInSolutionExplorer": false
 }

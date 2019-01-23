@@ -2,11 +2,7 @@
 #include "vmm.hpp"
 #include <mm/pmm/pmm.hpp>
 
-
-#include <utility/convert/convert.hpp>
-#include <video/console.hpp>
-
-//TODO: Add ReMap and FreeMap
+//TODO: Add Unmap
 
 //Idea: On loading new Process, switch to kernel, map the kernel, then switch to new Pool and VMM::Alloc the space required
 
@@ -14,18 +10,15 @@ namespace VMM
 {
 	Pool::Pool()
 	{
+		this->PML4T = PMM::Alloc4K.Alloc();
 		this->PML4T[511] = (uint64_t)&PML4T[0] | PG_PRESENT | PG_WRITABLE | PG_NO_EXEC;
+		uint64_t *KernelEntry = GetAddress(511, 511, 511, 510);
+		this->PML4T[510] = *KernelEntry;
 	}
 
 	Pool::~Pool()
 	{
 		//Free all Tables
-	}
-
-	void Pool::MapKernel()
-	{
-		uint64_t *KernelEntry = GetAddress(511, 511, 511, 510);
-		this->PML4T[510] = *KernelEntry;
 	}
 
 	void *Pool::Alloc(uint64_t Size, uint64_t Bitmap)
