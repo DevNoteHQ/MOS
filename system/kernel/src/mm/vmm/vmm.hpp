@@ -44,6 +44,9 @@ namespace VMM
 		uint64_t *End1G;
 		uint64_t *Next512G;
 		uint64_t *End512G;
+
+		void Check(uint64_t *Entry, uint64_t Bitmap);
+		void CheckPage(uint64_t *Entry, void *PhysAddress, uint64_t Bitmap);
 	public:
 		uint64_t *PML4T;
 

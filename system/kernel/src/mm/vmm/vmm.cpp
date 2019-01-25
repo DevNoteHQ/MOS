@@ -21,6 +21,26 @@ namespace VMM
 		//Free all Tables
 	}
 
+	void Pool::Check(uint64_t *Entry, uint64_t Bitmap)
+	{
+		if ((*Entry == 0) || (((*Entry) & 0x1) == 0))
+		{
+			*Entry = (uint64_t)PMM::Alloc4K.Alloc() | Bitmap;
+		}
+	}
+
+	void Pool::CheckPage(uint64_t *Entry, void *PhysAddress, uint64_t Bitmap)
+	{
+		if ((*Entry == 0) || (((*Entry) & 0x1) == 0))
+		{
+			*Entry = (uint64_t) PhysAddress | Bitmap;
+		}
+		else
+		{
+			//Throw error
+		}
+	}
+
 	void *Pool::Alloc(uint64_t Size, uint64_t Bitmap)
 	{
 		void *Addr = 0;
@@ -84,35 +104,16 @@ namespace VMM
 		uint16_t PTI = (((uint64_t)VirtAddress) >> 12) & 0x1FF;
 
 		uint64_t *PML4E = GetAddress(511, 511, 511, PML4I);
-
-		if ((*PML4E == 0) || (((*PML4E) & 0x1) == 0))
-		{
-			*PML4E = (uint64_t)PMM::Alloc4K.Alloc() | Bitmap;
-		}
+		Check(PML4E, Bitmap);
 
 		uint64_t *PDPTE = GetAddress(511, 511, PML4I, PDPTI);
-
-		if ((*PDPTE == 0) || (((*PDPTE) & 0x1) == 0))
-		{
-			*PDPTE = (uint64_t)PMM::Alloc4K.Alloc() | Bitmap;
-		}
+		Check(PDPTE, Bitmap);
 
 		uint64_t *PDE = GetAddress(511, PML4I, PDPTI, PDI);
-
-		if ((*PDE == 0) || (((*PDE) & 0x1) == 0))
-		{
-			*PDE = (uint64_t)PhysAddress | Bitmap;
-		}
+		Check(PDE, Bitmap);
 
 		uint64_t *PTE = GetAddress(PML4I, PDPTI, PDI, PTI);
-		if ((*PTE == 0) || (((*PTE) & 0x1) == 0))
-		{
-			*PTE = (uint64_t)PhysAddress | Bitmap;
-		}
-		else
-		{
-			//Throw error
-		}
+		CheckPage(PTE, PhysAddress, Bitmap);
 	}
 
 	void *Pool::Alloc2M(uint64_t Bitmap)
@@ -155,29 +156,13 @@ namespace VMM
 		uint16_t PDI = (((uint64_t)VirtAddress) >> 21) & 0x1FF;
 
 		uint64_t *PML4E = GetAddress(511, 511, 511, PML4I);
-
-		if ((*PML4E == 0) || (((*PML4E) & 0x1) == 0))
-		{
-			*PML4E = (uint64_t)PMM::Alloc4K.Alloc() | Bitmap;
-		}
+		Check(PML4E, Bitmap);
 
 		uint64_t *PDPTE = GetAddress(511, 511, PML4I, PDPTI);
-
-		if ((*PDPTE == 0) || (((*PDPTE) & 0x1) == 0))
-		{
-			*PDPTE = (uint64_t)PMM::Alloc4K.Alloc() | Bitmap;
-		}
+		Check(PDPTE, Bitmap);
 
 		uint64_t *PDE = GetAddress(511, PML4I, PDPTI, PDI);
-
-		if ((*PDE == 0) || (((*PDE) & 0x1) == 0))
-		{
-			*PDE = (uint64_t)PhysAddress | Bitmap | PG_BIG;
-		}
-		else
-		{
-			//Throw error
-		}
+		CheckPage(PDE, PhysAddress, (Bitmap | PG_BIG));
 	}
 
 	void *Pool::Alloc1G(uint64_t Bitmap)
@@ -213,22 +198,10 @@ namespace VMM
 		uint16_t PDPTI = (((uint64_t)VirtAddress) >> 30) & 511;
 
 		uint64_t *PML4E = GetAddress(511, 511, 511, PML4I);
-
-		if ((*PML4E == 0) || (((*PML4E) & 0x1) == 0))
-		{
-			*PML4E = (uint64_t)PMM::Alloc4K.Alloc() | Bitmap;
-		}
+		Check(PML4E, Bitmap);
 
 		uint64_t *PDPTE = GetAddress(511, 511, PML4I, PDPTI);
-
-		if ((*PDPTE == 0) || (((*PDPTE) & 0x1) == 0))
-		{
-			*PDPTE = (uint64_t)PhysAddress | Bitmap | PG_BIG;
-		}
-		else
-		{
-			//Throw error
-		}
+		CheckPage(PDPTE, PhysAddress, (Bitmap | PG_BIG));
 	}
 
 	void *GetAddress(uint16_t PML4I, uint16_t PDPTI, uint16_t PDI, uint16_t PTI)
