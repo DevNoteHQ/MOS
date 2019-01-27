@@ -33,7 +33,7 @@
 
 namespace VMM
 {
-	class Pool
+	class Table
 	{
 	private:
 		uint64_t *Next4K;
@@ -50,8 +50,8 @@ namespace VMM
 	public:
 		uint64_t *PML4T;
 
-		Pool();
-		~Pool();
+		Table();
+		~Table();
 
 		void *Alloc(uint64_t Size, uint64_t Bitmap);
 		void Alloc(uint64_t Size, void *Address, uint64_t Bitmap);
@@ -65,9 +65,21 @@ namespace VMM
 		void *Alloc1G(uint64_t Bitmap);
 		void Alloc1G(void *Address, uint64_t Bitmap);
 		void Map1G(void *VirtAddress, void *PhysAddress, uint64_t Bitmap);
+
+		void LoadTable();
 	};
 
+	class KernelTable : public Table
+	{
+	public:
+		KernelTable();
+		~KernelTable();
+	};
+
+	extern "C" void setCR3(uint64_t PL4);
+
 	void *GetAddress(uint16_t PML4I, uint16_t PDPTI, uint16_t PDI, uint16_t PTI);
+	extern KernelTable Kernel;
 }
 
 #endif

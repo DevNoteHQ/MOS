@@ -7,9 +7,9 @@
 namespace VMM
 {
 	void Init();
-	extern "C" void setCR3(uint64_t PL4);
-	void *ToVMA_V(void *addr);
-	uintptr_t ToVMA_I(uintptr_t addr);
+	extern uint64_t *PDPT;
+	extern uint64_t *PD;
+	extern uint64_t *PT;
 }
 
 #endif

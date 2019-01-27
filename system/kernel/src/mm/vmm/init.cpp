@@ -2,8 +2,7 @@
 #include "init.hpp"
 
 #include <mm/pmm/pmm.hpp>
-
-#define PLE  512
+#include <utility/system/info.hpp>
 
 #define SIZE2M 0x000200000
 #define SIZE1G 0x040000000
@@ -12,7 +11,7 @@
 
 #define PL4P	0x7E00000 //Position of the global PML4T in LVMA (PL4P = 0x7E00000 + HVMA for position in HVMA)
 
-#define ALIGN4K	4096 //Each entry has to be 4K aligned. Each entry is a uint64_t -> 8Bytes per Address -> PL4[1] = 8 + PL4[0] -> 8Bytes * 512 = 4096
+#define ALIGN4K	0x1000 //Each entry has to be 4K aligned. Each entry is a uint64_t -> 8Bytes per Address -> 8Bytes * 512 = 4096
 
 namespace VMM
 {
@@ -24,27 +23,43 @@ namespace VMM
 	
 	void *AllocEnd = 0;
 
-	uint64_t PL4[PLE] __attribute__((aligned(ALIGN4K)));
-	uint64_t PL3[PLE] __attribute__((aligned(ALIGN4K)));
-	uint64_t PL2[PLE] __attribute__((aligned(ALIGN4K)));
+	uint64_t *PDPT = 0;
+	uint64_t *PD = 0;
+	uint64_t *PT = 0;
+
+	void ManualMap(uint64_t Start, uint64_t End, uint64_t *Table, uint64_t Bitmap)
+	{
+		for (uint64_t Addr = Start; Addr < End; Addr += 0x1000)
+		{
+			Table[(Addr & 0x1FFFFF) / 0x1000] = (((uint64_t)Addr - HVMA) | Bitmap);
+		}
+	}
+
 	void Init()
 	{
-		while (AllocEnd < ((uint64_t) &_end & 0x7FFFFFFFFF) - 0x200000)
+		while (AllocEnd < (System::Info::KernelSize + 0x100000 - 0x1000))
 		{
-			AllocEnd = PMM::Alloc2M.Alloc();
+			AllocEnd = PMM::Alloc4K.Alloc();
 		}
 
-		PL4[PLE - 1] = (((uint64_t) &PL4[0] - HVMA) | PG_WRITABLE | PG_PRESENT);
-		PL4[PLE - 2] = (((uint64_t) &PL3[0] - HVMA) | PG_WRITABLE | PG_PRESENT);
-		PL4[0] = (((uint64_t) &PL3[0] - HVMA) | PG_WRITABLE | PG_PRESENT);
-		PL3[0] = (((uint64_t)&PL2[0] - HVMA) | PG_WRITABLE | PG_PRESENT);
+		KernelTable Kernel;
+		PDPT = PMM::Alloc4K.Alloc();
+		PD = PMM::Alloc4K.Alloc();
+		PT = PMM::Alloc4K.Alloc();
 
-		for (uint64_t i = 0; i < PLE; i++)
-		{
-			PL2[i] = (((uint64_t)i * SIZE2M) | PG_WRITABLE | PG_PRESENT | PG_BIG);
-		}
+		Kernel.PML4T[510] = (((uint64_t) PDPT) | PG_WRITABLE | PG_PRESENT);
+		PDPT[0] = (((uint64_t) PD) | PG_WRITABLE | PG_PRESENT);
+		PD[0] = (((uint64_t) PT) | PG_WRITABLE | PG_PRESENT);
 
-		setCR3((uint64_t) &PL4[0] - HVMA);
-		memset(PL4P, 0, ALIGN4K * 2);
+		ManualMap(System::Info::BinStartAddress, System::Info::BinEndAddress, PT, (PG_WRITABLE | PG_PRESENT));
+		ManualMap(System::Info::DataStartAddress, System::Info::DataEndAddress, PT, (PG_WRITABLE | PG_PRESENT));
+		ManualMap(System::Info::RODataStartAddress, System::Info::RODataEndAddress, PT, (PG_PRESENT | PG_WRITABLE));
+		ManualMap(System::Info::BSSStartAddress, System::Info::BSSEndAddress, PT, (PG_WRITABLE | PG_PRESENT));
+		//Map BIOS, Redo later!
+		ManualMap(HVMA, HVMA + 0x100000, PT, (PG_WRITABLE | PG_PRESENT));
+		PT[(((uint64_t) Kernel.PML4T) & 0x1FFFFF) / 0x1000] = (((uint64_t)Kernel.PML4T - HVMA) | (PG_WRITABLE | PG_PRESENT));
+
+		Kernel.LoadTable();
+		//memset(PL4P + HVMA, 0, ALIGN4K * 2);
 	}
 }

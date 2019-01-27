@@ -4,24 +4,38 @@
 
 //TODO: Add Unmap
 
-//Idea: On loading new Process, switch to kernel, map the kernel, then switch to new Pool and VMM::Alloc the space required
+//Idea: On loading new Process, switch to kernel, map the kernel, then switch to new Table and VMM::Alloc the space required
 
 namespace VMM
 {
-	Pool::Pool()
+	Table::Table()
 	{
-		this->PML4T = PMM::Alloc4K.Alloc();
-		this->PML4T[511] = (uint64_t)&PML4T[0] | PG_PRESENT | PG_WRITABLE | PG_NO_EXEC;
+		/*
+		this->PML4T = (PMM::Alloc4K.Alloc() + HVMA);
+
+		this->PML4T[511] = (uint64_t)&PML4T[0] - HVMA | PG_PRESENT | PG_WRITABLE;
 		uint64_t *KernelEntry = GetAddress(511, 511, 511, 510);
 		this->PML4T[510] = *KernelEntry;
+		*/
 	}
 
-	Pool::~Pool()
+	KernelTable::KernelTable()
+	{
+		this->PML4T = (PMM::Alloc4K.Alloc() + HVMA); //Map it later
+		this->PML4T[511] = (uint64_t)&PML4T[0] - HVMA | PG_PRESENT | PG_WRITABLE;
+	}
+
+	KernelTable::~KernelTable()
+	{
+		//Never gonna happen :D
+	}
+
+	Table::~Table()
 	{
 		//Free all Tables
 	}
 
-	void Pool::Check(uint64_t *Entry, uint64_t Bitmap)
+	void Table::Check(uint64_t *Entry, uint64_t Bitmap)
 	{
 		if ((*Entry == 0) || (((*Entry) & 0x1) == 0))
 		{
@@ -29,7 +43,7 @@ namespace VMM
 		}
 	}
 
-	void Pool::CheckPage(uint64_t *Entry, void *PhysAddress, uint64_t Bitmap)
+	void Table::CheckPage(uint64_t *Entry, void *PhysAddress, uint64_t Bitmap)
 	{
 		if ((*Entry == 0) || (((*Entry) & 0x1) == 0))
 		{
@@ -41,25 +55,25 @@ namespace VMM
 		}
 	}
 
-	void *Pool::Alloc(uint64_t Size, uint64_t Bitmap)
+	void *Table::Alloc(uint64_t Size, uint64_t Bitmap)
 	{
 		void *Addr = 0;
 		//Alloc contiguous memory. 4K fist, then 2M, then 1G, the rest if needed 2M
 	}
 
-	void Pool::Alloc(uint64_t Size, void *Address, uint64_t Bitmap)
+	void Table::Alloc(uint64_t Size, void *Address, uint64_t Bitmap)
 	{
 
 	}
 
-	void Pool::Map(uint64_t Size, void *VirtAddress, void *PhysAddress, uint64_t Bitmap)
+	void Table::Map(uint64_t Size, void *VirtAddress, void *PhysAddress, uint64_t Bitmap)
 	{
 
 	}
 
-	void *Pool::Alloc4K(uint64_t Bitmap)
+	void *Table::Alloc4K(uint64_t Bitmap)
 	{
-		Pool::Alloc4K(this->Next4K, Bitmap);
+		Table::Alloc4K(this->Next4K, Bitmap);
 		if (this->Next4K >= this->End4K)
 		{
 			if (this->Next2M >= this->End2M)
@@ -91,12 +105,12 @@ namespace VMM
 		return Addr;
 	}
 
-	void Pool::Alloc4K(void *Address, uint64_t Bitmap)
+	void Table::Alloc4K(void *Address, uint64_t Bitmap)
 	{
-		Pool::Map4K(Address, PMM::Alloc4K.Alloc(), Bitmap);
+		Table::Map4K(Address, PMM::Alloc4K.Alloc(), Bitmap);
 	}
 
-	void Pool::Map4K(void *VirtAddress, void *PhysAddress, uint64_t Bitmap)
+	void Table::Map4K(void *VirtAddress, void *PhysAddress, uint64_t Bitmap)
 	{
 		uint16_t PML4I = (((uint64_t)VirtAddress) >> 39) & 0x1FF;
 		uint16_t PDPTI = (((uint64_t)VirtAddress) >> 30) & 0x1FF;
@@ -116,9 +130,9 @@ namespace VMM
 		CheckPage(PTE, PhysAddress, Bitmap);
 	}
 
-	void *Pool::Alloc2M(uint64_t Bitmap)
+	void *Table::Alloc2M(uint64_t Bitmap)
 	{
-		Pool::Alloc2M(this->Next2M, Bitmap);
+		Table::Alloc2M(this->Next2M, Bitmap);
 		if (this->Next2M >= this->End2M)
 		{
 			if (this->Next1G >= this->End1G)
@@ -144,12 +158,12 @@ namespace VMM
 		return Addr;
 	}
 
-	void Pool::Alloc2M(void *Address, uint64_t Bitmap)
+	void Table::Alloc2M(void *Address, uint64_t Bitmap)
 	{
-		Pool::Map2M(Address, PMM::Alloc2M.Alloc(), Bitmap);
+		Table::Map2M(Address, PMM::Alloc2M.Alloc(), Bitmap);
 	}
 
-	void Pool::Map2M(void *VirtAddress, void *PhysAddress, uint64_t Bitmap)
+	void Table::Map2M(void *VirtAddress, void *PhysAddress, uint64_t Bitmap)
 	{
 		uint16_t PML4I = (((uint64_t)VirtAddress) >> 39) & 0x1FF;
 		uint16_t PDPTI = (((uint64_t)VirtAddress) >> 30) & 0x1FF;
@@ -165,9 +179,9 @@ namespace VMM
 		CheckPage(PDE, PhysAddress, (Bitmap | PG_BIG));
 	}
 
-	void *Pool::Alloc1G(uint64_t Bitmap)
+	void *Table::Alloc1G(uint64_t Bitmap)
 	{
-		Pool::Alloc1G(this->Next1G, Bitmap);
+		Table::Alloc1G(this->Next1G, Bitmap);
 		if (this->Next1G >= this->End1G)
 		{
 			//Unlikely to happen
@@ -187,12 +201,12 @@ namespace VMM
 		return Addr;
 	}
 
-	void Pool::Alloc1G(void *Address, uint64_t Bitmap)
+	void Table::Alloc1G(void *Address, uint64_t Bitmap)
 	{
-		Pool::Map1G(Address, PMM::Alloc1G.Alloc(), Bitmap);
+		Table::Map1G(Address, PMM::Alloc1G.Alloc(), Bitmap);
 	}
 
-	void Pool::Map1G(void *VirtAddress, void *PhysAddress, uint64_t Bitmap)
+	void Table::Map1G(void *VirtAddress, void *PhysAddress, uint64_t Bitmap)
 	{
 		uint16_t PML4I = (((uint64_t)VirtAddress) >> 39) & 511;
 		uint16_t PDPTI = (((uint64_t)VirtAddress) >> 30) & 511;
@@ -202,6 +216,11 @@ namespace VMM
 
 		uint64_t *PDPTE = GetAddress(511, 511, PML4I, PDPTI);
 		CheckPage(PDPTE, PhysAddress, (Bitmap | PG_BIG));
+	}
+
+	void Table::LoadTable()
+	{
+		setCR3((uint64_t)&this->PML4T[0] - HVMA);
 	}
 
 	void *GetAddress(uint16_t PML4I, uint16_t PDPTI, uint16_t PDI, uint16_t PTI)

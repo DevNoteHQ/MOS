@@ -1,13 +1,14 @@
 
 #include "heap.hpp"
 
+#include <mm/pmm/pmm.hpp>
+
 namespace Heap
 {
-	uint64_t InitHeapSpace[HEAP_SIZE] __attribute__((aligned(ALIGN2M)));
-	HeapDynHeader *InitHeap = (HeapDynHeader *) &InitHeapSpace;
-
+	HeapDynHeader *InitHeap = 0;
 	void Init()
 	{
+		InitHeap = PMM::Alloc2M.Alloc() + HVMA;
 		HeapDynFreePointer *Free = &InitHeap->Free[0];
 		uint64_t HeapEnd = ((uint64_t)InitHeap) + HEAP_SIZE * 8;
 		memset(InitHeap, 0, HEAP_SIZE * 8);

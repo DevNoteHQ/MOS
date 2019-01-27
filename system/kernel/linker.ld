@@ -8,6 +8,7 @@ SECTIONS
 {
 	. = 1M;
 	_start = . + HVMA;
+	_bin_start = . + HVMA;
 
 	.init :
 	{
@@ -22,8 +23,11 @@ SECTIONS
 		*(.text)
 	}
 
+	_bin_end = .;
+
 	.data ALIGN(0x1000) : AT(ADDR(.data) - HVMA)
 	{
+		_data_start = .;
 		start_ctors = .;
 		*(.ctor*)
 		end_ctors = .;
@@ -31,19 +35,22 @@ SECTIONS
 		*(.dtor*)
 		end_dtors = .;
 		*(.data)
+		_data_end = .;
 	}
 
 	.rodata ALIGN(0x1000) : AT(ADDR(.rodata) - HVMA)
 	{
+		_rodata_start = .;
 		*(.rodata)
+		_rodata_end = .;
 	}
 
 	.bss ALIGN(0x1000) : AT(ADDR(.bss) - HVMA)
 	{
-		_sbss = .;
+		_bss_start = .;
 		*(COMMON)
 		*(.bss)
-		_ebss = .;
+		_bss_end = .;
 	}
 
 	_end = .;

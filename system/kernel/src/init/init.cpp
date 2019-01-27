@@ -10,6 +10,7 @@
 #include <interrupt/init.hpp>
 #include <utility/convert/convert.hpp>
 #include <utility/base/string.hpp>
+#include <utility/system/info.hpp>
 #include <mm/pmm/pmm.hpp>
 #include <mm/vmm/init.hpp>
 #include <mm/vmm/conv.hpp>
@@ -28,7 +29,7 @@ namespace System
 		{
 			multiboot = VMM::ToVMA_V(multiboot);
 			VMM::Init();
-			Heap::Init();
+			//Heap::Init();
 
 			CPU::InitBSP();
 
@@ -46,14 +47,9 @@ namespace System
 			Driver::Keyboard::Init();
 			Syscall::Init();
 
-			uint64_t *PDE = VMM::GetAddress(511, 510, 0, 0);
-
-			//Put in Information File or something like that
-			uint64_t Start = (uint64_t)&_start;
-			uint64_t End = (uint64_t)&_end;
-			uint64_t KernelLengh = End - Start + 0x100000;
 			char Test[70];
-			Convert::ToString((uint64_t) KernelLengh, Test, 16);
+			uint64_t *PML4T = 0x113000;
+			Convert::ToString((uint64_t) VMM::PT[275], Test, 16);
 			Console::WriteLine(Test);
 
 			asm volatile("sti");
