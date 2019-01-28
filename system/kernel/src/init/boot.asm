@@ -174,6 +174,8 @@ start:
 
 	mov rsp, stack_top      ; set up the stack
 
+	push rbx
+
 	; call the kernel
 	; - the arguments were moved into EDI and ESI at the start
 	; - the DF has been reset by the code above - no CLD is required
@@ -188,7 +190,7 @@ start:
 		mov r8, end_ctors
 		cmp rbx, r8
 		jb .body
-		push rbx
+		
 		call Init                      ; call kernel proper
  
 	static_dtors_loop:
@@ -198,8 +200,8 @@ start:
 		call [rbx]
 		add rbx,8
 	.test:
-		mov r9, end_dtors
-		cmp rbx, r9
+		mov r8, end_dtors
+		cmp rbx, r8
 		jb .body
 
 	jmp abort

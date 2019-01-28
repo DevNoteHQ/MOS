@@ -49,13 +49,10 @@ namespace System
 
 			char Test[70];
 			register char* StackPointer asm ("rsp");
-			uint64_t *PML4T = 0x112000;
-			Convert::ToString((uint64_t) StackPointer, Test, 16);
+			uint64_t *PML4T = VMM::GetAddress(511,511,511,511);
+			Convert::ToString((uint64_t) *PML4T, Test, 16);
 			Console::WriteLine(Test);
 
-
-
-			//asm volatile("int $0x20");
 
 			asm volatile("sti");
 

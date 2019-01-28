@@ -42,6 +42,9 @@ SECTIONS
 	{
 		_rodata_start = .;
 		*(.rodata)
+		*(.eh_frame)
+		*(.rodata.str1.1)
+		*(.rodata.str1.8)
 		_rodata_end = .;
 	}
 
