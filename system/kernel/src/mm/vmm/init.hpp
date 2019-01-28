@@ -7,6 +7,7 @@
 namespace VMM
 {
 	void Init();
+
 	extern uint64_t *PDPT;
 	extern uint64_t *PD;
 	extern uint64_t *PT;

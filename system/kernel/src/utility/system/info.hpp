@@ -14,6 +14,9 @@ extern "C" char _bss_start;
 extern "C" char _bss_end;
 extern "C" char _end;
 
+extern "C" char *stack_bottom;
+extern "C" char *stack_top;
+
 namespace System::Info
 {
 	//Static Kernel Size
@@ -33,7 +36,6 @@ namespace System::Info
 	const uint64_t RODataSize = RODataEndAddress - RODataStartAddress;	//Returns the Read-Only-Data-Size
 	const uint64_t BSSSize =	BSSEndAddress - BSSStartAddress;		//Returns the BSS-Size
 	const uint64_t KernelSize = EndAddress - StartAddress;				//Returns the Static-Kernel-Size
-
 }
 
 #endif

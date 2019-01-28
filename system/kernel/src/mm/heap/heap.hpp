@@ -4,6 +4,9 @@
 
 #define HEAP_SIZE 262144 //8-Bytes
 #define FREE_SIZE 16 //16-Bytes
+
+#define HEAP_ADDRESS 0xFFFFFE8000000000
+
 #define ALIGN2M 2097152 //Bytes
 
 namespace Heap

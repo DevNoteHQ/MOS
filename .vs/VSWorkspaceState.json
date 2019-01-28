@@ -1,17 +1,13 @@
 {
   "ExpandedNodes": [
     "",
+    "\\include",
     "\\system",
     "\\system\\kernel",
     "\\system\\kernel\\src",
     "\\system\\kernel\\src\\mm",
-    "\\system\\kernel\\src\\mm\\heap",
-    "\\system\\kernel\\src\\mm\\pmm",
-    "\\system\\kernel\\src\\mm\\vmm",
-    "\\system\\kernel\\src\\utility",
-    "\\system\\kernel\\src\\utility\\convert",
-    "\\system\\kernel\\src\\utility\\system"
+    "\\system\\kernel\\src\\mm\\vmm"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\video\\text.cpp",
+  "SelectedNode": "\\system\\kernel\\src\\interrupt",
   "PreviewInSolutionExplorer": false
 }

@@ -2,13 +2,15 @@
 #include "heap.hpp"
 
 #include <mm/pmm/pmm.hpp>
+#include <mm/vmm/vmm.hpp>
 
 namespace Heap
 {
 	HeapDynHeader *InitHeap = 0;
 	void Init()
 	{
-		InitHeap = PMM::Alloc2M.Alloc() + HVMA;
+		InitHeap = (HeapDynHeader *)((uint64_t) PMM::Alloc2M.Alloc() + HEAP_ADDRESS);
+		VMM::Kernel.Map2M(InitHeap, (void *)((uint64_t)InitHeap - HEAP_ADDRESS), (PG_WRITABLE | PG_PRESENT));
 		HeapDynFreePointer *Free = &InitHeap->Free[0];
 		uint64_t HeapEnd = ((uint64_t)InitHeap) + HEAP_SIZE * 8;
 		memset(InitHeap, 0, HEAP_SIZE * 8);

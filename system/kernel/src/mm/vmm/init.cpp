@@ -42,7 +42,7 @@ namespace VMM
 			AllocEnd = PMM::Alloc4K.Alloc();
 		}
 
-		KernelTable Kernel;
+		Kernel.InitKernelTable();
 		PDPT = PMM::Alloc4K.Alloc();
 		PD = PMM::Alloc4K.Alloc();
 		PT = PMM::Alloc4K.Alloc();

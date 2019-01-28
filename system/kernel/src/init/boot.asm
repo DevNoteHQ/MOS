@@ -7,6 +7,9 @@
 [extern start_dtors]
 [extern end_dtors]
 
+[global stack_bottom]
+[global stack_top]
+
 STACKSIZE  equ 0x4000
 
 HVMA equ 0xFFFFFF0000000000
@@ -169,7 +172,7 @@ start:
 	mov rax, GDT64.Pointer + HVMA
 	lgdt [rax]
 
-	mov rsp, stack+STACKSIZE      ; set up the stack
+	mov rsp, stack_top      ; set up the stack
 
 	; call the kernel
 	; - the arguments were moved into EDI and ESI at the start
@@ -202,6 +205,7 @@ start:
 	jmp abort
 
 [section .bss]
-align 32
-stack:
+align 16
+stack_bottom:
 	resb STACKSIZE
+stack_top:

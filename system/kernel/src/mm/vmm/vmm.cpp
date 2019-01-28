@@ -8,26 +8,15 @@
 
 namespace VMM
 {
+	KernelTable Kernel;
+
 	Table::Table()
 	{
-		/*
 		this->PML4T = (PMM::Alloc4K.Alloc() + HVMA);
 
-		this->PML4T[511] = (uint64_t)&PML4T[0] - HVMA | PG_PRESENT | PG_WRITABLE;
+		this->PML4T[511] = (uint64_t)PML4T - HVMA | PG_PRESENT | PG_WRITABLE;
 		uint64_t *KernelEntry = GetAddress(511, 511, 511, 510);
 		this->PML4T[510] = *KernelEntry;
-		*/
-	}
-
-	KernelTable::KernelTable()
-	{
-		this->PML4T = (PMM::Alloc4K.Alloc() + HVMA); //Map it later
-		this->PML4T[511] = (uint64_t)&PML4T[0] - HVMA | PG_PRESENT | PG_WRITABLE;
-	}
-
-	KernelTable::~KernelTable()
-	{
-		//Never gonna happen :D
 	}
 
 	Table::~Table()
@@ -35,7 +24,13 @@ namespace VMM
 		//Free all Tables
 	}
 
-	void Table::Check(uint64_t *Entry, uint64_t Bitmap)
+	void KernelTable::InitKernelTable()
+	{
+		this->PML4T = (PMM::Alloc4K.Alloc() + HVMA); //Map it later
+		this->PML4T[511] = (uint64_t)PML4T - HVMA | PG_PRESENT | PG_WRITABLE;
+	}
+
+	void KernelTable::Check(uint64_t *Entry, uint64_t Bitmap)
 	{
 		if ((*Entry == 0) || (((*Entry) & 0x1) == 0))
 		{
@@ -43,7 +38,7 @@ namespace VMM
 		}
 	}
 
-	void Table::CheckPage(uint64_t *Entry, void *PhysAddress, uint64_t Bitmap)
+	void KernelTable::CheckPage(uint64_t *Entry, void *PhysAddress, uint64_t Bitmap)
 	{
 		if ((*Entry == 0) || (((*Entry) & 0x1) == 0))
 		{
@@ -55,25 +50,25 @@ namespace VMM
 		}
 	}
 
-	void *Table::Alloc(uint64_t Size, uint64_t Bitmap)
+	void *KernelTable::Alloc(uint64_t Size, uint64_t Bitmap)
 	{
 		void *Addr = 0;
 		//Alloc contiguous memory. 4K fist, then 2M, then 1G, the rest if needed 2M
 	}
 
-	void Table::Alloc(uint64_t Size, void *Address, uint64_t Bitmap)
+	void KernelTable::Alloc(uint64_t Size, void *Address, uint64_t Bitmap)
 	{
 
 	}
 
-	void Table::Map(uint64_t Size, void *VirtAddress, void *PhysAddress, uint64_t Bitmap)
+	void KernelTable::Map(uint64_t Size, void *VirtAddress, void *PhysAddress, uint64_t Bitmap)
 	{
 
 	}
 
-	void *Table::Alloc4K(uint64_t Bitmap)
+	void *KernelTable::Alloc4K(uint64_t Bitmap)
 	{
-		Table::Alloc4K(this->Next4K, Bitmap);
+		KernelTable::Alloc4K(this->Next4K, Bitmap);
 		if (this->Next4K >= this->End4K)
 		{
 			if (this->Next2M >= this->End2M)
@@ -105,12 +100,12 @@ namespace VMM
 		return Addr;
 	}
 
-	void Table::Alloc4K(void *Address, uint64_t Bitmap)
+	void KernelTable::Alloc4K(void *Address, uint64_t Bitmap)
 	{
-		Table::Map4K(Address, PMM::Alloc4K.Alloc(), Bitmap);
+		KernelTable::Map4K(Address, PMM::Alloc4K.Alloc(), Bitmap);
 	}
 
-	void Table::Map4K(void *VirtAddress, void *PhysAddress, uint64_t Bitmap)
+	void KernelTable::Map4K(void *VirtAddress, void *PhysAddress, uint64_t Bitmap)
 	{
 		uint16_t PML4I = (((uint64_t)VirtAddress) >> 39) & 0x1FF;
 		uint16_t PDPTI = (((uint64_t)VirtAddress) >> 30) & 0x1FF;
@@ -130,9 +125,9 @@ namespace VMM
 		CheckPage(PTE, PhysAddress, Bitmap);
 	}
 
-	void *Table::Alloc2M(uint64_t Bitmap)
+	void *KernelTable::Alloc2M(uint64_t Bitmap)
 	{
-		Table::Alloc2M(this->Next2M, Bitmap);
+		KernelTable::Alloc2M(this->Next2M, Bitmap);
 		if (this->Next2M >= this->End2M)
 		{
 			if (this->Next1G >= this->End1G)
@@ -158,12 +153,12 @@ namespace VMM
 		return Addr;
 	}
 
-	void Table::Alloc2M(void *Address, uint64_t Bitmap)
+	void KernelTable::Alloc2M(void *Address, uint64_t Bitmap)
 	{
-		Table::Map2M(Address, PMM::Alloc2M.Alloc(), Bitmap);
+		KernelTable::Map2M(Address, PMM::Alloc2M.Alloc(), Bitmap);
 	}
 
-	void Table::Map2M(void *VirtAddress, void *PhysAddress, uint64_t Bitmap)
+	void KernelTable::Map2M(void *VirtAddress, void *PhysAddress, uint64_t Bitmap)
 	{
 		uint16_t PML4I = (((uint64_t)VirtAddress) >> 39) & 0x1FF;
 		uint16_t PDPTI = (((uint64_t)VirtAddress) >> 30) & 0x1FF;
@@ -179,9 +174,9 @@ namespace VMM
 		CheckPage(PDE, PhysAddress, (Bitmap | PG_BIG));
 	}
 
-	void *Table::Alloc1G(uint64_t Bitmap)
+	void *KernelTable::Alloc1G(uint64_t Bitmap)
 	{
-		Table::Alloc1G(this->Next1G, Bitmap);
+		KernelTable::Alloc1G(this->Next1G, Bitmap);
 		if (this->Next1G >= this->End1G)
 		{
 			//Unlikely to happen
@@ -201,12 +196,12 @@ namespace VMM
 		return Addr;
 	}
 
-	void Table::Alloc1G(void *Address, uint64_t Bitmap)
+	void KernelTable::Alloc1G(void *Address, uint64_t Bitmap)
 	{
-		Table::Map1G(Address, PMM::Alloc1G.Alloc(), Bitmap);
+		KernelTable::Map1G(Address, PMM::Alloc1G.Alloc(), Bitmap);
 	}
 
-	void Table::Map1G(void *VirtAddress, void *PhysAddress, uint64_t Bitmap)
+	void KernelTable::Map1G(void *VirtAddress, void *PhysAddress, uint64_t Bitmap)
 	{
 		uint16_t PML4I = (((uint64_t)VirtAddress) >> 39) & 511;
 		uint16_t PDPTI = (((uint64_t)VirtAddress) >> 30) & 511;
@@ -218,7 +213,7 @@ namespace VMM
 		CheckPage(PDPTE, PhysAddress, (Bitmap | PG_BIG));
 	}
 
-	void Table::LoadTable()
+	void KernelTable::LoadTable()
 	{
 		setCR3((uint64_t)&this->PML4T[0] - HVMA);
 	}

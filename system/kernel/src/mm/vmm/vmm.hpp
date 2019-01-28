@@ -33,7 +33,7 @@
 
 namespace VMM
 {
-	class Table
+	class KernelTable
 	{
 	private:
 		uint64_t *Next4K;
@@ -50,8 +50,7 @@ namespace VMM
 	public:
 		uint64_t *PML4T;
 
-		Table();
-		~Table();
+		void InitKernelTable();
 
 		void *Alloc(uint64_t Size, uint64_t Bitmap);
 		void Alloc(uint64_t Size, void *Address, uint64_t Bitmap);
@@ -69,11 +68,11 @@ namespace VMM
 		void LoadTable();
 	};
 
-	class KernelTable : public Table
+	class Table : public KernelTable
 	{
 	public:
-		KernelTable();
-		~KernelTable();
+		Table();
+		~Table();
 	};
 
 	extern "C" void setCR3(uint64_t PL4);

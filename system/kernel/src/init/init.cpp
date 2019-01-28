@@ -48,9 +48,14 @@ namespace System
 			Syscall::Init();
 
 			char Test[70];
-			uint64_t *PML4T = 0x113000;
-			Convert::ToString((uint64_t) VMM::PT[275], Test, 16);
+			register char* StackPointer asm ("rsp");
+			uint64_t *PML4T = 0x112000;
+			Convert::ToString((uint64_t) StackPointer, Test, 16);
 			Console::WriteLine(Test);
+
+
+
+			//asm volatile("int $0x20");
 
 			asm volatile("sti");
 
