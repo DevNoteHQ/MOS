@@ -13,7 +13,7 @@ namespace VMM
 	Table::Table()
 	{
 		this->PML4T = (PMM::Alloc4K.Alloc() + HVMA);
-
+		//Map it
 		this->PML4T[511] = (uint64_t)PML4T - HVMA | PG_PRESENT | PG_WRITABLE;
 		uint64_t *KernelEntry = GetAddress(511, 511, 511, 510);
 		this->PML4T[510] = *KernelEntry;
@@ -27,6 +27,7 @@ namespace VMM
 	void KernelTable::InitKernelTable()
 	{
 		this->PML4T = (PMM::Alloc4K.Alloc() + HVMA); //Map it later
+		memset(PML4T, 0, 4096);
 		this->PML4T[511] = (uint64_t)PML4T - HVMA | PG_PRESENT | PG_WRITABLE;
 	}
 

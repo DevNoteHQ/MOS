@@ -1,0 +1,3 @@
+1. Fix .bss and NX-Bit
+2. Fix PhysicalAddress-Change in Map2M
+3. Make Heap::Init() work

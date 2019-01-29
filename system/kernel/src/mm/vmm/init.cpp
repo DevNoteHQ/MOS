@@ -52,8 +52,7 @@ namespace VMM
 		PD[0] = (((uint64_t) PT) | PG_WRITABLE | PG_PRESENT);
 
 		ManualMap(System::Info::BinStartAddress, System::Info::BinEndAddress, PT, (PG_PRESENT));
-		ManualMap(System::Info::DataStartAddress, System::Info::DataEndAddress, PT, (PG_WRITABLE | PG_PRESENT));
-		ManualMap(System::Info::RODataStartAddress, System::Info::RODataEndAddress, PT, (PG_PRESENT));
+		ManualMap(System::Info::DataStartAddress, System::Info::DataEndAddress, PT, (PG_WRITABLE | PG_PRESENT | PG_NO_EXEC));
 		ManualMap(System::Info::BSSStartAddress, System::Info::BSSEndAddress, PT, (PG_WRITABLE | PG_PRESENT));
 		//Map BIOS, Redo later!
 		ManualMap(HVMA, HVMA + 0x100000, PT, (PG_WRITABLE | PG_PRESENT));

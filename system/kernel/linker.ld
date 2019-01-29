@@ -17,10 +17,12 @@ SECTIONS
 
 	. += HVMA;
 
-	.text ALIGN(0x1000) : AT(ADDR(.text) - HVMA)
+	.text : AT(ADDR(.text) - HVMA)
 	{
 		*(.inith)
-		*(.text)
+		*(.text*)
+		*(.eh_frame)
+		*(.rodata*)
 	}
 
 	_bin_end = .;
@@ -34,25 +36,15 @@ SECTIONS
 		start_dtors = .;
 		*(.dtor*)
 		end_dtors = .;
-		*(.data)
+		*(.data*)
 		_data_end = .;
-	}
-
-	.rodata ALIGN(0x1000) : AT(ADDR(.rodata) - HVMA)
-	{
-		_rodata_start = .;
-		*(.rodata)
-		*(.eh_frame)
-		*(.rodata.str1.1)
-		*(.rodata.str1.8)
-		_rodata_end = .;
 	}
 
 	.bss ALIGN(0x1000) : AT(ADDR(.bss) - HVMA)
 	{
 		_bss_start = .;
+		*(.bss*)
 		*(COMMON)
-		*(.bss)
 		_bss_end = .;
 	}
 

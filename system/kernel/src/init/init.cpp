@@ -28,15 +28,15 @@ namespace System
 		void Init(uint32_t magic, multiboot_t *multiboot)
 		{
 			multiboot = VMM::ToVMA_V(multiboot);
+			Interrupt::Init();
+
 			VMM::Init();
-			//Heap::Init();
+			Heap::Init();
 
 			CPU::InitBSP();
 
 			CPUID::GetCPUInfo();
 			Console::Init();
-
-			Interrupt::Init();
 
 			IDT::Init();
 			GDT::Init();
@@ -49,7 +49,8 @@ namespace System
 
 			char Test[70];
 			register char* StackPointer asm ("rsp");
-			uint64_t *PML4T = VMM::GetAddress(511,511,511,511);
+			uint64_t *PML4T = VMM::GetAddress(511,511,511,509);
+			uint64_t *Address = VMM::GetAddress(510, 0, 0, 265);
 			Convert::ToString((uint64_t) *PML4T, Test, 16);
 			Console::WriteLine(Test);
 
