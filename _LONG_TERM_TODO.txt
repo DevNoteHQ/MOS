@@ -1,5 +1,6 @@
 1. Scheduler
 2. ELF-Loader
+2.1 Finish MM (Especially Free-Functions and Heap-Size-Updates)
 3. ACPI-Management (Move the MMIO-Registers)
 4. Syscalls
 5. Driver-System
