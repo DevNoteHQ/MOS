@@ -44,8 +44,11 @@ namespace VMM
 
 		Kernel.InitKernelTable();
 		PDPT = PMM::Alloc4K.Alloc();
+		memset(PDPT, 0, 4096);
 		PD = PMM::Alloc4K.Alloc();
+		memset(PD, 0, 4096);
 		PT = PMM::Alloc4K.Alloc();
+		memset(PT, 0, 4096);
 
 		Kernel.PML4T[510] = (((uint64_t) PDPT) | PG_WRITABLE | PG_PRESENT);
 		PDPT[0] = (((uint64_t) PD) | PG_WRITABLE | PG_PRESENT);

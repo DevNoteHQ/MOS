@@ -13,7 +13,8 @@ namespace VMM
 	Table::Table()
 	{
 		this->PML4T = (PMM::Alloc4K.Alloc() + HVMA);
-		//Map it
+		Map4K(this->PML4T, (this->PML4T - HVMA), (PG_PRESENT | PG_WRITABLE));
+		memset(PML4T, 0, 4096);
 		this->PML4T[511] = (uint64_t)PML4T - HVMA | PG_PRESENT | PG_WRITABLE;
 		uint64_t *KernelEntry = GetAddress(511, 511, 511, 510);
 		this->PML4T[510] = *KernelEntry;
@@ -22,6 +23,16 @@ namespace VMM
 	Table::~Table()
 	{
 		//Free all Tables
+	}
+
+	KernelTable::KernelTable()
+	{
+
+	}
+
+	KernelTable::~KernelTable()
+	{
+
 	}
 
 	void KernelTable::InitKernelTable()
@@ -36,6 +47,8 @@ namespace VMM
 		if ((*Entry == 0) || (((*Entry) & 0x1) == 0))
 		{
 			*Entry = (uint64_t)PMM::Alloc4K.Alloc() | Bitmap;
+			void *NextEntry = (uint64_t)Entry << 9;
+			memset(NextEntry, 0, 4096);
 		}
 	}
 

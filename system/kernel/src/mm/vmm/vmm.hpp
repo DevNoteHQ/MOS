@@ -50,6 +50,9 @@ namespace VMM
 	public:
 		uint64_t *PML4T;
 
+		KernelTable();
+		~KernelTable();
+
 		void InitKernelTable();
 
 		void *Alloc(uint64_t Size, uint64_t Bitmap);

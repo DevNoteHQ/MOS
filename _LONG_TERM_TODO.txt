@@ -1,0 +1,6 @@
+1. Scheduler
+2. ELF-Loader
+3. ACPI-Management (Move the MMIO-Registers)
+4. Syscalls
+5. Driver-System
+6. Disk-Driver

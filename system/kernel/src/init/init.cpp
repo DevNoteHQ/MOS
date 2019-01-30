@@ -50,8 +50,8 @@ namespace System
 			char Test[70];
 			register char* StackPointer asm ("rsp");
 			uint64_t *PML4T = VMM::GetAddress(511,511,511,509);
-			uint64_t *Address = VMM::GetAddress(510, 0, 0, 265);
-			Convert::ToString((uint64_t) *PML4T, Test, 16);
+			uint64_t *Address = VMM::GetAddress(511, 509, 0, 0);
+			Convert::ToString((uint64_t) *Address, Test, 16);
 			Console::WriteLine(Test);
 
 
