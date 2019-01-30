@@ -31,7 +31,7 @@ MB_INFO_MODULES   equ 3
 MB_INFO_MMAP      equ 6
 
 ; includes initialization code and lower-half data
-[section .initl align=MB_ALIGN]
+[section .init align=MB_ALIGN]
 ; the multiboot header
 mb_hdr_start:
 	dd MB_MAGIC
@@ -161,7 +161,7 @@ start:
 	mov rax, QWORD .Realm64
 	jmp rax
 
-[section .inith]
+[section .text]
 .Realm64:
 	cli		; Clear the interrupt flag.
 

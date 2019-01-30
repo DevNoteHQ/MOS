@@ -7,6 +7,6 @@
     "\\system\\kernel\\src",
     "\\system\\kernel\\src\\init"
   ],
-  "SelectedNode": "\\system\\kernel\\src\\abort.asm",
+  "SelectedNode": "\\system\\kernel\\src\\init\\boot.asm",
   "PreviewInSolutionExplorer": false
 }

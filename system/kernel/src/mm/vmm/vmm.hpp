@@ -46,7 +46,7 @@ namespace VMM
 		uint64_t *End512G;
 
 		void Check(uint64_t *Entry, uint64_t Bitmap);
-		void CheckPage(uint64_t *Entry, void *PhysAddress, uint64_t Bitmap);
+		void Check(uint64_t *Entry, uint64_t PhysAddress, uint64_t Bitmap);
 	public:
 		uint64_t *PML4T;
 
@@ -57,16 +57,16 @@ namespace VMM
 
 		void *Alloc(uint64_t Size, uint64_t Bitmap);
 		void Alloc(uint64_t Size, void *Address, uint64_t Bitmap);
-		void Map(uint64_t Size, void *VirtAddress, void *PhysAddress, uint64_t Bitmap);
+		void Map(uint64_t Size, void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap);
 		void *Alloc4K(uint64_t Bitmap);
 		void Alloc4K(void *Address, uint64_t Bitmap);
-		void Map4K(void *VirtAddress, void *PhysAddress, uint64_t Bitmap);
+		void Map4K(void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap);
 		void *Alloc2M(uint64_t Bitmap);
 		void Alloc2M(void *Address, uint64_t Bitmap);
-		void Map2M(void *VirtAddress, void *PhysAddress, uint64_t Bitmap);
+		void Map2M(void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap);
 		void *Alloc1G(uint64_t Bitmap);
 		void Alloc1G(void *Address, uint64_t Bitmap);
-		void Map1G(void *VirtAddress, void *PhysAddress, uint64_t Bitmap);
+		void Map1G(void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap);
 
 		void LoadTable();
 	};
@@ -81,6 +81,7 @@ namespace VMM
 	extern "C" void setCR3(uint64_t PL4);
 
 	void *GetAddress(uint16_t PML4I, uint16_t PDPTI, uint16_t PDI, uint16_t PTI);
+	uint64_t GetAddress(void *VirtAddress);
 	extern KernelTable Kernel;
 }
 

@@ -19,9 +19,9 @@ namespace PMM
 		this->NextAlloc = NextAlloc;
 	}
 
-	void *Allocator::Alloc()
+	uint64_t Allocator::Alloc()
 	{
-		void* Address;
+		uint64_t Address;
 		if (this->FreePointer == this->FreeStart)
 		{
 			if (this->Pointer >= this->End)
@@ -33,16 +33,16 @@ namespace PMM
 		}
 		else
 		{
-			Address = *(this->FreePointer - 0x8);
-			this->FreePointer -= 0x8;
+			Address = *(this->FreePointer - 1);
+			this->FreePointer -= 1;
 		}
 		return Address;
 	}
 
-	void Allocator::Free(void *Address)
+	void Allocator::Free(uint64_t Address)
 	{
 		*(this->FreePointer) = Address;
-		this->FreePointer += 0x8;
+		this->FreePointer += 1;
 		if (this->FreeStart == 0x0)
 		{
 			//this->FreeStart = VMM::Alloc4K();

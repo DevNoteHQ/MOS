@@ -12,14 +12,13 @@ SECTIONS
 
 	.init :
 	{
-		*(.initl)
+		*(.init)
 	}
 
 	. += HVMA;
 
 	.text : AT(ADDR(.text) - HVMA)
 	{
-		*(.inith)
 		*(.text*)
 		*(.eh_frame)
 		*(.rodata*)
