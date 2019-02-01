@@ -124,22 +124,20 @@ namespace VMM
 
 	void KernelTable::Map4K(void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap)
 	{
-		uint16_t PML4I = (((uint64_t)VirtAddress) >> 39) & 0x1FF;
-		uint16_t PDPTI = (((uint64_t)VirtAddress) >> 30) & 0x1FF;
-		uint16_t PDI = (((uint64_t)VirtAddress) >> 21) & 0x1FF;
-		uint16_t PTI = (((uint64_t)VirtAddress) >> 12) & 0x1FF;
+		AddressIndexes AI;
+		AI = GetAddress(VirtAddress);
 
-		uint64_t *PML4E = GetAddress(511, 511, 511, PML4I);
-		Check(PML4E, Bitmap);
+		uint64_t *PML4 = GetAddress(511, 511, 511, AI.PML4);
+		Check(PML4, Bitmap);
 
-		uint64_t *PDPTE = GetAddress(511, 511, PML4I, PDPTI);
-		Check(PDPTE, Bitmap);
+		uint64_t *PDPT = GetAddress(511, 511, AI.PML4, AI.PDPT);
+		Check(PDPT, Bitmap);
 
-		uint64_t *PDE = GetAddress(511, PML4I, PDPTI, PDI);
-		Check(PDE, Bitmap);
+		uint64_t *PD = GetAddress(511, AI.PML4, AI.PDPT, AI.PD);
+		Check(PD, Bitmap);
 
-		uint64_t *PTE = GetAddress(PML4I, PDPTI, PDI, PTI);
-		Check(PTE, PhysAddress, Bitmap);
+		uint64_t *PT = GetAddress(AI.PML4, AI.PDPT, AI.PD, AI.PT);
+		Check(PT, PhysAddress, Bitmap);
 	}
 
 	void *KernelTable::Alloc2M(uint64_t Bitmap)
@@ -177,18 +175,17 @@ namespace VMM
 
 	void KernelTable::Map2M(void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap)
 	{
-		uint16_t PML4I = (((uint64_t)VirtAddress) >> 39) & 0x1FF;
-		uint16_t PDPTI = (((uint64_t)VirtAddress) >> 30) & 0x1FF;
-		uint16_t PDI = (((uint64_t)VirtAddress) >> 21) & 0x1FF;
+		AddressIndexes AI;
+		AI = GetAddress(VirtAddress);
 
-		uint64_t *PML4E = GetAddress(511, 511, 511, PML4I);
-		Check(PML4E, Bitmap);
+		uint64_t *PML4 = GetAddress(511, 511, 511, AI.PML4);
+		Check(PML4, Bitmap);
 
-		uint64_t *PDPTE = GetAddress(511, 511, PML4I, PDPTI);
-		Check(PDPTE, Bitmap);
+		uint64_t *PDPT = GetAddress(511, 511, AI.PML4, AI.PDPT);
+		Check(PDPT, Bitmap);
 
-		uint64_t *PDE = GetAddress(511, PML4I, PDPTI, PDI);
-		Check(PDE, PhysAddress, (Bitmap | PG_BIG));
+		uint64_t *PD = GetAddress(511, AI.PML4, AI.PDPT, AI.PD);
+		Check(PD, PhysAddress, (Bitmap | PG_BIG));
 	}
 
 	void *KernelTable::Alloc1G(uint64_t Bitmap)
@@ -220,14 +217,14 @@ namespace VMM
 
 	void KernelTable::Map1G(void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap)
 	{
-		uint16_t PML4I = (((uint64_t)VirtAddress) >> 39) & 511;
-		uint16_t PDPTI = (((uint64_t)VirtAddress) >> 30) & 511;
+		AddressIndexes AI;
+		AI = GetAddress(VirtAddress);
 
-		uint64_t *PML4E = GetAddress(511, 511, 511, PML4I);
-		Check(PML4E, Bitmap);
+		uint64_t *PML4 = GetAddress(511, 511, 511, AI.PML4);
+		Check(PML4, Bitmap);
 
-		uint64_t *PDPTE = GetAddress(511, 511, PML4I, PDPTI);
-		Check(PDPTE, PhysAddress, (Bitmap | PG_BIG));
+		uint64_t *PDPT = GetAddress(511, 511, AI.PML4, AI.PDPT);
+		Check(PDPT, PhysAddress, (Bitmap | PG_BIG));
 	}
 
 	void KernelTable::LoadTable()
@@ -235,16 +232,18 @@ namespace VMM
 		setCR3((uint64_t)&this->PML4T[0] - HVMA);
 	}
 
-	void *GetAddress(uint16_t PML4I, uint16_t PDPTI, uint16_t PDI, uint16_t PTI)
+	void *GetAddress(uint16_t PML4, uint16_t PDPT, uint16_t PD, uint16_t PT)
 	{
-		return (uint64_t *)(ADDRESS_ADDITIVE | (511 << 39) | (PML4I << 30) | (PDPTI << 21) | (PDI << 12) | (PTI << 3));
+		return (uint64_t *)(ADDRESS_ADDITIVE | (511 << 39) | (PML4 << 30) | (PDPT << 21) | (PD << 12) | (PT << 3));
 	}
 
-	uint64_t GetAddress(void *VirtAddress)
+	AddressIndexes GetAddress(void *VirtAddress)
 	{
-		uint16_t PML4I = (((uint64_t)VirtAddress) >> 39) & 0x1FF;
-		uint16_t PDPTI = (((uint64_t)VirtAddress) >> 30) & 0x1FF;
-		uint16_t PDI = (((uint64_t)VirtAddress) >> 21) & 0x1FF;
-		uint16_t PTI = (((uint64_t)VirtAddress) >> 12) & 0x1FF;
+		AddressIndexes AI;
+		AI.PML4 = (((uint64_t)VirtAddress) >> 39) & 0x1FF;
+		AI.PDPT = (((uint64_t)VirtAddress) >> 30) & 0x1FF;
+		AI.PD = (((uint64_t)VirtAddress) >> 21) & 0x1FF;
+		AI.PT = (((uint64_t)VirtAddress) >> 12) & 0x1FF;
+		return AI;
 	}
 }

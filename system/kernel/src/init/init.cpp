@@ -50,7 +50,9 @@ namespace System
 			char Test[70];
 			register char* StackPointer asm ("rsp");
 			uint64_t *PML4T = VMM::GetAddress(511,511,511,509);
-			uint64_t *Address = VMM::GetAddress(511, 509, 0, 0);
+			VMM::AddressIndexes AI;
+			AI = VMM::GetAddress(System::Info::StackStartAddress);
+			uint64_t *Address = VMM::GetAddress(511, 510, 1, 0);
 			Convert::ToString((uint64_t) *Address, Test, 16);
 			Console::WriteLine(Test);
 

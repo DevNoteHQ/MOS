@@ -67,12 +67,7 @@ void operator delete(void *ptr)
 	Heap::Free(ptr);
 }
 
-void operator delete(void *ptr, Heap::HeapDynHeader *Header)
-{
-	Heap::Free(ptr, Header);
-}
-
-void operator delete(void *ptr, Heap::HeapStaHeader *Header)
+void operator delete(void *ptr, Heap::HeapHeader *Header)
 {
 	Heap::Free(ptr, Header);
 }
@@ -82,12 +77,7 @@ void* operator new(uint32_t len)
 	return (void*)Heap::Alloc(len);
 }
 
-void* operator new(uint32_t len, Heap::HeapDynHeader *Header)
-{
-	return (void*)Heap::Alloc(len, Header);
-}
-
-void* operator new(uint32_t len, Heap::HeapStaHeader *Header)
+void* operator new(uint32_t len, Heap::HeapHeader *Header)
 {
 	return (void*)Heap::Alloc(len, Header);
 }
@@ -97,12 +87,7 @@ void operator delete[](void *ptr)
 	::operator delete(ptr);
 }
 
-void operator delete[](void *ptr, Heap::HeapDynHeader *Header)
-{
-	::operator delete(ptr, Header);
-}
-
-void operator delete[](void *ptr, Heap::HeapStaHeader *Header)
+void operator delete[](void *ptr, Heap::HeapHeader *Header)
 {
 	::operator delete(ptr, Header);
 }
@@ -112,12 +97,7 @@ void* operator new[](uint32_t len)
 	return ::operator new(len);
 }
 
-void* operator new[](uint32_t len, Heap::HeapDynHeader *Header) 
-{
-	return ::operator new(len, Header);
-}
-
-void* operator new[](uint32_t len, Heap::HeapStaHeader *Header)
+void* operator new[](uint32_t len, Heap::HeapHeader *Header) 
 {
 	return ::operator new(len, Header);
 }

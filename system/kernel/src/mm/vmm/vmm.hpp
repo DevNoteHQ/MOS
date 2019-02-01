@@ -78,10 +78,18 @@ namespace VMM
 		~Table();
 	};
 
-	extern "C" void setCR3(uint64_t PL4);
+	typedef struct
+	{
+		uint16_t PML4;
+		uint16_t PDPT;
+		uint16_t PD;
+		uint16_t PT;
+	} AddressIndexes;
 
-	void *GetAddress(uint16_t PML4I, uint16_t PDPTI, uint16_t PDI, uint16_t PTI);
-	uint64_t GetAddress(void *VirtAddress);
+	extern "C" void setCR3(uint64_t PML4);
+
+	void *GetAddress(uint16_t PML4, uint16_t PDPT, uint16_t PD, uint16_t PT);
+	AddressIndexes GetAddress(void *VirtAddress);
 	extern KernelTable Kernel;
 }
 

@@ -56,10 +56,10 @@ namespace VMM
 
 		ManualMap(System::Info::BinStartAddress, System::Info::BinEndAddress, PT, (PG_PRESENT));
 		ManualMap(System::Info::DataStartAddress, System::Info::DataEndAddress, PT, (PG_WRITABLE | PG_PRESENT | PG_NO_EXEC));
-		ManualMap(System::Info::BSSStartAddress, System::Info::BSSEndAddress, PT, (PG_WRITABLE | PG_PRESENT));
+		ManualMap(System::Info::StackStartAddress, System::Info::StackEndAddress, PT, (PG_WRITABLE | PG_PRESENT | PG_NO_EXEC));
 		//Map BIOS, Redo later!
 		ManualMap(HVMA, HVMA + 0x100000, PT, (PG_WRITABLE | PG_PRESENT));
-		PT[(((uint64_t) Kernel.PML4T) & 0x1FFFFF) / 0x1000] = (((uint64_t)Kernel.PML4T - HVMA) | (PG_WRITABLE | PG_PRESENT));
+		PT[(((uint64_t) Kernel.PML4T) & 0x1FFFFF) / 0x1000] = (((uint64_t)Kernel.PML4T - HVMA) | (PG_WRITABLE | PG_PRESENT | PG_NO_EXEC));
 
 		Kernel.LoadTable();
 		//memset(PL4P + HVMA, 0, ALIGN4K * 2);

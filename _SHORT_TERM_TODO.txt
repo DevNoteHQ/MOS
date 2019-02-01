@@ -1,2 +1,1 @@
-1. Fix .bss and NX-Bit
-2. Scheduler-Time!
+1. Scheduler-Time!

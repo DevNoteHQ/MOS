@@ -125,12 +125,12 @@ start:
 	mov DWORD [edi], 0x7E00003		; Set the uint32_t at the destination index to 0x7E00003. This is for recrusive mapping
 
 	mov eax, cr4				; Set the A-register to control register 4.
-	or eax, 1 << 5				; Set the PAE-bit, which is the 6th bit (bit 5).
+	or eax, 10100000b			; Set the PAE-bit, which is the 6th bit (bit 5).
 	mov cr4, eax				; Set control register 4 to the A-register.
 
 	mov ecx, 0xC0000080			; Set the C-register to 0xC0000080, which is the EFER MSR.
 	rdmsr						; Read from the model-specific register.
-	or eax, 1 << 8				; Set the LM-bit which is the 9th bit (bit 8).
+	or eax, 100100000000b		; Set the LM-bit which is the 9th bit (bit 8).
 	wrmsr						; Write to the model-specific register.
 
 	mov eax, cr0                 ; Set the A-register to control register 0.
@@ -206,8 +206,7 @@ start:
 
 	jmp abort
 
-[section .bss]
-align 16
+[section .stack]
 stack_bottom:
 	resb STACKSIZE
 stack_top:

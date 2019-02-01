@@ -6,12 +6,12 @@
 
 namespace Heap
 {
-	HeapDynHeader *InitHeap = 0;
+	HeapHeader *InitHeap = 0;
 	void Init()
 	{
-		InitHeap = (HeapDynHeader *) HEAP_ADDRESS;
+		InitHeap = (HeapHeader *) HEAP_ADDRESS;
 		VMM::Kernel.Alloc2M(HEAP_ADDRESS, (PG_WRITABLE | PG_PRESENT));
-		HeapDynFreePointer *Free = &InitHeap->Free[0];
+		HeapFreePointer *Free = &InitHeap->Free[0];
 		uint64_t HeapEnd = ((uint64_t)InitHeap) + HEAP_SIZE * 8;
 		memset(InitHeap, 0, HEAP_SIZE * 8);
 		InitHeap->End = (uint8_t *)HeapEnd; //Points to the end of the Heap.
@@ -33,7 +33,7 @@ namespace Heap
 			iSize *= 2;
 		}
 		int iOrgOffset = iOffset; //Save the Offset for the optimal size.
-		HeapDynFreePointer *Free = (HeapDynFreePointer *) &InitHeap->Free[0]; //Points to the "Free"-Area.
+		HeapFreePointer *Free = (HeapFreePointer *) &InitHeap->Free[0]; //Points to the "Free"-Area.
 		HeapElement *Element = 0; //Will point to the Header of the entry that'll get returned.
 		while (Element == 0) //As long as no element was found, search for one.
 		{
@@ -82,7 +82,7 @@ namespace Heap
 		return 0;
 	}
 
-	void *Alloc(uint32_t size, HeapDynHeader *Header)
+	void *Alloc(uint32_t size, HeapHeader *Header)
 	{
 		if (size > 262144)
 		{
@@ -93,7 +93,7 @@ namespace Heap
 		int iSize = 8; //Size in Bytes, 8 is minimum.
 		for (; iSize < size; iSize *= 2, iOffset++); //Get a valid size and Offset in the "Free"-Area.
 		int iOrgOffset = iOffset; //Save the Offset for the optimal size.
-		HeapDynFreePointer *Free = (HeapDynFreePointer *)&Header->Free[0]; //Points to the "Free"-Area.
+		HeapFreePointer *Free = (HeapFreePointer *)&Header->Free[0]; //Points to the "Free"-Area.
 		HeapElement *Element = 0; //Will point to the Header of the entry that'll get returned.
 		while (Element == 0) //As long as no element was found, search for one.
 		{
@@ -142,12 +142,6 @@ namespace Heap
 		return 0;
 	}
 
-	void *Alloc(uint32_t size, HeapStaHeader *Header)
-	{
-		void *addr = 0;
-		return addr;
-	}
-
 	void Free(void *addr)
 	{
 		if (addr == 0)
@@ -157,7 +151,7 @@ namespace Heap
 		HeapElement *Element = ((HeapElement *)addr) - 1;
 		int iOffset = 1;
 		for (uint64_t i = 8; i < Element->Size; i *= 2, iOffset++);
-		HeapDynFreePointer *Free = (HeapDynFreePointer *) &InitHeap->Free[0];
+		HeapFreePointer *Free = (HeapFreePointer *) &InitHeap->Free[0];
 
 		memset(addr, 0, Element->Size);
 
@@ -172,7 +166,7 @@ namespace Heap
 		Free[iOffset].Last = Element;
 	}
 
-	void Free(void *addr, HeapDynHeader *Header)
+	void Free(void *addr, HeapHeader *Header)
 	{
 		if (addr == 0)
 		{
@@ -181,7 +175,7 @@ namespace Heap
 		HeapElement *Element = ((HeapElement *)addr) - 1;
 		int iOffset = 1;
 		for (uint64_t i = 8; i < Element->Size; i *= 2, iOffset++);
-		HeapDynFreePointer *Free = (HeapDynFreePointer *)&Header->Free[0];
+		HeapFreePointer *Free = (HeapFreePointer *)&Header->Free[0];
 
 		memset(addr, 0, Element->Size);
 
@@ -194,20 +188,5 @@ namespace Heap
 			Free[iOffset].Last->Next = (int)(Element - Free[iOffset].Last);
 		}
 		Free[iOffset].Last = Element;
-	}
-
-	void Free(void *addr, HeapStaHeader *Header)
-	{
-
-	}
-
-	void KernelCreate(uint32_t size, HeapDynHeader *Header)
-	{
-
-	}
-
-	void KernelCreate(uint32_t size, HeapStaHeader *Header)
-	{
-
 	}
 }
