@@ -1,7 +1,7 @@
 
 #include <video/console.hpp>
 #include <interrupt/handler/stubs.hpp>
-#include <interrupt/init.hpp>
+#include <interrupt/apic.hpp>
 
 namespace Interrupt::Handler
 {

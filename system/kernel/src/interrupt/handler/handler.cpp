@@ -6,16 +6,16 @@
 
 void Interrupt_Handler(CPU::State *state)
 {
-	(*Interrupt::Handler::Handlers[state->iCode])(state);
+	(*Interrupt::Handler::Handlers[state->Code])(state);
 }
 
 namespace Interrupt::Handler
 {
 	void(*Handlers[256])(CPU::State*);
 
-	void Set(uint8_t iCode, void(*ThisHandler)(CPU::State*))
+	void Set(uint8_t Code, void(*ThisHandler)(CPU::State*))
 	{
-		Handlers[iCode] = ThisHandler;
+		Handlers[Code] = ThisHandler;
 	}
 
 	void SetDefault()

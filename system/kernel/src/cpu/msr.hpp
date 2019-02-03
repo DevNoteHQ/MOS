@@ -27,10 +27,6 @@
 #define MSR_CSTAR          0xC0000083
 #define MSR_SFMASK         0xC0000084
 
-#define APIC_BASE_ENABLED 0x800
-#define APIC_BASE_X2_MODE 0x400
-#define APIC_BASE_BSP     0x100
-
 
 extern "C" uint64_t msr_read(uint32_t msr);
 extern "C" void msr_write(uint32_t msr, uint64_t value);

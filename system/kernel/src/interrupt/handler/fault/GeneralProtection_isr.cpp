@@ -9,7 +9,7 @@ namespace Interrupt::Handler
 	{
 		Console::Write("\nFAULT: General Protection! ");
 		char cTest[64];
-		Convert::ToString(state->iError, cTest);
+		Convert::ToString(state->Error, cTest);
 		Console::Write(cTest);
 		asm volatile("hlt");
 	}

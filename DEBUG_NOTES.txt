@@ -5,7 +5,7 @@ VMware Player:
 -> gdb
 -> symbol-file
 -> target remote localhost:8832
--> break *(address of start.trampoline in hex like 0x1010cb)   e.g. break *0x1010cb
+-> break *(address of start.trampoline in hex like 0x1010d1)   e.g. break *0x1010d1
 -> continue
 -> press enter in vmware
 -> Ctrl + C x2 in gdb
