@@ -98,13 +98,12 @@ clean:
 	$(foreach module,$(MODULES),$(MAKE) -C $(module) clean;)
 	
 mount:
-	rm isodir/mos.iso
-	cp -a $(SYSBINDIR)/. isodir/boot/
-	cp -a $(USRBINDIR)/. isodir/userland/
-	cp grub/grub.cfg isodir/boot/grub/grub.cfg
-	grub-mkrescue -o isodir/mos.iso isodir
+	rm -f iso_out/mos.iso
+	cp -a $(SYSBINDIR)/. iso_source/boot/
+	cp -a $(USRBINDIR)/. iso_source/userland/
+	cp grub/grub.cfg iso_source/boot/grub/grub.cfg
+	grub-mkrescue -o iso_out/mos.iso iso_source
 	./Multiboot.sh
 
 run:
-	export DISPLAY=:0
-	qemu-system-x86_64 -cdrom isodir/mos.iso -cpu Haswell
+	qemu-system-x86_64 -cdrom iso_out/mos.iso -cpu Haswell
