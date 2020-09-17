@@ -58,10 +58,9 @@ namespace System {
 			VMM::AddressIndexes AI;
 			AI = VMM::GetAddress(System::Info::StackStartAddress);
 			uint64_t *Address = VMM::GetAddress(511, 510, 1, 0);
-			Convert::ToString((uint64_t) Timer::APIT::Ticks10ms, Test, 16);
+			Convert::ToString((uint64_t) Timer::APIT::Ticks10ms, Test, 10);
 			Console::WriteLine(Test);
-			char Test2[] = "Hello World! This is a tutorial for Alexandra!";
-			Console::WriteLine(Test2);
+			Timer::APIT::Delay(10000);
 
 			while (true) {
 				asm volatile("hlt");

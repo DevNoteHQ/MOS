@@ -1,0 +1,30 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/include/**"
+            ],
+            "defines": [],
+            "compilerPath": "/mnt/d/Coding/OSDev/cross/bin/x86_64-elf-g++",
+            "cStandard": "gnu18",
+            "cppStandard": "gnu++20",
+            "intelliSenseMode": "gcc-x64",
+            "forcedInclude": [
+                "${workspaceFolder}/include/types.hpp",
+                "${workspaceFolder}/include/string.hpp",
+                "${workspaceFolder}/include/assembler.hpp",
+                "${workspaceFolder}/include/abort.hpp",
+                "${workspaceFolder}/system/kernel/src/common.hpp",
+                "/usr/include/linux/stddef.h",
+                "/usr/include/stdint.h"
+            ],
+            "compilerArgs": [],
+            "browse": {
+                "path": []
+            }
+        }
+    ],
+    "version": 4
+}

@@ -48,7 +48,7 @@ namespace PMM {
 			StackPointer *previousStack = this->FreeStart;
 			this->FreeStart = (StackPointer *) VMM::Kernel.Alloc4K(PG_PRESENT | PG_WRITABLE);
 			this->FreeStart->previousStack = previousStack;
-			this->FreeEnd = ((uint64_t) this->FreePointer) + 4096;
+			this->FreeEnd = this->FreePointer + 4096;
 			if (this->FreeStart == 0x0) {
 				this->FreeStart = (StackPointer *) this->FreePointer;
 			}

@@ -5,6 +5,8 @@
 
 namespace Interrupt::Handler {
 	void IPI_Tlb(CPU::State *state) {
+		Console::WriteLine("Interrupt");
+		
 		Interrupt::APIC::Write(APIC_EOI, 0);
 	}
 }

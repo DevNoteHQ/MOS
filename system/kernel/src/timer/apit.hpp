@@ -5,6 +5,7 @@
 namespace Timer::APIT {
 	extern uint32_t Ticks10ms;
 	void Calibrate();
+	void Delay(uint32_t delayInMs);
 }
 
 #endif

@@ -6,6 +6,7 @@
 namespace Interrupt::Handler {
 	void Default(CPU::State *state) {
 		Console::WriteLine("Default!");
+		
 		Interrupt::APIC::Write(APIC_EOI, 0);
 	}
 }
