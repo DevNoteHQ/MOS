@@ -6,7 +6,7 @@ namespace PMM {
 
 	typedef struct StackPointer {
 		StackPointer *previousStack;
-	}
+	};
 	class Allocator {
 	private:
 		uint8_t AllocIndex;

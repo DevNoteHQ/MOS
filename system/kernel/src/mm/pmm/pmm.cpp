@@ -1,12 +1,14 @@
 
 #include "pmm.hpp"
-#include "vmm.hpp"
+#include "../vmm/vmm.hpp"
 
 namespace PMM {
 	Allocator Alloc4K(0, 0x1000, &NextAllocator4K);
 	Allocator Alloc2M(1, 0x200000, &NextAllocator2M);
 	Allocator Alloc1G(2, 0x40000000, &NextAllocator1G);
 	
+	// TODO: Test Free, complete Free
+
 	Allocator::Allocator(uint8_t AllocIndex, uint32_t AllocSize, void (*NextAlloc)()) {
 		this->AllocIndex = AllocIndex;
 		this->AllocSize = AllocSize;
@@ -28,7 +30,7 @@ namespace PMM {
 			this->Pointer += this->AllocSize;
 		} else {
 			if (this->FreePointer == this->FreeStart) {
-				uint64_t *previousStack = this->FreeStart;
+				StackPointer *previousStack = this->FreeStart;
 				this->FreeStart = this->FreeStart->previousStack;
 				Address = *(this->FreePointer - 1);
 				this->FreePointer -= 1;
@@ -43,12 +45,12 @@ namespace PMM {
 
 	void Allocator::Free(uint64_t Address) {
 		if (this->FreePointer >= this->FreeEnd) {
-			int64_t *previousStack = this->FreeStart;
-			this->FreeStart = VMM::Kernel.Alloc4K(PG_PRESENT | PG_WRITABLE);
+			StackPointer *previousStack = this->FreeStart;
+			this->FreeStart = (StackPointer *) VMM::Kernel.Alloc4K(PG_PRESENT | PG_WRITABLE);
 			this->FreeStart->previousStack = previousStack;
 			this->FreeEnd = ((uint64_t) this->FreePointer) + 4096;
 			if (this->FreeStart == 0x0) {
-				this->FreeStart = this->FreePointer;
+				this->FreeStart = (StackPointer *) this->FreePointer;
 			}
 		}
 		*(this->FreePointer) = Address;
