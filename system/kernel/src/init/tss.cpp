@@ -19,10 +19,8 @@
 
 #include <cpu/cpu.hpp>
 
-namespace TSS
-{
-	void Init()
-	{
+namespace TSS {
+	void Init() {
 		CPU::CPU *ThisCPU = cpu_get();
 		TSS *tss = &ThisCPU->tss;
 
@@ -34,8 +32,7 @@ namespace TSS
 		tss_install(SLTR_TSS);
 	}
 
-	void SetRsp0(uint64_t rsp0)
-	{
+	void SetRsp0(uint64_t rsp0) {
 		CPU::CPU *ThisCPU = cpu_get();
 		TSS *tss = &ThisCPU->tss;
 

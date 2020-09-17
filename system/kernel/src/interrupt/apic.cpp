@@ -7,48 +7,35 @@
 #include <mm/pmm/pmm.hpp>
 #include <mm/vmm/vmm.hpp>
 
-namespace Interrupt::APIC
-{
+namespace Interrupt::APIC {
 	bool X2APIC = true;
 	uint32_t *MMIO;
 
-	void Write(size_t reg, uint64_t val)
-	{
-		if (X2APIC == true)
-		{
+	void Write(size_t reg, uint64_t val) {
+		if (X2APIC == true) {
 			msr_write(MSR_X2APIC_MMIO + reg, val);
-		}
-		else
-		{
+		} else {
 			MMIO[reg * 4] = val;
 		}
 	}
 
-	uint64_t Read(size_t reg)
-	{
-		if (X2APIC == true)
-		{
+	uint64_t Read(size_t reg) {
+		if (X2APIC == true) {
 			return msr_read(MSR_X2APIC_MMIO + reg);
-		}
-		else
-		{
+		} else {
 			return MMIO[reg * 4];
 		}
 	}
 
-	void Init()
-	{
-		if (!(CPUID::CPUID_0[1][2] & CPUID::EAX1::ECX_x2APIC))
-		{
+	void Init() {
+		if (!(CPUID::CPUID_0[1][2] & CPUID::EAX1::ECX_x2APIC)) {
 			X2APIC = false;
 			uint64_t BaseAddr = PMM::Alloc4K.Alloc();
 			MMIO = (uint32_t *) (BaseAddr + HVMA);
 			VMM::Kernel.Map4K(BaseAddr + HVMA, BaseAddr, PG_PRESENT | PG_WRITABLE);
 			uint64_t Base = (msr_read(MSR_APIC_BASE) & APIC_BASE_BSP) | BaseAddr | APIC_BASE_ENABLED;
 			msr_write(MSR_APIC_BASE, Base);
-		}
-		else
-		{
+		} else {
 			uint64_t Base = (msr_read(MSR_APIC_BASE) & APIC_BASE_BSP) | APIC_BASE_ENABLED | APIC_BASE_X2_MODE;
 			msr_write(MSR_APIC_BASE, Base);
 		}

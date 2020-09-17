@@ -17,10 +17,8 @@
 #ifndef INIT_TSS_HPP
 #define INIT_TSS_HPP
 
-namespace TSS
-{
-	typedef struct
-	{
+namespace TSS {
+	typedef struct {
 		uint32_t reserved0;
 		uint64_t rsp0;
 		uint64_t rsp1;

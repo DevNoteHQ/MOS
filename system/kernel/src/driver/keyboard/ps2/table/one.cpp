@@ -2,16 +2,11 @@
 #include "one.hpp"
 #include "common.hpp"
 
-namespace Keys
-{
-	namespace Table
-	{
-		char One(uint32_t iFlags, uint8_t iCode)
-		{
-			if ( ((CAPSLOCK & iFlags) != 0) ^ (((LSHIFT & iFlags) != 0) || ((RSHIFT & iFlags) != 0)) )
-			{
-				switch (iCode)
-				{
+namespace Keys {
+	namespace Table {
+		char One(uint32_t iFlags, uint8_t iCode) {
+			if ( ((CAPSLOCK & iFlags) != 0) ^ (((LSHIFT & iFlags) != 0) || ((RSHIFT & iFlags) != 0)) ) {
+				switch (iCode) {
 				case 0x01: return '\e'; break;
 				case 0x02: return '!'; break;
 				case 0x03: return '@'; break;
@@ -81,9 +76,7 @@ namespace Keys
 				case 0xE0: return '\n'; break;
 				default:   return '\0'; break;
 				}
-			}
-			else
-			{
+			} else {
 				switch (iCode)
 				{
 				case 0x01: return '\e'; break;

@@ -2,8 +2,7 @@
 #ifndef KEYS_KEYS_HPP
 #define KEYS_KEYS_HPP
 
-namespace Keys
-{
+namespace Keys {
 	void Init();
 	char ScanCode(uint8_t iTable, uint32_t iFlags, uint8_t iCode);
 	void GetKeys(uint8_t iTable, uint32_t iFlags, uint8_t iCode);

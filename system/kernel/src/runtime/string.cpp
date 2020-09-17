@@ -1,48 +1,40 @@
 
 
-
-extern "C"
-{
+extern "C" {
 	#include <string.hpp>
 	
-	uint32_t strlen(const char *s)
-	{
+	uint32_t strlen(const char *s) {
 		int i = 0;
 		while (*s++)
 		i++;
 		return i;
 	}
 
-	char *strncpy(char *destString, const char *sourceString,uint32_t maxLength)
-	{
+	char *strncpy(char *destString, const char *sourceString,uint32_t maxLength) {
 		unsigned count;
 
-		if ((destString == (char *) NULL) || (sourceString == (char *) NULL))
-		{
+		if ((destString == (char *) NULL) || (sourceString == (char *) NULL)) {
 			return (destString = NULL);
 		}
 
 		if (maxLength > 255)
 		maxLength = 255;
 
-		for (count = 0; (int)count < (int)maxLength; count ++)
-		{
+		for (count = 0; (int)count < (int)maxLength; count ++) {
 			destString[count] = sourceString[count];
 			
 			if (sourceString[count] == '\0')
 			break;
 		}
 
-		if (count >= 255)
-		{
+		if (count >= 255) {
 			return (destString = NULL);
 		}
 
 		return (destString);
 	}
 
-	int strcmp(const char *dst, const char *src)
-	{
+	int strcmp(const char *dst, const char *src) {
 		int i = 0;
 
 		while ((dst[i] == src[i])) {
@@ -54,11 +46,9 @@ extern "C"
 	}
 
 
-	char *strcpy(char *dst,const char *src)
-	{
+	char *strcpy(char *dst,const char *src) {
 		int i = 0;
-		do
-		{
+		do {
 			dst[i] = src[i];
 			i++;
 		} while (src[i] != '\0');
@@ -66,8 +56,7 @@ extern "C"
 		return (char*) i;
 	}
 
-	char *strcat(char *dest, const char *src)
-	{
+	char *strcat(char *dest, const char *src) {
 		memcpy((char*)((int)dest+(int)strlen((char*)dest)),(char*)src,strlen((char*)src));
 	}
 

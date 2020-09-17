@@ -2,15 +2,11 @@
 #include "keyboard.hpp"
 #include "keys.hpp"
 
-namespace Driver
-{
-	namespace Keyboard
-	{
+namespace Driver {
+	namespace Keyboard {
 		uint8_t iTable = 0;
-		void Init()
-		{
-			while ((IO::inb(0x64) & 0x1))
-			{
+		void Init() {
+			while ((IO::inb(0x64) & 0x1)) {
 				IO::inb(0x60);
 			}
 
@@ -28,10 +24,8 @@ namespace Driver
 			Keys::Init();
 		}
 
-		void SendCommand(uint8_t iCommand)
-		{
-			do
-			{
+		void SendCommand(uint8_t iCommand) {
+			do {
 				while ((IO::inb(0x64) & 0x2)) {}
 				IO::outb(0x60, iCommand);
 				while ((IO::inb(0x64) & 0x1) == 0) {}

@@ -3,12 +3,10 @@
 #include "msr.hpp"
 
 
-namespace CPU
-{
+namespace CPU {
 	CPU BSP;
 
-	void InitBSP()
-	{
+	void InitBSP() {
 		memset(&BSP, 0, sizeof(BSP));
 		BSP.self = &BSP;
 		BSP.IsBSP = true;

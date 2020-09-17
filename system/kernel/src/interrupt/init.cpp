@@ -7,20 +7,16 @@
 
 #include <cpuid/CPUID.hpp>
 
-namespace Interrupt
-{
-	void Init()
-	{
+namespace Interrupt {
+	void Init() {
 		Handler::SetDefault();
 		PIC::Init();
 		PIC::Activate();
 		APIC::Init();
 	}
 
-	namespace IOAPIC
-	{
-		void Init()
-		{
+	namespace IOAPIC {
+		void Init() {
 			PIC::Disable();
 		}
 	}

@@ -99,8 +99,8 @@ clean:
 	
 mount:
 	rm -f iso_out/mos.iso
-	cp -a $(SYSBINDIR)/. iso_source/boot/
-	cp -a $(USRBINDIR)/. iso_source/userland/
+	cp -r $(SYSBINDIR)/. iso_source/boot/
+	cp -r $(USRBINDIR)/. iso_source/userland/
 	cp grub/grub.cfg iso_source/boot/grub/grub.cfg
 	grub-mkrescue -o iso_out/mos.iso iso_source
 	./Multiboot.sh

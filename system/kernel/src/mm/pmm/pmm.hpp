@@ -2,15 +2,17 @@
 #ifndef MM_PMM_PMM_HPP
 #define MM_PMM_PMM_HPP
 
-namespace PMM
-{
-	class Allocator
-	{
+namespace PMM {
+
+	typedef struct StackPointer {
+		StackPointer *previousStack;
+	}
+	class Allocator {
 	private:
 		uint8_t AllocIndex;
-		uint64_t FreeStart;
+		StackPointer *FreeStart;
 		uint64_t *FreePointer;
-		uint64_t FreeEnd;
+		uint64_t *FreeEnd;
 	public:
 		uint8_t *Pointer;
 		uint8_t *End;

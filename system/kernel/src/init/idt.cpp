@@ -8,13 +8,11 @@
 #define IDT_INTERRUPT	0x0E
 #define IDT_TRAP		0x0F
 
-namespace IDT
-{
+namespace IDT {
 	static Descriptor descriptors[INTERRUPTS];
 	static IDTR_t idtr;
 
-	void Set (Descriptor *descriptor, void(*handler)(), uint8_t flags)
-	{
+	void Set (Descriptor *descriptor, void(*handler)(), uint8_t flags) {
 		descriptor->selector = 0x08;
 
 		uintptr_t handler_addr = (uintptr_t)handler;
@@ -25,8 +23,7 @@ namespace IDT
 		descriptor->flags = flags;
 	}
 
-	void Init()
-	{
+	void Init() {
 		memset(descriptors, 0, sizeof(descriptors));
 
 		//Faults:

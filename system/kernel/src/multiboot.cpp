@@ -16,26 +16,21 @@
 
 #include <multiboot.hpp>
 
-multiboot_tag_t *multiboot_get(multiboot_t *multiboot, uint32_t type)
-{
+multiboot_tag_t *multiboot_get(multiboot_t *multiboot, uint32_t type) {
 	return multiboot_get_after(multiboot, 0, type);
 }
 
-multiboot_tag_t *multiboot_get_after(multiboot_t *multiboot, multiboot_tag_t *start, uint32_t type)
-{
+multiboot_tag_t *multiboot_get_after(multiboot_t *multiboot, multiboot_tag_t *start, uint32_t type) {
 	/* find the base tag */
 	uintptr_t tag_base = (uintptr_t)multiboot + sizeof(multiboot->total_size)
 		+ sizeof(multiboot->reserved);
 
 	/* find the address of the tag to start searching at */
 	uintptr_t tag_addr;
-	if (start)
-	{
+	if (start) {
 		uintptr_t size = MULTIBOOT_ALIGN(start->size);
 		tag_addr = (uintptr_t)start + size;
-	}
-	else
-	{
+	} else {
 		tag_addr = tag_base;
 	}
 
@@ -43,8 +38,7 @@ multiboot_tag_t *multiboot_get_after(multiboot_t *multiboot, multiboot_tag_t *st
 	uintptr_t tag_limit = tag_addr + multiboot->total_size;
 
 	/* loop through the tags */
-	while (tag_addr < tag_limit)
-	{
+	while (tag_addr < tag_limit) {
 		/* check for the terminator */
 		multiboot_tag_t *tag = (multiboot_tag_t *)tag_addr;
 		if (tag->type == MULTIBOOT_TAG_TERMINATOR)

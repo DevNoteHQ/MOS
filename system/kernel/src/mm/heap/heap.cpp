@@ -4,11 +4,9 @@
 #include <mm/pmm/pmm.hpp>
 #include <mm/vmm/vmm.hpp>
 
-namespace Heap
-{
+namespace Heap {
 	HeapHeader *InitHeap = 0;
-	void Init()
-	{
+	void Init() {
 		InitHeap = (HeapHeader *) HEAP_ADDRESS;
 		VMM::Kernel.Alloc2M(HEAP_ADDRESS, (PG_WRITABLE | PG_PRESENT));
 		HeapFreePointer *Free = &InitHeap->Free[0];
@@ -19,32 +17,24 @@ namespace Heap
 		Free[0].First = (HeapElement *)(&Free[FREE_SIZE / 2]); //Always points to the highest, not allocated Memory Address.
 	}
 
-	void *Alloc(uint32_t size)
-	{
-		if (size > 262144)
-		{
+	void *Alloc(uint32_t size) {
+		if (size > 262144) {
 			return 0;
 		}
 		void *addr = 0; //Address that'll get returned.
 		int iOffset = 1; //Offset in the "Free"-Area.
 		int iSize = 8; //Size in Bytes, 8 is minimum.
-		for (; iSize < size; iOffset++) //Get a valid size and Offset in the "Free"-Area.
-		{
+		for (; iSize < size; iOffset++) { //Get a valid size and Offset in the "Free"-Area.
 			iSize *= 2;
 		}
 		int iOrgOffset = iOffset; //Save the Offset for the optimal size.
 		HeapFreePointer *Free = (HeapFreePointer *) &InitHeap->Free[0]; //Points to the "Free"-Area.
 		HeapElement *Element = 0; //Will point to the Header of the entry that'll get returned.
-		while (Element == 0) //As long as no element was found, search for one.
-		{
-			if (Free[iOffset].First == 0) //If there are no freed elements of the current size, create one.
-			{
-				if (InitHeap->End < ((uint64_t *)Free[0].First) + (iSize / 8) + 2) //If there is no space left, search for freed elements with larger sizes.
-				{
+		while (Element == 0) { //As long as no element was found, search for one.
+			if (Free[iOffset].First == 0) { //If there are no freed elements of the current size, create one.
+				if (InitHeap->End < ((uint64_t *)Free[0].First) + (iSize / 8) + 2) { //If there is no space left, search for freed elements with larger sizes.
 					iOffset++;
-				}
-				else //There is enough space, allocate a new element.
-				{
+				} else { //There is enough space, allocate a new element.
 					Element = Free[0].First; //Create a new element.
 					uint64_t iFirstNew = (uint64_t)Free[0].First;
 					iFirstNew += sizeof(*Element) + iSize;
@@ -53,24 +43,16 @@ namespace Heap
 					addr = Element + 1; //Set the address to the address of the Element + 8B (which is sizeof(*Element)).
 					return addr;
 				}
-			}
-			else
-			{
-				if (Free[iOffset].First->Size > 8 * size)
-				{
+			} else {
+				if (Free[iOffset].First->Size > 8 * size) {
 					//Add Heap Space
 
 					return 0;
-				}
-				else
-				{
+				} else {
 					Element = Free[iOffset].First; //Set the element to the first free element.
-					if (Element->Next == 0)
-					{
+					if (Element->Next == 0) {
 						Free[iOffset].First = 0; //Set the first freed element entry to 0.
-					}
-					else
-					{
+					} else {
 						Free[iOffset].First = (HeapElement *)(Element + Element->Next); //Set the first freed element entry to the next element.
 					}
 					Element->Next = 0; //Set the next-entry to 0.
@@ -82,10 +64,8 @@ namespace Heap
 		return 0;
 	}
 
-	void *Alloc(uint32_t size, HeapHeader *Header)
-	{
-		if (size > 262144)
-		{
+	void *Alloc(uint32_t size, HeapHeader *Header) {
+		if (size > 262144) {
 			return 0;
 		}
 		void *addr = 0; //Address that'll get returned.
@@ -95,16 +75,11 @@ namespace Heap
 		int iOrgOffset = iOffset; //Save the Offset for the optimal size.
 		HeapFreePointer *Free = (HeapFreePointer *)&Header->Free[0]; //Points to the "Free"-Area.
 		HeapElement *Element = 0; //Will point to the Header of the entry that'll get returned.
-		while (Element == 0) //As long as no element was found, search for one.
-		{
-			if (Free[iOffset].First == 0) //If there are no freed elements of the current size, create one.
-			{
-				if (Header->End < ((uint64_t *)Free[0].First) + (iSize / 8) + 2) //If there is no space left, search for freed elements with larger sizes.
-				{
+		while (Element == 0) { //As long as no element was found, search for one.
+			if (Free[iOffset].First == 0) { //If there are no freed elements of the current size, create one.
+				if (Header->End < ((uint64_t *)Free[0].First) + (iSize / 8) + 2) { //If there is no space left, search for freed elements with larger sizes.
 					iOffset++;
-				}
-				else //There is enough space, allocate a new element.
-				{
+				} else { //There is enough space, allocate a new element.
 					Element = Free[0].First; //Create a new element.
 					uint64_t iFirstNew = (uint64_t)Free[0].First;
 					iFirstNew += sizeof(*Element) + iSize;
@@ -113,24 +88,16 @@ namespace Heap
 					addr = Element + 1; //Set the address to the address of the Element + 8B (which is sizeof(*Element)).
 					return addr;
 				}
-			}
-			else
-			{
-				if (Free[iOffset].First->Size > 8 * size)
-				{
+			} else {
+				if (Free[iOffset].First->Size > 8 * size) {
 					//Add Heap Space
 
 					return 0;
-				}
-				else
-				{
+				} else {
 					Element = Free[iOffset].First; //Set the element to the first free element.
-					if (Element->Next == 0)
-					{
+					if (Element->Next == 0) {
 						Free[iOffset].First = 0; //Set the first freed element entry to 0.
-					}
-					else
-					{
+					} else {
 						Free[iOffset].First = (HeapElement *)(Element + Element->Next); //Set the first freed element entry to the next element.
 					}
 					Element->Next = 0; //Set the next-entry to 0.
@@ -142,10 +109,8 @@ namespace Heap
 		return 0;
 	}
 
-	void Free(void *addr)
-	{
-		if (addr == 0)
-		{
+	void Free(void *addr) {
+		if (addr == 0) {
 			return;
 		}
 		HeapElement *Element = ((HeapElement *)addr) - 1;
@@ -155,21 +120,16 @@ namespace Heap
 
 		memset(addr, 0, Element->Size);
 
-		if (Free[iOffset].First == 0)
-		{
+		if (Free[iOffset].First == 0) {
 			Free[iOffset].First = Element;
-		}
-		else
-		{
+		} else {
 			Free[iOffset].Last->Next = (int)(Element - Free[iOffset].Last);
 		}
 		Free[iOffset].Last = Element;
 	}
 
-	void Free(void *addr, HeapHeader *Header)
-	{
-		if (addr == 0)
-		{
+	void Free(void *addr, HeapHeader *Header) {
+		if (addr == 0) {
 			return;
 		}
 		HeapElement *Element = ((HeapElement *)addr) - 1;
@@ -179,12 +139,9 @@ namespace Heap
 
 		memset(addr, 0, Element->Size);
 
-		if (Free[iOffset].First == 0)
-		{
+		if (Free[iOffset].First == 0) {
 			Free[iOffset].First = Element;
-		}
-		else
-		{
+		} else {
 			Free[iOffset].Last->Next = (int)(Element - Free[iOffset].Last);
 		}
 		Free[iOffset].Last = Element;

@@ -25,12 +25,9 @@
 
 #include <common.hpp>
 
-namespace System
-{
-	extern "C"
-	{
-		void Init(uint32_t magic, multiboot_t *multiboot)
-		{
+namespace System {
+	extern "C" {
+		void Init(uint32_t magic, multiboot_t *multiboot) {
 			multiboot = VMM::ToVMA_V(multiboot);
 
 			VMM::Init();
@@ -66,8 +63,7 @@ namespace System
 			char Test2[] = "Hello World! This is a tutorial for Alexandra!";
 			Console::WriteLine(Test2);
 
-			while (true)
-			{
+			while (true) {
 				asm volatile("hlt");
 			}
 		}

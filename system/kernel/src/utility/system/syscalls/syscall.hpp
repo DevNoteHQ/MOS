@@ -4,8 +4,7 @@
 
 
 
-namespace System
-{
+namespace System {
 	void* Syscall(uint64_t iCall, void* OtherArguments);
 }
 

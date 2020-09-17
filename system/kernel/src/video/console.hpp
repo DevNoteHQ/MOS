@@ -4,10 +4,8 @@
 
 #include "text.hpp"
 
-namespace Console
-{
-	enum Mode
-	{
+namespace Console {
+	enum Mode {
 		Text,
 		VGA,
 		VESA,

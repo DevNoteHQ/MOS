@@ -2,12 +2,10 @@
 #ifndef TERMINAL_TEXT_HPP
 #define TERMINAL_TEXT_HPP
 
-namespace Text
-{
+namespace Text {
 	#ifdef __cplusplus
 
-	enum class Color
-	{
+	enum class Color {
 		Black = 0x00,
 		Blue = 0x01,
 		Green = 0x02,

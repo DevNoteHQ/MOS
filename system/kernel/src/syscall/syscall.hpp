@@ -2,8 +2,7 @@
 #ifndef SYSCALL_SYSCALL_HPP
 #define SYSCALL_SYSCALL_HPP
 
-namespace Syscall
-{
+namespace Syscall {
 	extern void(*Handlers[400])(void*);
 
 	void Init();

@@ -44,14 +44,12 @@
 #define MULTIBOOT_ALIGN(x) (((x) + 7) & 0xFFFFFFFFFFFFFFF8)
 
 /* multiboot information structure */
-typedef struct
-{
+typedef struct {
   uint32_t total_size;
   uint32_t reserved;
 } __attribute__((__packed__)) multiboot_t;
 
-typedef struct
-{
+typedef struct {
   uint64_t base_addr;
   uint64_t length;
   uint32_t type;
@@ -59,40 +57,34 @@ typedef struct
 } __attribute__((__packed__)) multiboot_mmap_entry_t;
 
 /* multiboot tag structure */
-typedef struct
-{
+typedef struct {
   /* general information */
   uint32_t type;
   uint32_t size;
 
   /* type-specific information */
-  union
-  {
+  union {
     /* mmap tag */
-    struct
-    {
+    struct {
       uint32_t entry_size;
       uint32_t entry_version;
       /* entries follow here */
     } __attribute__((__packed__)) mmap;
 
     /* module tag */
-    struct
-    {
+    struct {
       uint32_t mod_start;
       uint32_t mod_end;
       char string[1];
     } __attribute__((__packed__)) module;
 
     /* cmdline tag */
-    struct
-    {
+    struct {
       char string[1];
     } __attribute__((__packed__)) cmdline;
 
     /* elf tag */
-    struct
-    {
+    struct {
       uint32_t size;
       uint16_t sh_num;
       uint16_t sh_entsize;

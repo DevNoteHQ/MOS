@@ -5,15 +5,12 @@
 #include <interrupt/handler/stubs.hpp>
 #include <interrupt/init.hpp>
 
-namespace Interrupt::Handler
-{
+namespace Interrupt::Handler {
 	uint32_t iFlags = 0;
-	void IRQ_01(CPU::State *state)
-	{
+	void IRQ_01(CPU::State *state) {
 		uint8_t iScancode = IO::inb(0x60);
 
-		switch (iScancode)
-		{
+		switch (iScancode) {
 		case 0x1D: iFlags = (iFlags | LCONTR); break;
 		case 0x2A: iFlags = (iFlags | LSHIFT); break;
 		case 0x36: iFlags = (iFlags | RSHIFT); break;

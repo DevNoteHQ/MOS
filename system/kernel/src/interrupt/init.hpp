@@ -2,12 +2,10 @@
 #ifndef INTERRUPT_INIT_H
 #define INTERRUPT_INIT_H
 
-namespace Interrupt
-{
+namespace Interrupt {
 	void Init();
 
-	namespace IOAPIC
-	{
+	namespace IOAPIC {
 		void Init();
 	}
 }

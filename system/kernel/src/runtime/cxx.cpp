@@ -1,8 +1,7 @@
 
 #include <mm/heap/heap.hpp>
 
-extern "C"
-{
+extern "C" {
 	
 	int __cxa_atexit(void (*Destructor) (void *), void *Parameter, void *HomeDSO);
 	void __cxa_finalize(void *);
@@ -16,8 +15,7 @@ void *__dso_handle;
 void *__stack_chk_guard(0);
 
 
-namespace __cxxabiv1
-{
+namespace __cxxabiv1 {
 	__extension__ typedef int __guard __attribute__((mode(__DI__)));
 
 	extern "C"
@@ -29,23 +27,19 @@ namespace __cxxabiv1
 }
 
 
-int __cxa_atexit(void (*) (void *), void *, void *)
-{
+int __cxa_atexit(void (*) (void *), void *, void *) {
 	return 0;
 }
 
-void __cxa_finalize(void *)
-{
+void __cxa_finalize(void *) {
 	
 }
 
-void __cxa_pure_virtual()
-{
+void __cxa_pure_virtual() {
 
 }
 
-void __stack_chk_guard_setup()
-{
+void __stack_chk_guard_setup() {
 	unsigned char *Guard;
 	Guard = (unsigned char *) &__stack_chk_guard;
 	Guard[sizeof(__stack_chk_guard) - 1] = 255;
@@ -56,49 +50,40 @@ void __stack_chk_guard_setup()
 
 struct IntRegs;
 
-void __attribute__((noreturn)) __stack_chk_fail()
-{
+void __attribute__((noreturn)) __stack_chk_fail() {
 	//io.print("Buffer Overflow (SSP Signal)\n");
 	for(;;) ;
 }
 
-void operator delete(void *ptr) 
-{
+void operator delete(void *ptr) {
 	Heap::Free(ptr);
 }
 
-void operator delete(void *ptr, Heap::HeapHeader *Header)
-{
+void operator delete(void *ptr, Heap::HeapHeader *Header) {
 	Heap::Free(ptr, Header);
 }
 
-void* operator new(uint32_t len) 
-{
+void* operator new(uint32_t len) {
 	return (void*)Heap::Alloc(len);
 }
 
-void* operator new(uint32_t len, Heap::HeapHeader *Header)
-{
+void* operator new(uint32_t len, Heap::HeapHeader *Header) {
 	return (void*)Heap::Alloc(len, Header);
 }
 
-void operator delete[](void *ptr) 
-{
+void operator delete[](void *ptr) {
 	::operator delete(ptr);
 }
 
-void operator delete[](void *ptr, Heap::HeapHeader *Header)
-{
+void operator delete[](void *ptr, Heap::HeapHeader *Header) {
 	::operator delete(ptr, Header);
 }
 
-void* operator new[](uint32_t len)
-{
+void* operator new[](uint32_t len) {
 	return ::operator new(len);
 }
 
-void* operator new[](uint32_t len, Heap::HeapHeader *Header) 
-{
+void* operator new[](uint32_t len, Heap::HeapHeader *Header) {
 	return ::operator new(len, Header);
 }
 

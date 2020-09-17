@@ -1,14 +1,11 @@
 
 #include "console.hpp"
 
-namespace Console
-{
+namespace Console {
 	Mode VideoMode;
 
-	void Init()
-	{
-		switch (VideoMode)
-		{
+	void Init() {
+		switch (VideoMode) {
 		case Mode::Text:
 			Text::Init();
 			break;
@@ -23,10 +20,8 @@ namespace Console
 		}
 	}
 
-	void Clear()
-	{
-		switch (VideoMode)
-		{
+	void Clear() {
+		switch (VideoMode) {
 		case Mode::Text:
 			Text::Clear();
 			break;
@@ -41,10 +36,8 @@ namespace Console
 		}
 	}
 
-	void Cursor()
-	{
-		switch (VideoMode)
-		{
+	void Cursor() {
+		switch (VideoMode) {
 		case Mode::Text:
 			Text::Cursor();
 			break;
@@ -59,10 +52,8 @@ namespace Console
 		}
 	}
 
-	void Write(const char* s)
-	{
-		switch (VideoMode)
-		{
+	void Write(const char* s) {
+		switch (VideoMode) {
 		case Mode::Text:
 			Text::Write(s);
 			break;
@@ -77,10 +68,8 @@ namespace Console
 		}
 	}
 
-	void Write(char cC)
-	{
-		switch (VideoMode)
-		{
+	void Write(char cC) {
+		switch (VideoMode) {
 		case Mode::Text:
 			Text::Write(cC);
 			break;
@@ -95,10 +84,8 @@ namespace Console
 		}
 	}
 
-	void WriteLine(const char* s)
-	{
-		switch (VideoMode)
-		{
+	void WriteLine(const char* s) {
+		switch (VideoMode) {
 		case Mode::Text:
 			Text::WriteLine(s);
 			break;
@@ -113,10 +100,8 @@ namespace Console
 		}
 	}
 
-	void WriteLine(char cC)
-	{
-		switch (VideoMode)
-		{
+	void WriteLine(char cC) {
+		switch (VideoMode) {
 		case Mode::Text:
 			Text::WriteLine(cC);
 			break;
@@ -131,10 +116,8 @@ namespace Console
 		}
 	}
 
-	void ForegroundColor(Text::Color color)
-	{
-		switch (VideoMode)
-		{
+	void ForegroundColor(Text::Color color) {
+		switch (VideoMode) {
 		case Mode::Text:
 			Text::ForegroundColor(color);
 			break;
@@ -149,10 +132,8 @@ namespace Console
 		}
 	}
 
-	void BackgroundColor(Text::Color color)
-	{
-		switch (VideoMode)
-		{
+	void BackgroundColor(Text::Color color) {
+		switch (VideoMode) {
 		case Mode::Text:
 			Text::BackgroundColor(color);
 			break;
@@ -167,10 +148,8 @@ namespace Console
 		}
 	}
 
-	void Putc(char cC)
-	{
-		switch (VideoMode)
-		{
+	void Putc(char cC) {
+		switch (VideoMode) {
 		case Mode::Text:
 			Text::Putc(cC);
 			break;
@@ -185,10 +164,8 @@ namespace Console
 		}
 	}
 
-	void UpdateScreenColor()
-	{
-		switch (VideoMode)
-		{
+	void UpdateScreenColor() {
+		switch (VideoMode) {
 		case Mode::Text:
 			Text::UpdateScreenColor();
 			break;

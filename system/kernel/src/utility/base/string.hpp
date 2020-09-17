@@ -2,8 +2,7 @@
 #ifndef STRING_HPP
 #define STRING_HPP
 
-class string
-{
+class string {
 private:
 	char* cstr;
 	unsigned size;

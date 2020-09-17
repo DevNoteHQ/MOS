@@ -4,22 +4,18 @@
 
 #include <interrupt/common.hpp>
 
-void Interrupt_Handler(CPU::State *state)
-{
+void Interrupt_Handler(CPU::State *state) {
 	(*Interrupt::Handler::Handlers[state->Code])(state);
 }
 
-namespace Interrupt::Handler
-{
+namespace Interrupt::Handler {
 	void(*Handlers[256])(CPU::State*);
 
-	void Set(uint8_t Code, void(*ThisHandler)(CPU::State*))
-	{
+	void Set(uint8_t Code, void(*ThisHandler)(CPU::State*)) {
 		Handlers[Code] = ThisHandler;
 	}
 
-	void SetDefault()
-	{
+	void SetDefault() {
 		Set(FAULT00, &DivideByZero);
 		Set(FAULT01, &Debug);
 		Set(FAULT02, &NonMaskableInterrupt);
@@ -84,10 +80,8 @@ namespace Interrupt::Handler
 		Set(LVT_ERROR, &LVT_Error);
 		Set(SPURIOUS, &Spurious);
 
-		for (int i = 0; i < 256; i++)
-		{
-			if (Handlers[i] == 0)
-			{
+		for (int i = 0; i < 256; i++) {
+			if (Handlers[i] == 0) {
 				Set(i, &Default);
 			}
 		}

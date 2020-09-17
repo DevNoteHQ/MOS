@@ -34,10 +34,8 @@
 #define TSS_ENTRIES 1
 #define ENTRIES (GDT_ENTRIES + 2 * TSS_ENTRIES)
 
-namespace GDT
-{
-	typedef struct
-	{
+namespace GDT {
+	typedef struct {
 		uint16_t limit;
 		uint64_t pointer;
 	} __attribute__((__packed__)) GDTR;

@@ -31,10 +31,8 @@
 #define Size512G	0x8000000000
 
 
-namespace VMM
-{
-	class KernelTable
-	{
+namespace VMM {
+	class KernelTable {
 	private:
 		uint64_t *Next4K;
 		uint64_t *End4K;
@@ -71,15 +69,13 @@ namespace VMM
 		void LoadTable();
 	};
 
-	class Table : public KernelTable
-	{
+	class Table : public KernelTable {
 	public:
 		Table();
 		~Table();
 	};
 
-	typedef struct
-	{
+	typedef struct {
 		uint16_t PML4;
 		uint16_t PDPT;
 		uint16_t PD;

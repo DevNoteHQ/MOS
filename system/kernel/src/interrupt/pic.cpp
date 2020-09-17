@@ -2,10 +2,8 @@
 #include "pic.hpp"
 #include "common.hpp"
 
-namespace Interrupt::PIC
-{
-	void Init()
-	{
+namespace Interrupt::PIC {
+	void Init() {
 		//Master-PIC
 		IO::outb(PIC1, ICW1_INIT);
 		IO::outb(PIC1_DATA, IRQ00);
@@ -21,15 +19,13 @@ namespace Interrupt::PIC
 		IO::outb(0x43, 0x30);
 	}
 
-	void Activate()
-	{
+	void Activate() {
 		//Alle IRQs aktivieren
 		IO::outb(PIC1_DATA, 0x0);
 		IO::outb(PIC2_DATA, 0x0);
 	}
 
-	void Disable()
-	{
+	void Disable() {
 		//Alle IRQs aktivieren
 		IO::outb(PIC1_DATA, 0xFF);
 		IO::outb(PIC2_DATA, 0xFF);

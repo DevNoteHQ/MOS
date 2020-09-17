@@ -4,15 +4,15 @@
 
 #define cpuid(in, a, b, c, d) __asm__("cpuid": "=a" (a), "=b" (b), "=c" (c), "=d" (d) : "a" (in));
 
-namespace CPUID
-{
+namespace CPUID {
 	extern uint32_t CPUID_0[4][4];
 	extern uint32_t CPUID_8[5][4];
 	extern char cVendor[12];
+	
 	void GetCPUInfo();
 	void PasteCPUVendor();
-	enum EAX1
-	{
+
+	enum EAX1 {
 		ECX_SSE3 = 1 << 0,
 		ECX_PCLMUL = 1 << 1,
 		ECX_DTES64 = 1 << 2,

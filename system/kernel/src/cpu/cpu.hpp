@@ -5,9 +5,8 @@
 #include <init/gdt.hpp>
 #include <init/tss.hpp>
 
-namespace CPU
-{
-	typedef struct{
+namespace CPU {
+	typedef struct {
 		uint64_t RAX;
 		uint64_t RBX;
 		uint64_t RCX;

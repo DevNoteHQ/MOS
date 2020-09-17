@@ -4,8 +4,7 @@
 
 #include "vmm.hpp"
 
-namespace VMM
-{
+namespace VMM {
 	void Init();
 
 	extern uint64_t *PDPT;

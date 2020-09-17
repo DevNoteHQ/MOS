@@ -9,16 +9,14 @@
 #define VGA_HEIGHT 25
 #define PAGES 5
 
-namespace Text
-{
+namespace Text {
 	uint16_t iColor = 0;
 	uint16_t *iVideo = 0;
 	
 	uint16_t iX = 0;
 	uint16_t iY = 0;
 
-	void Init()
-	{
+	void Init() {
 		iVideo = VMM::ToVMA_I(VIDEO_BUFFER);
 		ForegroundColor(Color::LightGray);
 		BackgroundColor(Color::Black);
@@ -27,17 +25,14 @@ namespace Text
 		Clear();
 	}
 
-	void Clear()
-	{
-		// Füllen des Bildschirms mit Leerzeichen
-		for (uint32_t i = 0; i < (VGA_WIDTH * VGA_HEIGHT); i++)
-		{
+	void Clear() {
+		// Fï¿½llen des Bildschirms mit Leerzeichen
+		for (uint32_t i = 0; i < (VGA_WIDTH * VGA_HEIGHT); i++) {
 			iVideo[i] = (unsigned char)' ' | iColor;
 		}
 	}
 
-	void Cursor()
-	{
+	void Cursor() {
 		// The screen is 80 characters wide...
 		uint16_t iCursor = iY * 80 + iX;
 		IO::outb(0x3D4, 14);					// Tell the VGA board we are setting the high cursor byte.
@@ -46,64 +41,50 @@ namespace Text
 		IO::outb(0x3D5, iCursor);			// Send the low cursor byte.
 	}
 
-	void Write(const char* s)
-	{
-		// Für jedes einzelne Zeichen wird put() aufgerufen
-		while (*s != '\0')
-		{
+	void Write(const char* s) {
+		// Fï¿½r jedes einzelne Zeichen wird put() aufgerufen
+		while (*s != '\0') {
 			Putc(*s++);
 		}
 	}
 
-	void Write(char cC)
-	{
+	void Write(char cC) {
 		Putc(cC);
 	}
 
-	void WriteLine(const char* s)
-	{
-		// Für jedes einzelne Zeichen wird put() aufgerufen
-		while (*s != '\0')
-		{
+	void WriteLine(const char* s) {
+		// Fï¿½r jedes einzelne Zeichen wird put() aufgerufen
+		while (*s != '\0') {
 			Putc(*s++);
 		}
 		Putc('\n');
 	}
 
-	void WriteLine(char cC)
-	{
+	void WriteLine(char cC) {
 		Putc(cC);
 		Putc('\n');
 	}
 
-	void ForegroundColor(Color color)
-	{
+	void ForegroundColor(Color color) {
 		iColor = (static_cast<uint16_t>(color) << 8) | (iColor & 0xF000);
 	}
 
-	void BackgroundColor(Color color)
-	{
+	void BackgroundColor(Color color) {
 		iColor = (static_cast<uint16_t>(color) << 12) | (iColor & 0x0F00);
 	}
 
-	void Putc(char cC)
-	{
-		switch (cC)
-		{
+	void Putc(char cC) {
+		switch (cC) {
 		case 0x7F:
-			if (iX == 0) 
-			{
-				if(iY != 0)
-				{
+			if (iX == 0) {
+				if(iY != 0) {
 					iY--;
 					iX = VGA_WIDTH - 1;
 					Putc(' ');
 					iX = VGA_WIDTH - 1;
 					Cursor();
 				}
-			}
-			else
-			{
+			} else {
 				iX--;
 				Putc(' ');
 				iX--;
@@ -112,12 +93,9 @@ namespace Text
 			break;
 		case '\n':
 			iX = 0;
-			if (iY >= VGA_HEIGHT - 1)
-			{
+			if (iY >= VGA_HEIGHT - 1) {
 				Scroll();
-			}
-			else
-			{
+			} else {
 				iY++;
 			}
 			Cursor();
@@ -125,18 +103,13 @@ namespace Text
 		case '\0':
 			break;
 		default:
-			if (iY >= VGA_HEIGHT - 1)
-			{
-				if (iX >= VGA_WIDTH)
-				{
+			if (iY >= VGA_HEIGHT - 1) {
+				if (iX >= VGA_WIDTH) {
 					iX = 0;
 					Scroll();
 				}
-			}
-			else
-			{
-				if (iX >= VGA_WIDTH)
-				{
+			} else {
+				if (iX >= VGA_WIDTH) {
 					iX = 0;
 					iY++;
 				}
@@ -148,25 +121,20 @@ namespace Text
 		}
 	}
 
-	void Scroll()
-	{
+	void Scroll() {
 		uint16_t iYC = 0;
 		uint16_t iXC = 0;
-		for (; (iYC < (VGA_HEIGHT - 1)); iYC++)
-		{
+		for (; (iYC < (VGA_HEIGHT - 1)); iYC++) {
 			for (iXC = 0; iXC < VGA_WIDTH; iXC++)
 				iVideo[iYC * VGA_WIDTH + iXC] = iVideo[(iYC + 1) * VGA_WIDTH + iXC];
 		}
-		for (iXC = 0; iXC < VGA_WIDTH; iXC++)
-		{
+		for (iXC = 0; iXC < VGA_WIDTH; iXC++) {
 			iVideo[(VGA_HEIGHT - 1) * VGA_WIDTH + iXC] = (unsigned char)' ' | iColor;
 		}
 	}
 
-	void UpdateScreenColor()
-	{
-		for (uint32_t i = 0; i < (VGA_WIDTH * VGA_HEIGHT); i++)
-		{
+	void UpdateScreenColor() {
+		for (uint32_t i = 0; i < (VGA_WIDTH * VGA_HEIGHT); i++) {
 			iVideo[i] |= iColor;
 		}
 	}

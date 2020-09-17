@@ -1,7 +1,6 @@
 
 #include "info.hpp"
 
-namespace System::Info
-{
+namespace System::Info {
 
 }

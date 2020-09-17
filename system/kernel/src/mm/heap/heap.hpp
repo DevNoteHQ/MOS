@@ -9,22 +9,18 @@
 
 #define ALIGN2M 2097152 //Bytes
 
-namespace Heap
-{
-	typedef struct
-	{
+namespace Heap {
+	typedef struct {
 		int Next; //Only for free Elements
 		uint32_t Size;
 	} HeapElement;
 
-	typedef struct
-	{
+	typedef struct {
 		HeapElement *First;
 		HeapElement *Last;
 	} HeapFreePointer;
 
-	typedef struct HeapHeader
-	{
+	typedef struct HeapHeader {
 		uint8_t *End;
 		HeapFreePointer Free[FREE_SIZE];
 	} HeapHeader;

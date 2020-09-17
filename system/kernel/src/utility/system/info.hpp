@@ -15,8 +15,7 @@ extern "C" char _end;
 extern "C" char *stack_bottom;
 extern "C" char *stack_top;
 
-namespace System::Info
-{
+namespace System::Info {
 	//Static Kernel Size
 	const uint64_t StartAddress =		&_start;		//Returns the Kernel-Start-Address at 1M + HVMA
 	const uint64_t BinStartAddress =	&_bin_start;	//Returns the Bin-Start-Address at 1M + HVMA + 4k Alignment

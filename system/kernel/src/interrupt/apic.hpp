@@ -73,8 +73,7 @@
 #define DCR_64  0x9
 #define DCR_128 0xA
 
-namespace Interrupt::APIC
-{
+namespace Interrupt::APIC {
 	extern uint32_t *MMIO;
 	void Init();
 	void Write(size_t reg, uint64_t val);

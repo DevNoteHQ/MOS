@@ -54,12 +54,10 @@
 
 #define TSS_FLAG 0x89
 
-namespace GDT
-{
+namespace GDT {
 	int i = 0;
 
-	void Set(uint64_t *gdt, uint32_t base, uint32_t limit, uint16_t flag)
-	{
+	void Set(uint64_t *gdt, uint32_t base, uint32_t limit, uint16_t flag) {
 		// Create the high 32 bit segment
 		gdt[i] = limit & 0x000F0000;         // Set limit bits 19:16
 		gdt[i] |= (flag << 8) & 0x00F0FF00;         // Set type, p, dpl, s, g, d/b, l and avl fields
@@ -74,8 +72,7 @@ namespace GDT
 		i++;
 	}
 
-	void SetTSS(uint64_t *gdt, uint64_t base, uint32_t limit, uint16_t flag)
-	{
+	void SetTSS(uint64_t *gdt, uint64_t base, uint32_t limit, uint16_t flag) {
 		gdt[i] = limit & 0x000F0000;			// Set limit bits 19:16
 		gdt[i] |= (flag << 8) & 0x00F0FF00;		// Set type, p, dpl, s, g, d/b, l and avl fields
 		gdt[i] |= (base >> 16) & 0x000000FF;	// Set base bits 23:16
@@ -94,8 +91,7 @@ namespace GDT
 		i++;
 	}
 
-	void Init()
-	{
+	void Init() {
 		CPU::CPU *ThisCPU = cpu_get();
 		uint64_t *gdt = ThisCPU->gdt;
 		GDTR *gdtr = &ThisCPU->gdtr;

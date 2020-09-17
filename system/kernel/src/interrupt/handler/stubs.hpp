@@ -5,8 +5,7 @@
 #ifndef INTERRUPT_HANDLER_STUBS_HPP
 #define INTERRUPT_HANDLER_STUBS_HPP
 
-extern "C"
-{
+extern "C" {
 	void fault0();
 	void fault1();
 	void fault2();
@@ -74,8 +73,7 @@ extern "C"
 	void spurious();
 }
 
-namespace Interrupt::Handler
-{
+namespace Interrupt::Handler {
 	void DivideByZero(CPU::State *state);
 	void Debug(CPU::State *state);
 	void NonMaskableInterrupt(CPU::State *state);

@@ -2,10 +2,8 @@
 #ifndef INIT_IDT_HPP
 #define INIT_IDT_HPP
 
-namespace IDT
-{
-	typedef struct
-	{
+namespace IDT {
+	typedef struct {
 		uint16_t offset_1; // offset bits 0..15
 		uint16_t selector; // a code segment selector in GDT or LDT
 		uint8_t ist;       // bits 0..2 holds Interrupt Stack Table offset, rest of bits zero.
@@ -14,8 +12,7 @@ namespace IDT
 		uint32_t offset_3; // offset bits 32..63
 		uint32_t zero;     // reserved
 	} __attribute__((packed)) Descriptor;
-	typedef struct
-	{
+	typedef struct {
 		uint16_t len;
 		uint64_t addr;
 	} __attribute__((packed)) IDTR_t;
