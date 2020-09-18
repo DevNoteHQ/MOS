@@ -15,10 +15,10 @@ RW 262144 SPARSE "MOS-s005.vmdk"
 # The Disk Data Base 
 #DDB
 
-ddb.adapterType = "ide"
-ddb.geometry.cylinders = "16383"
-ddb.geometry.heads = "16"
+ddb.adapterType = "lsilogic"
+ddb.geometry.cylinders = "2088"
+ddb.geometry.heads = "255"
 ddb.geometry.sectors = "63"
-ddb.longContentID = "42b54672831ab18226215d88fffffffe"
-ddb.uuid = "60 00 C2 9e 3d a2 43 cf-44 8d b6 46 b2 99 eb d9"
+ddb.longContentID = "84280f10ad885dc98e0bfafafffffffe"
+ddb.uuid = "60 00 C2 90 3c f1 87 0f-3b de 61 bd 0c 06 74 f5"
 ddb.virtualHWVersion = "18"
