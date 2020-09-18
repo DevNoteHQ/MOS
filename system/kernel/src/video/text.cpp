@@ -1,5 +1,6 @@
 
 #include <mm/vmm/conv.hpp>
+#include <assembler/io_ports.hpp>
 
 #include "console.hpp"
 #include "text.hpp"
@@ -35,14 +36,13 @@ namespace Text {
 	void Cursor() {
 		// The screen is 80 characters wide...
 		uint16_t iCursor = iY * 80 + iX;
-		IO::outb(0x3D4, 14);					// Tell the VGA board we are setting the high cursor byte.
-		IO::outb(0x3D5, iCursor >> 8);		// Send the high cursor byte.
-		IO::outb(0x3D4, 15);					// Tell the VGA board we are setting the low cursor byte.
-		IO::outb(0x3D5, iCursor);			// Send the low cursor byte.
+		Assembler::IO::Ports::outb(0x3D4, 14);					// Tell the VGA board we are setting the high cursor byte.
+		Assembler::IO::Ports::outb(0x3D5, iCursor >> 8);		// Send the high cursor byte.
+		Assembler::IO::Ports::outb(0x3D4, 15);					// Tell the VGA board we are setting the low cursor byte.
+		Assembler::IO::Ports::outb(0x3D5, iCursor);			// Send the low cursor byte.
 	}
 
 	void Write(const char* s) {
-		// F�r jedes einzelne Zeichen wird put() aufgerufen
 		while (*s != '\0') {
 			Putc(*s++);
 		}
@@ -53,7 +53,6 @@ namespace Text {
 	}
 
 	void WriteLine(const char* s) {
-		// F�r jedes einzelne Zeichen wird put() aufgerufen
 		while (*s != '\0') {
 			Putc(*s++);
 		}

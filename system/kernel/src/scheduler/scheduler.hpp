@@ -15,6 +15,7 @@ namespace Scheduler {
 		Scheduler();
 		void addNewTask(Task task);
 		void executeNextTask(CPU::State state);
+		void runSystemTask();
 	};
 
 	extern Scheduler scheduler;

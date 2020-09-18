@@ -20,9 +20,14 @@ namespace Scheduler {
 		if (this->taskLength > 0) {
 			this->tasks[this->taskIndex].saveState(state);
 			if (this->taskIndex >= this->taskLength) {
+				this->runSystemTask();
 				this->taskIndex = 0;
 			}
 			this->tasks[this->taskIndex].restoreState();
 		}
+	}
+
+	void Scheduler::runSystemTask() {
+
 	}
 }

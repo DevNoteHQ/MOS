@@ -7,6 +7,6 @@ namespace Interrupt::Handler {
 	void IRQ_10(CPU::State *state) {
 		Console::Write("\nIRQ_10!");
 
-		IO::outb(0x20, 0x20);
+		Assembler::IO::Ports::outb(0x20, 0x20);
 	}
 }

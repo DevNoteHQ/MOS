@@ -8,7 +8,7 @@
 namespace Interrupt::Handler {
 	uint32_t iFlags = 0;
 	void IRQ_01(CPU::State *state) {
-		uint8_t iScancode = IO::inb(0x60);
+		uint8_t iScancode = Assembler::IO::Ports::inb(0x60);
 
 		switch (iScancode) {
 		case 0x1D: iFlags = (iFlags | LCONTR); break;
@@ -24,6 +24,6 @@ namespace Interrupt::Handler {
 
 		Keys::UpdateFocusedElement(1, iFlags, iScancode);
 
-		IO::outb(0x20, 0x20);
+		Assembler::IO::Ports::outb(0x20, 0x20);
 	}
 }

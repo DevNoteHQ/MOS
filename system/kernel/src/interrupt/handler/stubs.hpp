@@ -1,9 +1,10 @@
 
 
-#include <cpu/cpu.hpp>
-
 #ifndef INTERRUPT_HANDLER_STUBS_HPP
 #define INTERRUPT_HANDLER_STUBS_HPP
+
+#include <cpu/cpu.hpp>
+#include <assembler/io_ports.hpp>
 
 extern "C" {
 	void fault0();

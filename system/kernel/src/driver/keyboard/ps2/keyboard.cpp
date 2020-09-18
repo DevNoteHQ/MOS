@@ -1,13 +1,14 @@
 
 #include "keyboard.hpp"
 #include "keys.hpp"
+#include <assembler/io_ports.hpp>
 
 namespace Driver {
 	namespace Keyboard {
 		uint8_t iTable = 0;
 		void Init() {
-			while ((IO::inb(0x64) & 0x1)) {
-				IO::inb(0x60);
+			while ((Assembler::IO::Ports::inb(0x64) & 0x1)) {
+				Assembler::IO::Ports::inb(0x60);
 			}
 
 			SendCommand(0xED);
@@ -26,10 +27,10 @@ namespace Driver {
 
 		void SendCommand(uint8_t iCommand) {
 			do {
-				while ((IO::inb(0x64) & 0x2)) {}
-				IO::outb(0x60, iCommand);
-				while ((IO::inb(0x64) & 0x1) == 0) {}
-			} while (IO::inb(0x60) == 0xFE);
+				while ((Assembler::IO::Ports::inb(0x64) & 0x2)) {}
+				Assembler::IO::Ports::outb(0x60, iCommand);
+				while ((Assembler::IO::Ports::inb(0x64) & 0x1) == 0) {}
+			} while (Assembler::IO::Ports::inb(0x60) == 0xFE);
 		}
 	}
 }
