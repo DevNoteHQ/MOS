@@ -12,17 +12,17 @@
 #include <mm/pmm/pmm.hpp>
 #include <mm/vmm/init.hpp>
 #include <mm/vmm/conv.hpp>
+#include <mm/vmm/vmm.hpp>
 #include <mm/heap/heap.hpp>
 #include <multiboot.hpp>
 #include <utility/convert/convert.hpp>
 #include <utility/base/string.hpp>
 #include <utility/system/info.hpp>
-#include <scheduler/init.hpp>
+#include <scheduler/scheduler.hpp>
 #include <syscall/syscall.hpp>
 #include <timer/apit.hpp>
 #include <timer/pit.hpp>
 #include <video/console.hpp>
-#include <assembler/stack.hpp>
 
 #include <common.hpp>
 
@@ -31,7 +31,7 @@ namespace System {
 		void Init(uint32_t magic, multiboot_t *multiboot) {
 			multiboot = VMM::ToVMA_V(multiboot);
 
-			VMM::Init();
+			VMM::VMMAddresses vmmAddresses = VMM::Init();
 			Heap::Init();
 
 			CPU::InitBSP();
@@ -51,27 +51,48 @@ namespace System {
 
 			asm volatile("sti");
 
-			Scheduler::Init();
+			Timer::APIT::Calibrate();
 
 			char Test[70];
-			register char* StackPointer asm ("rsp");
-			uint64_t *PML4T = VMM::GetAddress(511,511,511,509);
-			VMM::AddressIndexes AI;
-			AI = VMM::GetAddress(System::Info::StackStartAddress);
-			uint64_t *Address = VMM::GetAddress(511, 510, 1, 0);
-			Convert::ToString((uint64_t) Timer::APIT::Ticks10ms, Test, 10);
+			Convert::ToString(System::Info::EndAddress, Test, 16);
+			Console::WriteLine("EndAddress: ");
 			Console::WriteLine(Test);
+			Convert::ToString((uint64_t) vmmAddresses.Next4K, Test, 16);
+			Console::WriteLine("Next4K: ");
+			Console::WriteLine(Test);
+			Convert::ToString((uint64_t) vmmAddresses.End4K, Test, 16);
+			Console::WriteLine("End4K: ");
+			Console::WriteLine(Test);
+			Convert::ToString((uint64_t) vmmAddresses.Next2M, Test, 16);
+			Console::WriteLine("Next2M: ");
+			Console::WriteLine(Test);
+			Convert::ToString((uint64_t) vmmAddresses.End2M, Test, 16);
+			Console::WriteLine("End2M: ");
+			Console::WriteLine(Test);
+			Convert::ToString((uint64_t) vmmAddresses.Next1G, Test, 16);
+			Console::WriteLine("Next1G: ");
+			Console::WriteLine(Test);
+			Convert::ToString((uint64_t) vmmAddresses.End1G, Test, 16);
+			Console::WriteLine("End1G: ");
+			Console::WriteLine(Test);
+			Convert::ToString((uint64_t) vmmAddresses.Next512G, Test, 16);
+			Console::WriteLine("Next512G: ");
+			Console::WriteLine(Test);
+			Convert::ToString((uint64_t) vmmAddresses.End512G, Test, 16);
+			Console::WriteLine("End512G: ");
+			Console::WriteLine(Test);
+			Convert::ToString((uint64_t) VMM::GetRecursiveTableEntryAddress(511,510,0,0), Test, 16);
+			Console::WriteLine("GetAddress: ");
+			Console::WriteLine(Test);
+			uint8_t *Stack = VMM::Kernel.Alloc4K(PG_PRESENT | PG_WRITABLE);
+			Convert::ToString((uint64_t) Stack, Test, 16);
+			Console::WriteLine("New Stack End: ");
+			Console::WriteLine(Test);
+			Convert::ToString((uint64_t) &Stack[4095], Test, 16);
+			Console::WriteLine("New Stack Start: ");
+			Console::WriteLine(Test);
+			Scheduler::scheduler.init((uint64_t) &Stack[4095]);
 			Timer::APIT::Delay(1000);
-			uint64_t stackPointer = Assembler::Stack::getStackPointer();
-			Convert::ToString(stackPointer, Test, 16);
-			Console::WriteLine(Test);
-			Convert::ToString(stackPointer - 16, Test, 16);
-			Console::WriteLine(Test);
-			Assembler::Stack::setStackPointer(stackPointer - 16);
-			uint64_t stackPointer2 = Assembler::Stack::getStackPointer();
-			Convert::ToString(stackPointer2, Test, 16);
-			Console::WriteLine(Test);
-			Assembler::Stack::setStackPointer(stackPointer);
 
 			while (true) {
 				asm volatile("hlt");

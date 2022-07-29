@@ -1,6 +1,9 @@
 ﻿
 #include "vmm.hpp"
 #include <mm/pmm/pmm.hpp>
+#include <utility/system/info.hpp>
+#include <utility/convert/convert.hpp>
+#include <video/console.hpp>
 
 //TODO: Finish second GetAddress
 //TODO: Add Free, add UpdateNextAddress, test Alloc-Next-Methods
@@ -16,7 +19,7 @@ namespace VMM {
 		Map4K(this->PML4T, PhysicalAddress, (PG_PRESENT | PG_WRITABLE));
 		memset(PML4T, 0, 4096);
 		this->PML4T[511] = PhysicalAddress | PG_PRESENT | PG_WRITABLE;
-		uint64_t *KernelEntry = GetAddress(511, 511, 511, 510);
+		uint64_t *KernelEntry = GetRecursiveTableEntryAddress(511, 511, 511, 510);
 		this->PML4T[510] = *KernelEntry;
 	}
 
@@ -30,6 +33,19 @@ namespace VMM {
 
 	KernelTable::~KernelTable() {
 
+	}
+
+	VMMAddresses KernelTable::updateState() {
+		uint16_t covered4KTables = (System::Info::EndAddress - HVMA) / Size2M;
+		uint16_t covered2MTables = (System::Info::EndAddress - HVMA) / Size1G;
+		uint16_t covered1GTables = (System::Info::EndAddress - HVMA) / Size512G;
+		this->Next4K = System::Info::EndAddress + Size4K;
+		this->End4K = (uint64_t *)(HVMA + covered4KTables * Size2M + 511 * Size4K);
+		this->Next2M = (uint64_t *)(HVMA + covered2MTables * Size1G + Size2M);
+		this->End2M = (uint64_t *)(HVMA + covered2MTables * Size1G + 511 * Size2M);
+		this->Next1G = (uint64_t *)(HVMA + covered1GTables * Size512G + Size1G);
+		this->End1G = (uint64_t *)(HVMA + covered1GTables * Size512G + 511 * Size1G);
+		return { this->Next4K, this->End4K, this->Next2M, this->End2M, this->Next1G, this->End1G, this->Next512G, this->End512G };
 	}
 
 	void KernelTable::InitKernelTable() {
@@ -51,7 +67,7 @@ namespace VMM {
 		if ((*Entry == 0) || (((*Entry) & 0x1) == 0)) {
 			*Entry = PhysAddress | Bitmap;
 		} else {
-			//Throw error
+			Console::WriteLine("Error");
 		}
 	}
 
@@ -103,16 +119,16 @@ namespace VMM {
 		AddressIndexes AI;
 		AI = GetAddress(VirtAddress);
 
-		uint64_t *PML4 = GetAddress(511, 511, 511, AI.PML4);
+		uint64_t *PML4 = GetRecursiveTableEntryAddress(511, 511, 511, AI.PML4);
 		Check(PML4, Bitmap);
 
-		uint64_t *PDPT = GetAddress(511, 511, AI.PML4, AI.PDPT);
+		uint64_t *PDPT = GetRecursiveTableEntryAddress(511, 511, AI.PML4, AI.PDPT);
 		Check(PDPT, Bitmap);
 
-		uint64_t *PD = GetAddress(511, AI.PML4, AI.PDPT, AI.PD);
+		uint64_t *PD = GetRecursiveTableEntryAddress(511, AI.PML4, AI.PDPT, AI.PD);
 		Check(PD, Bitmap);
 
-		uint64_t *PT = GetAddress(AI.PML4, AI.PDPT, AI.PD, AI.PT);
+		uint64_t *PT = GetRecursiveTableEntryAddress(AI.PML4, AI.PDPT, AI.PD, AI.PT);
 		Check(PT, PhysAddress, Bitmap);
 	}
 
@@ -146,13 +162,13 @@ namespace VMM {
 		AddressIndexes AI;
 		AI = GetAddress(VirtAddress);
 
-		uint64_t *PML4 = GetAddress(511, 511, 511, AI.PML4);
+		uint64_t *PML4 = GetRecursiveTableEntryAddress(511, 511, 511, AI.PML4);
 		Check(PML4, Bitmap);
 
-		uint64_t *PDPT = GetAddress(511, 511, AI.PML4, AI.PDPT);
+		uint64_t *PDPT = GetRecursiveTableEntryAddress(511, 511, AI.PML4, AI.PDPT);
 		Check(PDPT, Bitmap);
 
-		uint64_t *PD = GetAddress(511, AI.PML4, AI.PDPT, AI.PD);
+		uint64_t *PD = GetRecursiveTableEntryAddress(511, AI.PML4, AI.PDPT, AI.PD);
 		Check(PD, PhysAddress, (Bitmap | PG_BIG));
 	}
 
@@ -181,10 +197,10 @@ namespace VMM {
 		AddressIndexes AI;
 		AI = GetAddress(VirtAddress);
 
-		uint64_t *PML4 = GetAddress(511, 511, 511, AI.PML4);
+		uint64_t *PML4 = GetRecursiveTableEntryAddress(511, 511, 511, AI.PML4);
 		Check(PML4, Bitmap);
 
-		uint64_t *PDPT = GetAddress(511, 511, AI.PML4, AI.PDPT);
+		uint64_t *PDPT = GetRecursiveTableEntryAddress(511, 511, AI.PML4, AI.PDPT);
 		Check(PDPT, PhysAddress, (Bitmap | PG_BIG));
 	}
 
@@ -192,8 +208,12 @@ namespace VMM {
 		setCR3((uint64_t)&this->PML4T[0] - HVMA);
 	}
 
-	void *GetAddress(uint16_t PML4, uint16_t PDPT, uint16_t PD, uint16_t PT) {
+	uint64_t *GetRecursiveTableEntryAddress(uint16_t PML4, uint16_t PDPT, uint16_t PD, uint16_t PT) {
 		return (uint64_t *)(ADDRESS_ADDITIVE | (511 << 39) | (PML4 << 30) | (PDPT << 21) | (PD << 12) | (PT << 3));
+	}
+
+	void *GetAddress(AddressIndexes addressIndexes) {
+		return (uint64_t *)(ADDRESS_ADDITIVE | (511 << 39) | (addressIndexes.PML4 << 30) | (addressIndexes.PDPT << 21) | (addressIndexes.PD << 12) | (addressIndexes.PT << 3));
 	}
 
 	AddressIndexes GetAddress(void *VirtAddress) {

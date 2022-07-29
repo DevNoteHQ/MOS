@@ -11,8 +11,8 @@ namespace Scheduler {
 		CPU::State internalState;
 	public:
 		Task(void (*executable)());
-		void saveState(CPU::State state);
-		void restoreState();
+		void saveState(CPU::State *state);
+		void restoreState(CPU::State *state);
 	};
 }
 

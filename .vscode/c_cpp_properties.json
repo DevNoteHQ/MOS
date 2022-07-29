@@ -7,8 +7,8 @@
                 "/usr/include/**"
             ],
             "defines": [],
-            "compilerPath": "/mnt/d/Coding/OSDev/cross/bin/x86_64-elf-g++",
-            "cStandard": "gnu18",
+            "compilerPath": "/home/devnotehq/Coding/OSDev/cross/bin/x86_64-elf-g++",
+            "cStandard": "gnu17",
             "cppStandard": "gnu++20",
             "intelliSenseMode": "gcc-x64",
             "forcedInclude": [

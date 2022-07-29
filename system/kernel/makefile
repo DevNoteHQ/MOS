@@ -21,7 +21,7 @@ MOSINCLUDES = string.hpp types.hpp abort.hpp common.hpp
 INCLUDES = $(STDINCLUDES) $(MOSINCLUDES)
 INCLUDE = $(addprefix -include ,$(INCLUDES))
 
-LIBDIR = -L../../include/ -L../../../cross/lib/gcc/x86_64-elf/7.4.0/
+LIBDIR = -L../../include/ -L../../../cross/lib/gcc/x86_64-elf/11.2.0/
 LIBS = -lgcc -lMOS
 
 CINCFLAGS = $(INCPATHS) $(INCLUDE)

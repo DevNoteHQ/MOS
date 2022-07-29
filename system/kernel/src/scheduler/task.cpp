@@ -7,11 +7,11 @@ namespace Scheduler {
 		this->internalState.RIP = executable;
 	}
 
-	void Task::saveState(CPU::State state) {
-		memcpy(&this->internalState, &state, sizeof(CPU::State));
+	void Task::saveState(CPU::State *state) {
+		memcpy(&this->internalState, state, sizeof(CPU::State));
 	}
 
-	void Task::restoreState() {
-
+	void Task::restoreState(CPU::State *state) {
+		memcpy(state, &this->internalState, sizeof(CPU::State));
 	}
 }

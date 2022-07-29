@@ -5,7 +5,7 @@
 #include "vmm.hpp"
 
 namespace VMM {
-	void Init();
+	VMMAddresses Init();
 
 	extern uint64_t *PDPT;
 	extern uint64_t *PD;

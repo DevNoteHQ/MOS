@@ -1,5 +1,6 @@
 
 #include "init.hpp"
+#include "conv.hpp"
 
 #include <mm/pmm/pmm.hpp>
 #include <utility/system/info.hpp>
@@ -26,7 +27,7 @@ namespace VMM {
 		}
 	}
 
-	void Init() {
+	VMMAddresses Init() {
 		while (AllocEnd < (System::Info::KernelSize + 0x100000 - 0x1000)) {
 			AllocEnd = PMM::Alloc4K.Alloc();
 		}
@@ -52,5 +53,6 @@ namespace VMM {
 
 		Kernel.LoadTable();
 		//memset(PL4P + HVMA, 0, ALIGN4K * 2);
+		return Kernel.updateState();
 	}
 }

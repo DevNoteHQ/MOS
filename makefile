@@ -105,5 +105,8 @@ mount:
 	grub-mkrescue -o iso_out/mos.iso iso_source
 	./Multiboot.sh
 
+copy-iso-d:
+	cp iso_out/mos.iso /mnt/d/VM/MOS/mos.iso
+
 run:
-	qemu-system-x86_64 -cdrom iso_out/mos.iso -cpu Haswell
+	qemu-system-x86_64 -cdrom iso_out/mos.iso -cpu Haswell --enable-kvm

@@ -32,6 +32,17 @@
 
 
 namespace VMM {
+	typedef struct VMMAddresses {
+		uint64_t *Next4K;
+		uint64_t *End4K;
+		uint64_t *Next2M;
+		uint64_t *End2M;
+		uint64_t *Next1G;
+		uint64_t *End1G;
+		uint64_t *Next512G;
+		uint64_t *End512G;
+	} VMMAddresses;
+
 	class KernelTable {
 	private:
 		uint64_t *Next4K;
@@ -52,6 +63,7 @@ namespace VMM {
 		~KernelTable();
 
 		void InitKernelTable();
+		VMMAddresses updateState();
 
 		void *Alloc(uint64_t Size, uint64_t Bitmap);
 		void Alloc(uint64_t Size, void *Address, uint64_t Bitmap);
@@ -84,7 +96,8 @@ namespace VMM {
 
 	extern "C" void setCR3(uint64_t PML4);
 
-	void *GetAddress(uint16_t PML4, uint16_t PDPT, uint16_t PD, uint16_t PT);
+	uint64_t *GetRecursiveTableEntryAddress(uint16_t PML4, uint16_t PDPT, uint16_t PD, uint16_t PT);
+	void *GetAddress(AddressIndexes addressIndexes);
 	AddressIndexes GetAddress(void *VirtAddress);
 	extern KernelTable Kernel;
 }
