@@ -7,8 +7,7 @@
 namespace Heap {
 	HeapHeader *InitHeap = 0;
 	void Init() {
-		InitHeap = (HeapHeader *) HEAP_ADDRESS;
-		VMM::Kernel.Alloc2M(HEAP_ADDRESS, (PG_WRITABLE | PG_PRESENT));
+		InitHeap = (HeapHeader *) VMM::Kernel.Alloc2M(PG_WRITABLE | PG_PRESENT);
 		HeapFreePointer *Free = &InitHeap->Free[0];
 		uint64_t HeapEnd = ((uint64_t)InitHeap) + HEAP_SIZE * 8;
 		memset(InitHeap, 0, HEAP_SIZE * 8);

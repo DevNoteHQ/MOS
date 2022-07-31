@@ -55,7 +55,7 @@ namespace VMM {
 		this->PML4T[511] = PhysicalAddress | PG_PRESENT | PG_WRITABLE;
 	}
 
-	void KernelTable::Check(uint64_t *Entry, uint64_t Bitmap) {
+	void KernelTable::CreateNewTableEntryIfEntryNotExisting(uint64_t *Entry, uint64_t Bitmap) {
 		if ((*Entry == 0) || (((*Entry) & 0x1) == 0)) {
 			*Entry = PMM::Alloc4K.Alloc() | Bitmap;
 			void *NextEntry = (uint64_t)Entry << 9;
@@ -63,12 +63,53 @@ namespace VMM {
 		}
 	}
 
-	void KernelTable::Check(uint64_t *Entry, uint64_t PhysAddress, uint64_t Bitmap) {
+	void KernelTable::AssignPhysicalAddressIfEntryNotExisting(uint64_t *Entry, uint64_t PhysAddress, uint64_t Bitmap) {
 		if ((*Entry == 0) || (((*Entry) & 0x1) == 0)) {
 			*Entry = PhysAddress | Bitmap;
 		} else {
+			//Throw error
 			Console::WriteLine("Error");
 		}
+	}
+
+	void KernelTable::Get512GPageFor1GAllocator() {
+		//Unlikely to happen
+		if (this->Next512G >= this->End512G) {
+			//Throw error
+			Console::WriteLine("Error");
+		} else {
+			this->Next1G = this->Next512G;
+			this->End1G = this->Next1G + Size512G8B;
+			this->Next512G += Size512G8B;
+		}
+	}
+
+	void KernelTable::Get1GPageFor2MAllocator() {
+		if (this->Next1G >= this->End1G) {
+			this->Get512GPageFor1GAllocator();
+		}
+		this->Next2M = this->Next1G;
+		this->End2M = this->Next2M + Size1G8B;
+		this->Next1G += Size1G8B;
+	}
+
+	void KernelTable::Get2MPageFor4KAllocator() {
+		if (this->Next2M >= this->End2M) {
+			this->Get1GPageFor2MAllocator();
+		}
+		this->Next4K = this->Next2M;
+		this->End4K = this->Next4K + Size2M8B;
+		this->Next2M += Size2M8B;
+	}
+
+	void *KernelTable::Alloc1G(uint64_t Bitmap) {
+		KernelTable::Alloc1G(this->Next1G, Bitmap);
+		if (this->Next1G >= this->End1G) {
+			this->Get512GPageFor1GAllocator();
+		}
+		uint64_t *Addr = this->Next1G;
+		this->Next1G += Size1G8B;
+		return Addr;
 	}
 
 	void *KernelTable::Alloc(uint64_t Size, uint64_t Bitmap) {
@@ -87,24 +128,7 @@ namespace VMM {
 	void *KernelTable::Alloc4K(uint64_t Bitmap) {
 		KernelTable::Alloc4K(this->Next4K, Bitmap);
 		if (this->Next4K >= this->End4K) {
-			if (this->Next2M >= this->End2M) {
-				if (this->Next1G >= this->End1G) {
-					//Unlikely to happen
-					if (this->Next512G >= this->End512G) {
-						//Throw error
-					} else {
-						this->Next1G = this->Next512G;
-						this->End1G = this->Next1G + Size512G8B;
-						this->Next512G += Size512G8B;
-					}
-				}
-				this->Next2M = this->Next1G;
-				this->End2M = this->Next2M + Size1G8B;
-				this->Next1G += Size1G8B;
-			}
-			this->Next4K = this->Next2M;
-			this->End4K = this->Next4K + Size2M8B;
-			this->Next2M += Size2M8B;
+			this->Get2MPageFor4KAllocator();
 		}
 		uint64_t *Addr = this->Next4K;
 		this->Next4K += Size4K8B;
@@ -116,38 +140,26 @@ namespace VMM {
 	}
 
 	void KernelTable::Map4K(void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap) {
-		AddressIndexes AI;
-		AI = GetAddress(VirtAddress);
+		AddressIndices AI;
+		AI = GetIndicesFromAddress(VirtAddress);
 
 		uint64_t *PML4 = GetRecursiveTableEntryAddress(511, 511, 511, AI.PML4);
-		Check(PML4, Bitmap);
+		CreateNewTableEntryIfEntryNotExisting(PML4, Bitmap);
 
 		uint64_t *PDPT = GetRecursiveTableEntryAddress(511, 511, AI.PML4, AI.PDPT);
-		Check(PDPT, Bitmap);
+		CreateNewTableEntryIfEntryNotExisting(PDPT, Bitmap);
 
 		uint64_t *PD = GetRecursiveTableEntryAddress(511, AI.PML4, AI.PDPT, AI.PD);
-		Check(PD, Bitmap);
+		CreateNewTableEntryIfEntryNotExisting(PD, Bitmap);
 
 		uint64_t *PT = GetRecursiveTableEntryAddress(AI.PML4, AI.PDPT, AI.PD, AI.PT);
-		Check(PT, PhysAddress, Bitmap);
+		AssignPhysicalAddressIfEntryNotExisting(PT, PhysAddress, Bitmap);
 	}
 
 	void *KernelTable::Alloc2M(uint64_t Bitmap) {
 		KernelTable::Alloc2M(this->Next2M, Bitmap);
 		if (this->Next2M >= this->End2M) {
-			if (this->Next1G >= this->End1G) {
-				//Unlikely to happen
-				if (this->Next512G >= this->End512G) {
-					//Throw error
-				} else {
-					this->Next1G = this->Next512G;
-					this->End1G = this->Next1G + Size512G8B;
-					this->Next512G += Size512G8B;
-				}
-			}
-			this->Next2M = this->Next1G;
-			this->End2M = this->Next2M + Size1G8B;
-			this->Next1G += Size1G8B;
+			this->Get1GPageFor2MAllocator();
 		}
 		uint64_t *Addr = this->Next2M;
 		this->Next2M += Size2M8B;
@@ -159,34 +171,17 @@ namespace VMM {
 	}
 
 	void KernelTable::Map2M(void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap) {
-		AddressIndexes AI;
-		AI = GetAddress(VirtAddress);
+		AddressIndices AI;
+		AI = GetIndicesFromAddress(VirtAddress);
 
 		uint64_t *PML4 = GetRecursiveTableEntryAddress(511, 511, 511, AI.PML4);
-		Check(PML4, Bitmap);
+		CreateNewTableEntryIfEntryNotExisting(PML4, Bitmap);
 
 		uint64_t *PDPT = GetRecursiveTableEntryAddress(511, 511, AI.PML4, AI.PDPT);
-		Check(PDPT, Bitmap);
+		CreateNewTableEntryIfEntryNotExisting(PDPT, Bitmap);
 
 		uint64_t *PD = GetRecursiveTableEntryAddress(511, AI.PML4, AI.PDPT, AI.PD);
-		Check(PD, PhysAddress, (Bitmap | PG_BIG));
-	}
-
-	void *KernelTable::Alloc1G(uint64_t Bitmap) {
-		KernelTable::Alloc1G(this->Next1G, Bitmap);
-		if (this->Next1G >= this->End1G) {
-			//Unlikely to happen
-			if (this->Next512G >= this->End512G) {
-				//Throw error
-			} else {
-				this->Next1G = this->Next512G;
-				this->End1G = this->Next1G + Size512G8B;
-				this->Next512G += Size512G8B;
-			}
-		}
-		uint64_t *Addr = this->Next1G;
-		this->Next1G += Size1G8B;
-		return Addr;
+		AssignPhysicalAddressIfEntryNotExisting(PD, PhysAddress, (Bitmap | PG_BIG));
 	}
 
 	void KernelTable::Alloc1G(void *Address, uint64_t Bitmap) {
@@ -194,14 +189,14 @@ namespace VMM {
 	}
 
 	void KernelTable::Map1G(void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap) {
-		AddressIndexes AI;
-		AI = GetAddress(VirtAddress);
+		AddressIndices AI;
+		AI = GetIndicesFromAddress(VirtAddress);
 
 		uint64_t *PML4 = GetRecursiveTableEntryAddress(511, 511, 511, AI.PML4);
-		Check(PML4, Bitmap);
+		CreateNewTableEntryIfEntryNotExisting(PML4, Bitmap);
 
 		uint64_t *PDPT = GetRecursiveTableEntryAddress(511, 511, AI.PML4, AI.PDPT);
-		Check(PDPT, PhysAddress, (Bitmap | PG_BIG));
+		AssignPhysicalAddressIfEntryNotExisting(PDPT, PhysAddress, (Bitmap | PG_BIG));
 	}
 
 	void KernelTable::LoadTable() {
@@ -212,12 +207,12 @@ namespace VMM {
 		return (uint64_t *)(ADDRESS_ADDITIVE | (511 << 39) | (PML4 << 30) | (PDPT << 21) | (PD << 12) | (PT << 3));
 	}
 
-	void *GetAddress(AddressIndexes addressIndexes) {
+	void *GetAddressFromIndices(AddressIndices addressIndexes) {
 		return (uint64_t *)(ADDRESS_ADDITIVE | (511 << 39) | (addressIndexes.PML4 << 30) | (addressIndexes.PDPT << 21) | (addressIndexes.PD << 12) | (addressIndexes.PT << 3));
 	}
 
-	AddressIndexes GetAddress(void *VirtAddress) {
-		AddressIndexes AI;
+	AddressIndices GetIndicesFromAddress(void *VirtAddress) {
+		AddressIndices AI;
 		AI.PML4 = (((uint64_t)VirtAddress) >> 39) & 0x1FF;
 		AI.PDPT = (((uint64_t)VirtAddress) >> 30) & 0x1FF;
 		AI.PD = (((uint64_t)VirtAddress) >> 21) & 0x1FF;

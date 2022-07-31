@@ -54,8 +54,16 @@ namespace VMM {
 		uint64_t *Next512G;
 		uint64_t *End512G;
 
-		void Check(uint64_t *Entry, uint64_t Bitmap);
-		void Check(uint64_t *Entry, uint64_t PhysAddress, uint64_t Bitmap);
+		void CreateNewTableEntryIfEntryNotExisting(uint64_t *Entry, uint64_t Bitmap);
+		void AssignPhysicalAddressIfEntryNotExisting(uint64_t *Entry, uint64_t PhysAddress, uint64_t Bitmap);
+		void Get512GPageFor1GAllocator();
+		void Get1GPageFor2MAllocator();
+		void Get2MPageFor4KAllocator();
+
+		void Alloc(uint64_t Size, void *Address, uint64_t Bitmap);
+		void Alloc4K(void *Address, uint64_t Bitmap);
+		void Alloc2M(void *Address, uint64_t Bitmap);
+		void Alloc1G(void *Address, uint64_t Bitmap);
 	public:
 		uint64_t *PML4T;
 
@@ -66,16 +74,12 @@ namespace VMM {
 		VMMAddresses updateState();
 
 		void *Alloc(uint64_t Size, uint64_t Bitmap);
-		void Alloc(uint64_t Size, void *Address, uint64_t Bitmap);
 		void Map(uint64_t Size, void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap);
 		void *Alloc4K(uint64_t Bitmap);
-		void Alloc4K(void *Address, uint64_t Bitmap);
 		void Map4K(void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap);
 		void *Alloc2M(uint64_t Bitmap);
-		void Alloc2M(void *Address, uint64_t Bitmap);
 		void Map2M(void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap);
 		void *Alloc1G(uint64_t Bitmap);
-		void Alloc1G(void *Address, uint64_t Bitmap);
 		void Map1G(void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap);
 
 		void LoadTable();
@@ -92,13 +96,13 @@ namespace VMM {
 		uint16_t PDPT;
 		uint16_t PD;
 		uint16_t PT;
-	} AddressIndexes;
+	} AddressIndices;
 
 	extern "C" void setCR3(uint64_t PML4);
 
 	uint64_t *GetRecursiveTableEntryAddress(uint16_t PML4, uint16_t PDPT, uint16_t PD, uint16_t PT);
-	void *GetAddress(AddressIndexes addressIndexes);
-	AddressIndexes GetAddress(void *VirtAddress);
+	void *GetAddressFromIndices(AddressIndices addressIndexes);
+	AddressIndices GetIndicesFromAddress(void *VirtAddress);
 	extern KernelTable Kernel;
 }
 
