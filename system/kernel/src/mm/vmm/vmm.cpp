@@ -40,11 +40,11 @@ namespace VMM {
 		uint16_t covered2MTables = (System::Info::EndAddress - HVMA) / Size1G;
 		uint16_t covered1GTables = (System::Info::EndAddress - HVMA) / Size512G;
 		this->Next4K = System::Info::EndAddress + Size4K;
-		this->End4K = (uint64_t *)(HVMA + covered4KTables * Size2M + 511 * Size4K);
+		this->End4K = (uint64_t *)(HVMA + covered4KTables * Size2M + Size2M);
 		this->Next2M = (uint64_t *)(HVMA + covered2MTables * Size1G + Size2M);
-		this->End2M = (uint64_t *)(HVMA + covered2MTables * Size1G + 511 * Size2M);
+		this->End2M = (uint64_t *)(HVMA + covered2MTables * Size1G + Size1G);
 		this->Next1G = (uint64_t *)(HVMA + covered1GTables * Size512G + Size1G);
-		this->End1G = (uint64_t *)(HVMA + covered1GTables * Size512G + 511 * Size1G);
+		this->End1G = (uint64_t *)(HVMA + covered1GTables * Size512G + Size512G);
 		return { this->Next4K, this->End4K, this->Next2M, this->End2M, this->Next1G, this->End1G, this->Next512G, this->End512G };
 	}
 
