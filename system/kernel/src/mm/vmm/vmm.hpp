@@ -43,6 +43,11 @@ namespace VMM {
 		uint64_t *End512G;
 	} VMMAddresses;
 
+	typedef struct AllocSpace {
+		void *Addr;
+		int64_t RemainingSize;
+	} AllocSpace;
+
 	class KernelTable {
 	private:
 		uint64_t *Next4K;
@@ -60,10 +65,12 @@ namespace VMM {
 		void Get1GPageFor2MAllocator();
 		void Get2MPageFor4KAllocator();
 
-		void Alloc(uint64_t Size, void *Address, uint64_t Bitmap);
-		void Alloc4K(void *Address, uint64_t Bitmap);
-		void Alloc2M(void *Address, uint64_t Bitmap);
-		void Alloc1G(void *Address, uint64_t Bitmap);
+		AllocSpace Alloc4KPart(uint64_t Size, uint64_t Bitmap, uint64_t AvailableSpace4K);
+		AllocSpace Alloc2MPart(uint64_t Size, uint64_t Bitmap, uint64_t AvailableSpace2M);
+		AllocSpace Alloc1GPart(uint64_t Size, uint64_t Bitmap, uint64_t AvailableSpace1G);
+		AllocSpace Alloc4KPartForRequiredSpace(uint64_t Size, uint64_t Bitmap, uint64_t RequiredPages4K);
+		AllocSpace Alloc2MPartForRequiredSpace(uint64_t Size, uint64_t Bitmap, uint64_t RequiredPages2M);
+		AllocSpace Alloc1GPartForRequiredSpace(uint64_t Size, uint64_t Bitmap, uint64_t RequiredPages1G);
 	public:
 		uint64_t *PML4T;
 
@@ -74,12 +81,18 @@ namespace VMM {
 		VMMAddresses updateState();
 
 		void *Alloc(uint64_t Size, uint64_t Bitmap);
-		void Map(uint64_t Size, void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap);
 		void *Alloc4K(uint64_t Bitmap);
-		void Map4K(void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap);
 		void *Alloc2M(uint64_t Bitmap);
-		void Map2M(void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap);
 		void *Alloc1G(uint64_t Bitmap);
+
+		void Alloc(uint64_t Size, void *Address, uint64_t Bitmap);
+		void Alloc4K(void *Address, uint64_t Bitmap);
+		void Alloc2M(void *Address, uint64_t Bitmap);
+		void Alloc1G(void *Address, uint64_t Bitmap);
+
+		void Map(uint64_t Size, void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap);
+		void Map4K(void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap);
+		void Map2M(void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap);
 		void Map1G(void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap);
 
 		void LoadTable();

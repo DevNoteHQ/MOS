@@ -113,16 +113,91 @@ namespace VMM {
 	}
 
 	void *KernelTable::Alloc(uint64_t Size, uint64_t Bitmap) {
-		void *Addr = 0;
-		//Alloc contiguous memory. 4K fist, then 2M, then 1G, the rest if needed 2M
+		uint64_t AvailableSpace4K = (((uint64_t) this->End4K) - (((uint64_t) this->Next4K)));
+		uint64_t AvailableSpace2M = (((uint64_t) this->End2M) - (((uint64_t) this->Next2M)));
+		uint64_t AvailableSpace1G = (((uint64_t) this->End1G) - (((uint64_t) this->Next1G))) + (((uint64_t) this->End512G) - (((uint64_t) this->Next512G)));
+
+		bool Assign4KAddress = Size >= Size4K && AvailableSpace4K > 0;
+		AllocSpace Space = this->Alloc4KPart(Size, Bitmap, AvailableSpace4K);
+
+		bool Assign2MAddress = !Assign4KAddress && Space.RemainingSize >= Size2M && AvailableSpace2M > 0;
+		if (Assign2MAddress == true) {
+			Space = this->Alloc2MPart(Space.RemainingSize, Bitmap, AvailableSpace2M);
+		} else {
+			Space.RemainingSize = this->Alloc2MPart(Space.RemainingSize, Bitmap, AvailableSpace2M).RemainingSize;
+		}
+
+		bool Assign1GAddress = !Assign2MAddress && Space.RemainingSize >= Size1G && AvailableSpace1G > 0;
+		if (Assign1GAddress == true) {
+			Space = this->Alloc1GPart(Space.RemainingSize, Bitmap, AvailableSpace1G);
+		} else {
+			Space.RemainingSize = this->Alloc1GPart(Space.RemainingSize, Bitmap, AvailableSpace1G).RemainingSize;
+		}
+
+		uint64_t AvailableSpace2MRemaining = (((uint64_t) this->End2M) - (((uint64_t) this->Next2M)));
+		uint64_t AvailableSpace4KRemaining = (((uint64_t) this->End4K) - (((uint64_t) this->Next4K)));
+
+		Space.RemainingSize = this->Alloc2MPart(Space.RemainingSize, Bitmap, AvailableSpace2MRemaining).RemainingSize;
+		Space.RemainingSize = this->Alloc4KPart(Space.RemainingSize, Bitmap, AvailableSpace4KRemaining).RemainingSize;
+
+		return Space.Addr;
 	}
 
-	void KernelTable::Alloc(uint64_t Size, void *Address, uint64_t Bitmap) {
-
+	AllocSpace KernelTable::Alloc4KPart(uint64_t Size, uint64_t Bitmap, uint64_t AvailableSpace4K) {
+		uint64_t RequiredPages4K = 0;
+		if (Size > AvailableSpace4K) {
+			RequiredPages4K = AvailableSpace4K / Size4K;
+		} else {
+			RequiredPages4K = Size / Size4K + (Size % Size4K > 0);
+		}
+		return this->Alloc4KPartForRequiredSpace(Size, Bitmap, RequiredPages4K);
 	}
 
-	void KernelTable::Map(uint64_t Size, void *VirtAddress, uint64_t PhysAddress, uint64_t Bitmap) {
+	AllocSpace KernelTable::Alloc4KPartForRequiredSpace(uint64_t Size, uint64_t Bitmap, uint64_t RequiredPages4K) {
+		void *Addr = this->Alloc4K(Bitmap);
+		for (int i = RequiredPages4K - 1; i > 0; i--) {
+			this->Alloc4K(Bitmap);
+		}
+		int64_t RemainingSize = Size - RequiredPages4K * Size4K;
+		return { Addr, RemainingSize };
+	}
 
+	AllocSpace KernelTable::Alloc2MPart(uint64_t Size, uint64_t Bitmap, uint64_t AvailableSpace2M) {
+		uint64_t RequiredPages2M = 0;
+		if (Size > AvailableSpace2M) {
+			RequiredPages2M = AvailableSpace2M / Size2M;
+		} else {
+			RequiredPages2M = Size / Size2M + (Size % Size2M > 255);
+		}
+		return this->Alloc4KPartForRequiredSpace(Size, Bitmap, RequiredPages2M);
+	}
+
+	AllocSpace KernelTable::Alloc2MPartForRequiredSpace(uint64_t Size, uint64_t Bitmap, uint64_t RequiredPages2M) {
+		void *Addr = this->Alloc2M(Bitmap);
+		for (int i = RequiredPages2M - 1; i > 0; i--) {
+			this->Alloc2M(Bitmap);
+		}
+		int64_t RemainingSize = Size - RequiredPages2M * Size2M;
+		return { Addr, RemainingSize };
+	}
+
+	AllocSpace KernelTable::Alloc1GPart(uint64_t Size, uint64_t Bitmap, uint64_t AvailableSpace1G) {
+		uint64_t RequiredPages1G = 0;
+		if (Size > AvailableSpace1G) {
+			RequiredPages1G = AvailableSpace1G / Size1G;
+		} else {
+			RequiredPages1G = Size / Size1G + (Size % Size1G > 255);
+		}
+		return this->Alloc4KPartForRequiredSpace(Size, Bitmap, RequiredPages1G);
+	}
+
+	AllocSpace KernelTable::Alloc1GPartForRequiredSpace(uint64_t Size, uint64_t Bitmap, uint64_t RequiredPages1G) {
+		void *Addr = this->Alloc1G(Bitmap);
+		for (int i = RequiredPages1G - 1; i > 0; i--) {
+			this->Alloc1G(Bitmap);
+		}
+		int64_t RemainingSize = Size - RequiredPages1G * Size1G;
+		return { Addr, RemainingSize };
 	}
 
 	void *KernelTable::Alloc4K(uint64_t Bitmap) {
