@@ -6,7 +6,7 @@
 
 namespace Interrupt::Handler {
 	void IRQ_00(CPU::State *state) {
-		Console::Write("\nPIT-IRQ! ");
+		Console::WriteLine("\nPIT-IRQ! ");
 		if (Timer::PIT::Interrupt != 0) {
 			Timer::PIT::Interrupt();
 		}

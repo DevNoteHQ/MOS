@@ -2,27 +2,13 @@
 #ifndef STRING_HPP
 #define STRING_HPP
 
-class string {
-private:
-	char* cstr;
-	unsigned size;
-public:
-	string();
-	string(char str);
-	string(const char* str);
-	string(const string& str);
-	~string();
+#include "array.hpp"
 
-	unsigned Length();
-
-	operator char*();
-	operator const char*();
-	string& operator+=(const string& rhs);
-	string& operator=(const string& rhs);
-	friend string operator+(const string& lhs, const string& rhs);
-	friend string operator+(const string& lhs, char rhs);
-	friend string operator+(const string& lhs, const char* rhs);
-	friend string operator+(char lhs, const string& rhs);
-	friend string operator+(const char* lhs, const string& rhs);
+template<uint64_t S>
+class String : public Array<char, S> {
 };
+
+namespace StringUtils {
+	String<70> toString(uint64_t value, uint8_t base);
+}
 #endif

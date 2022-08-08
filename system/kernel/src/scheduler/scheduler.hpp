@@ -7,7 +7,6 @@
 #include <video/console.hpp>
 #include <assembler/stack.hpp>
 #include <interrupt/apic.hpp>
-#include <utility/convert/convert.hpp>
 
 namespace Scheduler {
 	class Scheduler {
@@ -30,11 +29,8 @@ namespace Scheduler {
 	inline void Scheduler::executeNextTask(CPU::State *state) {
 		if (this->initDone) {
 			uint64_t currentStack = Assembler::Stack::getStackPointer();
-			char test[70];
-			Convert::ToString(currentStack, test, 16);
-			Console::WriteLine(test);
-			Convert::ToString(this->systemStack, test, 16);
-			Console::WriteLine(test);
+			Console::WriteLine(currentStack, 16);
+			Console::WriteLine(this->systemStack, 16);
 			this->restoreSystemStack();
 			Console::WriteLine("Scheduler: Scheduling next task...");
 

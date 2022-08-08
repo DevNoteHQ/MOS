@@ -5,7 +5,6 @@
 #include <interrupt/apic.hpp>
 #include <interrupt/common.hpp>
 #include <video/console.hpp>
-#include <utility/convert/convert.hpp>
 
 namespace Timer::APIT {
 	uint32_t Ticks10ms;

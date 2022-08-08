@@ -2,7 +2,6 @@
 #include "vmm.hpp"
 #include <mm/pmm/pmm.hpp>
 #include <utility/system/info.hpp>
-#include <utility/convert/convert.hpp>
 #include <video/console.hpp>
 
 //TODO: Finish second GetAddress
@@ -36,15 +35,17 @@ namespace VMM {
 	}
 
 	VMMAddresses KernelTable::updateState() {
-		uint16_t covered4KTables = (System::Info::EndAddress - HVMA) / Size2M;
-		uint16_t covered2MTables = (System::Info::EndAddress - HVMA) / Size1G;
-		uint16_t covered1GTables = (System::Info::EndAddress - HVMA) / Size512G;
+		uint16_t filled4KTables = (System::Info::EndAddress - HVMA) / Size2M;
+		uint16_t filled2MTables = (System::Info::EndAddress - HVMA) / Size1G;
+		uint16_t filled1GTables = (System::Info::EndAddress - HVMA) / Size512G;
 		this->Next4K = System::Info::EndAddress + Size4K;
-		this->End4K = (uint64_t *)(HVMA + covered4KTables * Size2M + Size2M);
-		this->Next2M = (uint64_t *)(HVMA + covered2MTables * Size1G + Size2M);
-		this->End2M = (uint64_t *)(HVMA + covered2MTables * Size1G + Size1G);
-		this->Next1G = (uint64_t *)(HVMA + covered1GTables * Size512G + Size1G);
-		this->End1G = (uint64_t *)(HVMA + covered1GTables * Size512G + Size512G);
+		this->End4K = (uint64_t *)(HVMA + filled4KTables * Size2M + Size2M);
+		this->Next2M = (uint64_t *)(HVMA + filled2MTables * Size1G + Size2M);
+		this->End2M = (uint64_t *)(HVMA + filled2MTables * Size1G + Size1G);
+		this->Next1G = (uint64_t *)(HVMA + filled1GTables * Size512G + Size1G);
+		this->End1G = (uint64_t *)(HVMA + filled1GTables * Size512G + Size512G);
+		this->Next512G = (uint64_t *)(HVMA + filled1GTables * Size512G + Size512G);
+		this->End512G = (uint64_t *)(HVMA + filled1GTables * Size512G + Size512G);
 		return { this->Next4K, this->End4K, this->Next2M, this->End2M, this->Next1G, this->End1G, this->Next512G, this->End512G };
 	}
 

@@ -15,7 +15,6 @@
 #include <mm/vmm/vmm.hpp>
 #include <mm/heap/heap.hpp>
 #include <multiboot.hpp>
-#include <utility/convert/convert.hpp>
 #include <utility/base/string.hpp>
 #include <utility/system/info.hpp>
 #include <scheduler/scheduler.hpp>
@@ -53,44 +52,31 @@ namespace System {
 
 			Timer::APIT::Calibrate();
 
-			char Test[70];
-			Convert::ToString(System::Info::EndAddress, Test, 16);
 			Console::WriteLine("EndAddress: ");
-			Console::WriteLine(Test);
-			Convert::ToString((uint64_t) vmmAddresses.Next4K, Test, 16);
+			Console::WriteLine(System::Info::EndAddress, 16);
 			Console::WriteLine("Next4K: ");
-			Console::WriteLine(Test);
-			Convert::ToString((uint64_t) vmmAddresses.End4K, Test, 16);
+			Console::WriteLine(vmmAddresses.Next4K, 16);
 			Console::WriteLine("End4K: ");
-			Console::WriteLine(Test);
-			Convert::ToString((uint64_t) vmmAddresses.Next2M, Test, 16);
+			Console::WriteLine(vmmAddresses.End4K, 16);
 			Console::WriteLine("Next2M: ");
-			Console::WriteLine(Test);
-			Convert::ToString((uint64_t) vmmAddresses.End2M, Test, 16);
+			Console::WriteLine(vmmAddresses.Next2M, 16);
 			Console::WriteLine("End2M: ");
-			Console::WriteLine(Test);
-			Convert::ToString((uint64_t) vmmAddresses.Next1G, Test, 16);
+			Console::WriteLine(vmmAddresses.End2M, 16);
 			Console::WriteLine("Next1G: ");
-			Console::WriteLine(Test);
-			Convert::ToString((uint64_t) vmmAddresses.End1G, Test, 16);
+			Console::WriteLine(vmmAddresses.Next1G, 16);
 			Console::WriteLine("End1G: ");
-			Console::WriteLine(Test);
-			Convert::ToString((uint64_t) vmmAddresses.Next512G, Test, 16);
+			Console::WriteLine(vmmAddresses.End1G, 16);
 			Console::WriteLine("Next512G: ");
-			Console::WriteLine(Test);
-			Convert::ToString((uint64_t) vmmAddresses.End512G, Test, 16);
+			Console::WriteLine(vmmAddresses.Next512G, 16);
 			Console::WriteLine("End512G: ");
-			Console::WriteLine(Test);
-			Convert::ToString((uint64_t) VMM::GetRecursiveTableEntryAddress(511,510,0,0), Test, 16);
+			Console::WriteLine(vmmAddresses.End512G, 16);
 			Console::WriteLine("GetAddress: ");
-			Console::WriteLine(Test);
+			Console::WriteLine(VMM::GetRecursiveTableEntryAddress(511,510,0,0), 16);
 			uint8_t *Stack = VMM::Kernel.Alloc4K(PG_PRESENT | PG_WRITABLE);
-			Convert::ToString((uint64_t) Stack, Test, 16);
 			Console::WriteLine("New Stack End: ");
-			Console::WriteLine(Test);
-			Convert::ToString((uint64_t) &Stack[4095], Test, 16);
+			Console::WriteLine(Stack, 16);
 			Console::WriteLine("New Stack Start: ");
-			Console::WriteLine(Test);
+			Console::WriteLine(&Stack[4095], 16);
 			Scheduler::scheduler.init((uint64_t) &Stack[4095]);
 			Timer::APIT::Delay(1000);
 
