@@ -28,10 +28,11 @@ protected:
     T* pointer;
 public:
     Pointer(T* pointer);
-    T getValue();
-    void setValue(T value);
-    T* getAddress();
-    uint64_t getAddressValue();
+    T val();
+    void setVal(T value);
+    void setAddr(T* value);
+    T* addr();
+    uint64_t aVal();
 };
 
 template <typename T>

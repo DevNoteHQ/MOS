@@ -15,22 +15,27 @@ Pointer<T>::Pointer(T* pointer) {
 }
 
 template <typename T>
-T Pointer<T>::getValue() {
+T Pointer<T>::val() {
     return *pointer;
 }
 
 template <typename T>
-void Pointer<T>::setValue(T value) {
+void Pointer<T>::setVal(T value) {
     *pointer = value;
 }
 
 template <typename T>
-T* Pointer<T>::getAddress() {
+void Pointer<T>::setAddr(T* value) {
+    pointer = value;
+}
+
+template <typename T>
+T* Pointer<T>::addr() {
     return pointer;
 }
 
 template <typename T>
-uint64_t Pointer<T>::getAddressValue() {
+uint64_t Pointer<T>::aVal() {
     return (uint64_t) pointer;
 }
 
