@@ -15,15 +15,17 @@
 #include <mm/vmm/vmm.hpp>
 #include <mm/heap/heap.hpp>
 #include <multiboot.hpp>
-#include <utility/base/string.hpp>
-#include <utility/system/info.hpp>
 #include <scheduler/scheduler.hpp>
 #include <syscall/syscall.hpp>
 #include <timer/apit.hpp>
 #include <timer/pit.hpp>
-#include <video/console.hpp>
 
 #include <common.hpp>
+
+#include <utility/base/string.hpp>
+#include <utility/system/info.hpp>
+
+#include <video/console.hpp>
 
 namespace System {
 	extern "C" {
@@ -78,6 +80,7 @@ namespace System {
 			Console::WriteLine("New Stack Start: ");
 			Console::WriteLine(&Stack[4095], 16);
 			Scheduler::scheduler.init((uint64_t) &Stack[4095]);
+			Console::WriteLine(STD::String("test"));
 			Timer::APIT::Delay(1000);
 
 			while (true) {

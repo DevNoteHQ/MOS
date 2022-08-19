@@ -43,7 +43,9 @@ namespace Console {
 	void Write(char cC);
 
 	template<uint64_t S>
-	void Write(String<S> string);
+	void Write(STD::String<S> string) {
+		Write(string.data);
+	}
 	void Write(uint64_t value, uint8_t base);
 	void Write(uint64_t value);
 	void Write(void *value, uint8_t base);
@@ -53,7 +55,9 @@ namespace Console {
 	void WriteLine(char cC);
 
 	template<uint64_t S>
-	void WriteLine(String<S> string);
+	void WriteLine(STD::String<S> string) {
+		WriteLine(string.data);
+	}
 	void WriteLine(uint64_t value, uint8_t base);
 	void WriteLine(uint64_t value);
 	void WriteLine(void *value, uint8_t base);

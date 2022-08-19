@@ -1,4 +1,7 @@
 {
     "cmake.configureOnOpen": false,
-    "git.allowForcePush": true
+    "git.allowForcePush": true,
+    "files.associations": {
+        "initializer_list": "cpp"
+    }
 }

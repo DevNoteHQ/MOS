@@ -13,7 +13,7 @@
             "intelliSenseMode": "gcc-x64",
             "forcedInclude": [
                 "${workspaceFolder}/include/types.hpp",
-                "${workspaceFolder}/include/string.hpp",
+                "${workspaceFolder}/include/c_string.hpp",
                 "${workspaceFolder}/include/assembler.hpp",
                 "${workspaceFolder}/include/abort.hpp",
                 "${workspaceFolder}/system/kernel/src/common.hpp",

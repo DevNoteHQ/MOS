@@ -17,12 +17,12 @@ DEPDIR = dep
 INCPATHSNP = $(SRCDIR) ../../include
 INCPATHS = $(addprefix -I ,$(INCPATHSNP))
 STDINCLUDES = stddef.h stdint.h
-MOSINCLUDES = string.hpp types.hpp abort.hpp common.hpp
+MOSINCLUDES = c_string.hpp types.hpp initializer_list.hpp assembler.hpp abort.hpp common.hpp
 INCLUDES = $(STDINCLUDES) $(MOSINCLUDES)
 INCLUDE = $(addprefix -include ,$(INCLUDES))
 
 LIBDIR = -L../../include/ -L../../../cross/lib/gcc/x86_64-elf/11.2.0/
-LIBS = -lgcc -lMOS
+LIBS = -lgcc
 
 CINCFLAGS = $(INCPATHS) $(INCLUDE)
 CFFLAGS = -ffreestanding -fno-stack-protector -fno-builtin

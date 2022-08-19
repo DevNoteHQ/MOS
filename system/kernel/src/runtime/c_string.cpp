@@ -1,7 +1,7 @@
 
 
 extern "C" {
-	#include <string.hpp>
+	#include <c_string.hpp>
 	
 	uint32_t strlen(const char *s) {
 		int i = 0;

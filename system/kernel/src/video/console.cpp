@@ -46,11 +46,6 @@ namespace Console {
 		Putc(cC);
 	}
 
-	template<uint64_t S>
-	void Write(String<S> s) {
-		Write(s.data);
-	}
-
 	void Write(uint64_t value, uint8_t base) {
 		Write(StringUtils::toString(value, base));
 	}
@@ -77,11 +72,6 @@ namespace Console {
 	void WriteLine(char cC) {
 		Putc(cC);
 		Putc('\n');
-	}
-
-	template<uint64_t S>
-	void WriteLine(String<S> s) {
-		WriteLine(s.data);
 	}
 
 	void WriteLine(uint64_t value, uint8_t base) {

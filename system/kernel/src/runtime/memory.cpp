@@ -2,7 +2,7 @@
 
 
 extern "C" {
-	#include <string.hpp>
+	#include <c_string.hpp>
 	
 	void *memcpy(void *dst, const void *src, uint32_t len) {
 		char *dst8 = (char *) dst;
